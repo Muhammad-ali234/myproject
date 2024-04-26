@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "10690703382",
+    "project_id": "myproject-55ae2",
+    "storage_bucket": "myproject-55ae2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10690703382:android:37e97a20ca3e3371bbc537",
+        "android_client_info": {
+          "package_name": "com.example.myproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAewWKRG4MZFyPrLknNU-lsYqj5mbV4C_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10690703382:android:0f6df211be7ef7d6bbc537",
+        "android_client_info": {
+          "package_name": "com.example.petrolink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAewWKRG4MZFyPrLknNU-lsYqj5mbV4C_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

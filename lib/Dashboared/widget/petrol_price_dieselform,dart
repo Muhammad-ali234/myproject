@@ -1,0 +1,157 @@
+import 'package:flutter/material.dart';
+// Ensure this import path is correct
+import 'package:myproject/Dashboared/widget/diesel_price_summery_card.dart';
+
+class DieselFormWidget extends StatefulWidget {
+  const DieselFormWidget({super.key});
+
+  @override
+  _DieselFormWidgetState createState() => _DieselFormWidgetState();
+}
+
+class _DieselFormWidgetState extends State<DieselFormWidget> {
+  final GlobalKey<FormState> _dieselFormKey = GlobalKey<FormState>();
+  DateTime _selectedDieselDate = DateTime.now();
+  double _purchasingPrice = 0.0;
+  double _sellingPrice = 0.0;
+
+  void _submitDieselForm() {
+    if (_dieselFormKey.currentState!.validate()) {
+      _dieselFormKey.currentState!.save();
+      print(
+          "Diesel Purchasing Price: $_purchasingPrice, Diesel Selling Price: $_sellingPrice");
+    }
+  }
+
+  Widget buildDieselSummaryCard() {
+    // Define your summary card logic here, if required.
+    return Card(
+      elevation: 3,
+      color: Colors.indigo,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Diesel Summary',
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            Text(
+              'Selected Date: ${_selectedDieselDate.day}/${_selectedDieselDate.month}/${_selectedDieselDate.year}',
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _dieselFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisignment.center,
+        children: <Widget>[
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Select Diesel Date:',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () async {
+                          final DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: _selectedDieselDate,
+                            firstDate: DateTime(2010),
+                            lastDate: DateTime.now(),
+                          );
+                          if (pickedDate != null && pickedDate != _selectedDieselDate) {
+                            setState(() => _selectedDieselDate = pickedDate);
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(Icons.calendar_today),
+                            const SizedBox(width: 10),
+                            Text(
+                              '${_selectedDieselDate.day}/${_selectedDieselDate.month}/${_selectedDieselDate.year}',
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              buildDieselSummaryCard(), // Now the method is defined
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Diesel Purchasing Price (per liter)',
+                    ),
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) { // Corrected null-check
+                        return 'Please enter a diesel purchasing price';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _purchasingPrice = double.parse(value!),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Diesel Selling Price (per liter)',
+                    ),
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) { // Corrected null-check
+                        return 'Please enter a diesel selling price';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _sellingPrice = double.parse(value!),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              setState(() => _submitDieselForm()); // Corrected syntax
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.teal),
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+            ),
+            child: const Text('Add Diesel Price'), // Button text
+          ),
+        ],
+      ),
+    );
+  }
+}
