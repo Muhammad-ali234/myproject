@@ -115,6 +115,31 @@ class ExpenseService {
       rethrow;
     }
   }
+
+  Future<void> updateExpense(
+    String expenseId,
+    Expense updatedExpense,
+  ) async {
+    try {
+      String? uid = await getCurrentUserUID();
+      if (uid != null) {
+        await _firestore
+            .collection('users')
+            .doc('Pump')
+            .collection('Pump')
+            .doc(uid)
+            .collection('expenses')
+            .doc(expenseId) // Use the expense ID to find the document
+            .update(updatedExpense
+                .toMap()); // Use update to modify existing document
+      } else {
+        throw Exception('User is not logged in!');
+      }
+    } catch (e) {
+      print("Error updating expense: $e");
+      rethrow;
+    }
+  }
 }
 
 class FirebaseAuthService {

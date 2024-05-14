@@ -46,6 +46,13 @@ List<MenuItem> getMenuItems(BuildContext context) {
       },
     ),
     MenuItem(
+      icon: Icons.storage,
+      title: 'Chat with Us ',
+      onTap: () {
+        Navigator.pushNamed(context, '/pumpchatScreen');
+      },
+    ),
+    MenuItem(
       icon: Icons.logout,
       title: 'Log Out',
       onTap: () {

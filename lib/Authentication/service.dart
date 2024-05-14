@@ -20,7 +20,7 @@ class FirebaseAuthService {
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> registerOwner(String uid, String email, String contact) {
+  Future<void> registerOwner(String uid, String email, String contact,String name) {
     return _firestore
         .collection('users')
         .doc('Owner')
@@ -28,13 +28,14 @@ class FirestoreService {
         .doc(uid)
         .set({
       'uid': uid,
+      'name': name,
       'email': email,
       'contact': contact,
     });
   }
 
   Future<void> registerPump(
-      String uid, String email, String contact, String ownerEmail) {
+      String uid, String email, String contact, String ownerEmail, String name) {
     return _firestore
         .collection('users')
         .doc('Pump')
@@ -42,6 +43,7 @@ class FirestoreService {
         .doc(uid)
         .set({
       'uid': uid,
+      'name': name,
       'email': email,
       'contact': contact,
       'ownerEmail': ownerEmail,

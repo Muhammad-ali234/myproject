@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myproject/Dashboared/services/petrol_price.dart';
 import 'package:myproject/Dashboared/widget/petrol_price_petrol_summery_card.dart';
 
 class PetrolFormWidget extends StatefulWidget {
@@ -14,11 +15,21 @@ class _PetrolFormWidgetState extends State<PetrolFormWidget> {
   double _purchasingPrice = 0.0;
   double _sellingPrice = 0.0;
 
+  final FuelPricesesService _fuelPricesService = FuelPricesesService();
   void _submitPetrolForm() {
     if (_petrolFormKey.currentState!.validate()) {
       _petrolFormKey.currentState!.save();
       print(
           "Purchasing Price: $_purchasingPrice, Selling Price: $_sellingPrice");
+
+          _fuelPricesService
+          .savePriceData(
+              'petrol', _selectedPetrolDate, _purchasingPrice, _sellingPrice)
+          .then((_) {
+        print('Petrol prices added successfully.');
+      }).catchError((error) {
+        print('Failed to add Petrol prices: $error');
+      });
     }
   }
 
@@ -124,7 +135,7 @@ class _PetrolFormWidgetState extends State<PetrolFormWidget> {
               backgroundColor: MaterialStateProperty.all(Colors.teal),
               foregroundColor: MaterialStateProperty.all(Colors.white),
             ),
-            child: const Text('Add Price'), // Button text
+            child: const Text('Add Petrol Price'), // Button text
           ),
         ],
       ),

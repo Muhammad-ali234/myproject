@@ -3,10 +3,11 @@ import 'package:myproject/Dashboared/models/petrol_price.dart';
 import 'package:myproject/Dashboared/services/petrol_price.dart';
 
 Widget buildPetrolSummaryCard() {
-  final FuelPricesesService fuelPricesesService = FuelPricesesService();
+  final FuelPricesesService fuelPricesService = FuelPricesesService();
+
   return FutureBuilder<PetrolPrice?>(
-    future: fuelPricesesService
-        .getLastAddedPetrolPrice(), // Fetch last petrol price
+    future:
+        fuelPricesService.getLastAddedPetrolPrice(), // Fetch last petrol price
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return _buildLoadingCard(); // Display loading indicator while fetching
@@ -21,7 +22,6 @@ Widget buildPetrolSummaryCard() {
         return _buildEmptyCard(); // No data found
       }
 
-      print('${petrolPrice.date.day}');
       return Card(
         elevation: 3,
         color: Colors.indigo,
@@ -39,12 +39,17 @@ Widget buildPetrolSummaryCard() {
               ),
               const SizedBox(height: 10),
               Text(
-                'Date: ${petrolPrice.date.day}/${petrolPrice.date.month}/${petrolPrice.date.year}', // Display fetched date
+                'Date: ${petrolPrice.date.day}/${petrolPrice.date.month}/${petrolPrice.date.year}',
                 style: const TextStyle(fontSize: 16.0, color: Colors.white),
               ),
               const SizedBox(height: 5),
               Text(
-                'Price: ${petrolPrice.price}', // Display fetched price
+                'Purchasing Price: ${petrolPrice.purchasingPrice}', // Display purchasing price
+                style: const TextStyle(fontSize: 16.0, color: Colors.white),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'Selling Price: ${petrolPrice.sellingPrice}', // Display selling price
                 style: const TextStyle(fontSize: 16.0, color: Colors.white),
               ),
             ],

@@ -51,6 +51,9 @@ class _CreditDebitState extends State<CreditDebit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white, // Change the color of the back icon here
+        ),
         title: _isSearching
             ? _buildSearchField()
             : const Text(

@@ -4,7 +4,7 @@ import 'package:myproject/Dashboared/sidebar.dart';
 
 class PetrolPumpStatus extends StatelessWidget {
   const PetrolPumpStatus({
-    super.key,
+    super.key, required String pumpId,
   });
 
   @override

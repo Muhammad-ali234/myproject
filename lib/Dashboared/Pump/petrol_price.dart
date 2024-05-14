@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:myproject/Dashboared/services/petrol_price.dart';
 import 'package:myproject/Dashboared/sidebar.dart';
-import 'package:myproject/Dashboared/models/petrol_price.dart';
 import 'package:myproject/Dashboared/widget/petrol_price_Petrolform_widget.dart';
-import 'package:myproject/Dashboared/widget/petrol_price_diesel_summery_card.dart';
-import 'package:myproject/Dashboared/widget/petrol_price_dieselform,dart';
-import 'package:myproject/Dashboared/widget/petrol_price_petrol_summery_card.dart';
+import 'package:myproject/Dashboared/widget/petrol_price_dieselform.dart';
 
 class PetrolPriceScreen extends StatefulWidget {
   const PetrolPriceScreen({super.key});
@@ -17,14 +11,45 @@ class PetrolPriceScreen extends StatefulWidget {
 }
 
 class _PetrolPriceScreenState extends State<PetrolPriceScreen> {
-  final GlobalKey<FormState> _petrolFormKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> _dieselFormKey = GlobalKey<FormState>();
-  final DateTime _selectedPetrolDate = DateTime.now();
-  final DateTime _selectedDieselDate = DateTime.now();
-  final double _petrolPrice = 0.0;
-  final double _dieselPrice = 0.0;
+  // final DateTime _selectedPetrolDate = DateTime.now();
 
-  final FuelPricesesService _fuelPricesesService = FuelPricesesService();
+  // double _petrolPrice = 0.0;
+  // double _dieselPrice = 0.0;
+
+  // final FuelPricesesService _fuelPricesesService = FuelPricesesService();
+
+  // void _submitPetrolForm() {
+  //   if (_petrolFormKey.currentState!.validate()) {
+  //     _petrolFormKey.currentState!.save();
+
+  //     PetrolPrice petrolPriceData =
+  //         PetrolPrice(_selectedPetrolDate, _petrolPrice);
+
+  //     // Save to Firestore with 'petrol' as the type
+  //     _fuelPricesesService.savePriceData('petrol', petrolPriceData).then((_) {
+  //       print('Petrol price added: $petrolPriceData');
+  //     }).catchError((error) {
+  //       print('Failed to add petrol price: $error');
+  //     });
+  //   }
+  //   _petrolPrice = 0.0;
+  //   _dieselPrice = 0.0;
+  // }
+
+  // void _submitDieselForm() {
+  //   if (_dieselFormKey.currentState!.validate()) {
+  //     _dieselFormKey.currentState!.save();
+  //     PetrolPrice dieselPriceData =
+  //         PetrolPrice(_selectedDieselDate, _dieselPrice);
+
+  //     // Save to Firestore with 'diesel' as the type
+  //     _fuelPricesesService.savePriceData('diesel', dieselPriceData).then((_) {
+  //       print('Diesel price added: $dieselPriceData');
+  //     }).catchError((error) {
+  //       print('Failed to add diesel price: $error');
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +91,15 @@ class _PetrolPriceScreenState extends State<PetrolPriceScreen> {
         VerticalDivider(thickness: 1, color: Colors.grey),
         Flexible(
           flex: 3,
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                PetrolFormWidget(), // Petrol form
-                DieselFormWidget() // Diesel form
-              ],
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  PetrolFormWidget(), // Petrol form
+                  DieselFormWidget(), // Diesel form
+                ],
+              ),
             ),
           ),
         ),
@@ -96,4 +123,98 @@ class _PetrolPriceScreenState extends State<PetrolPriceScreen> {
       ),
     );
   }
+
+  // Widget _buildPetrolForm() {
+  //   return Form(
+  //     key: _petrolFormKey,
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         Row(
+  //           children: [
+  //             Expanded(
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   const Padding(
+  //                     padding: EdgeInsets.all(8.0),
+  //                     child: Text(
+  //                       'Select Petrol Date:',
+  //                       style: TextStyle(fontSize: 18.0),
+  //                     ),
+  //                   ),
+  //                   Padding(
+  //                     padding: const EdgeInsets.all(8.0),
+  //                     child: InkWell(
+  //                       onTap: () async {
+  //                         final DateTime? pickedDate = await showDatePicker(
+  //                           context: context,
+  //                           initialDate: _selectedPetrolDate,
+  //                           firstDate: DateTime(2010),
+  //                           lastDate: DateTime.now(),
+  //                         );
+  //                         if (pickedDate != null &&
+  //                             pickedDate != _selectedPetrolDate) {
+  //                           setState(() => _selectedPetrolDate = pickedDate);
+  //                         }
+  //                       },
+  //                       child: Padding(
+  //                         padding: const EdgeInsets.all(16.0),
+  //                         child: Row(
+  //                           children: [
+  //                             const Icon(Icons.calendar_today),
+  //                             const SizedBox(width: 10),
+  //                             Text(
+  //                               '${_selectedPetrolDate.day}/${_selectedPetrolDate.month}/${_selectedPetrolDate.year}',
+  //                               style: const TextStyle(fontSize: 18),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             buildPetrolSummaryCard(),
+  //           ],
+  //         ),
+  //         Padding(
+  //           padding: const EdgeInsets.all(8.0),
+  //           child: TextFormField(
+  //             keyboardType: TextInputType.number,
+  //             decoration: const InputDecoration(
+  //               labelText: 'Petrol Price (per liter)',
+  //             ),
+  //             validator: (value) {
+  //               if (value == null || value.isEmpty) {
+  //                 return 'Please enter a petrol price';
+  //               }
+  //               return null;
+  //             },
+  //             onSaved: (value) => _petrolPrice = double.parse(value!),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 20),
+  //         ElevatedButton(
+  //           onPressed: () {
+  //             setState(() {
+  //               _submitPetrolForm;
+  //             });
+  //           },
+  //           style: ButtonStyle(
+  //             // Define the border style
+
+  //             backgroundColor: MaterialStateProperty.all<Color>(
+  //                 Colors.teal), // Background color
+  //             foregroundColor:
+  //                 MaterialStateProperty.all<Color>(Colors.white), // Text color
+  //           ),
+  //           child: const Text('Add Petrol Price'), // Button text
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

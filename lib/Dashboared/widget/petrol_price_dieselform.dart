@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// Ensure this import path is correct
-import 'package:myproject/Dashboared/widget/diesel_price_summery_card.dart';
+import 'package:myproject/Dashboared/services/petrol_price.dart';
+import 'package:myproject/Dashboared/widget/petrol_price_diesel_summery_card.dart';
 
 class DieselFormWidget extends StatefulWidget {
   const DieselFormWidget({super.key});
@@ -15,36 +15,22 @@ class _DieselFormWidgetState extends State<DieselFormWidget> {
   double _purchasingPrice = 0.0;
   double _sellingPrice = 0.0;
 
+  final FuelPricesesService _fuelPricesService = FuelPricesesService();
+
   void _submitDieselForm() {
     if (_dieselFormKey.currentState!.validate()) {
       _dieselFormKey.currentState!.save();
-      print(
-          "Diesel Purchasing Price: $_purchasingPrice, Diesel Selling Price: $_sellingPrice");
-    }
-  }
 
-  Widget buildDieselSummaryCard() {
-    // Define your summary card logic here, if required.
-    return Card(
-      elevation: 3,
-      color: Colors.indigo,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Diesel Summary',
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            ),
-            Text(
-              'Selected Date: ${_selectedDieselDate.day}/${_selectedDieselDate.month}/${_selectedDieselDate.year}',
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            ),
-          ],
-        ),
-      ),
-    );
+      // Save to Firestore with 'diesel' as the type
+      _fuelPricesService
+          .savePriceData(
+              'diesel', _selectedDieselDate, _purchasingPrice, _sellingPrice)
+          .then((_) {
+        print('Diesel prices added successfully.');
+      }).catchError((error) {
+        print('Failed to add diesel prices: $error');
+      });
+    }
   }
 
   @override
@@ -52,13 +38,13 @@ class _DieselFormWidgetState extends State<DieselFormWidget> {
     return Form(
       key: _dieselFormKey,
       child: Column(
-        crossAxisAlignment: CrossAxisignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Row(
             children: [
               Expanded(
                 child: Column(
-                  crossAxisignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(8.0),
@@ -77,7 +63,8 @@ class _DieselFormWidgetState extends State<DieselFormWidget> {
                             firstDate: DateTime(2010),
                             lastDate: DateTime.now(),
                           );
-                          if (pickedDate != null && pickedDate != _selectedDieselDate) {
+                          if (pickedDate != null &&
+                              pickedDate != _selectedDieselDate) {
                             setState(() => _selectedDieselDate = pickedDate);
                           }
                         },
@@ -96,7 +83,7 @@ class _DieselFormWidgetState extends State<DieselFormWidget> {
                   ],
                 ),
               ),
-              buildDieselSummaryCard(), // Now the method is defined
+              buildDieselSummaryCard(),
             ],
           ),
           Row(
@@ -106,15 +93,12 @@ class _DieselFormWidgetState extends State<DieselFormWidget> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Diesel Purchasing Price (per liter)',
+                    decoration: const InputDecoration(
+                      labelText: 'Diesel Selling Price (per liter)',
                     ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) { // Corrected null-check
-                        return 'Please enter a diesel purchasing price';
-                      }
-                      return null;
-                    },
+                    validator: (value) => (value == null || value.isEmpty)
+                        ? 'Please enter a diesel purchasing price'
+                        : null,
                     onSaved: (value) => _purchasingPrice = double.parse(value!),
                   ),
                 ),
@@ -124,15 +108,12 @@ class _DieselFormWidgetState extends State<DieselFormWidget> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Diesel Selling Price (per liter)',
                     ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) { // Corrected null-check
-                        return 'Please enter a diesel selling price';
-                      }
-                      return null;
-                    },
+                    validator: (value) => (value == null || value.isEmpty)
+                        ? 'Please enter a diesel selling price'
+                        : null,
                     onSaved: (value) => _sellingPrice = double.parse(value!),
                   ),
                 ),
@@ -141,14 +122,12 @@ class _DieselFormWidgetState extends State<DieselFormWidget> {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              setState(() => _submitDieselForm()); // Corrected syntax
-            },
+            onPressed: _submitDieselForm,
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.teal),
               foregroundColor: MaterialStateProperty.all(Colors.white),
             ),
-            child: const Text('Add Diesel Price'), // Button text
+            child: const Text('Add Diesel Price'),
           ),
         ],
       ),

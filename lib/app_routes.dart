@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:myproject/Authentication/splash_screen.dart';
+import 'package:myproject/Dashboared/Common/chat_roam.dart';
 import 'package:myproject/Dashboared/Home_screen.dart';
+import 'package:myproject/Pump/Employee%20screen/employee_screen.dart';
 import 'package:myproject/Pump/Expense/Screens/daily_expense.dart';
 import 'package:myproject/Pump/Customer/customer_screen.dart';
 import 'package:myproject/Authentication/login_screen.dart';
 import 'package:myproject/Pump/Daily_Overview/Screens/daily_overview.dart';
+import 'package:myproject/Pump/chatroom/chatroom.dart';
 import 'package:myproject/Pump/pump_dashboared_screen.dart';
 import 'package:myproject/Pump/Stocks/Screens/stocks_screen.dart';
 import 'package:myproject/Authentication/resgisteration_screen.dart';
-import 'package:myproject/Authentication/splash_screen.dart';
 import 'package:myproject/Pump/Credit_Debit/Screens/main_screen.dart';
 
 class AppRoutes {
@@ -21,14 +24,20 @@ class AppRoutes {
   static const String dailyOverview = '/daily_overview';
   static const String dashboardPumpScreen = '/dashboardPumpScreen';
   static const String customerScreen = '/customerScreen';
+  static const String chatScreen = '/chatScreen';
+  static const String pumpChatScreen = '/pumpchatScreen';
+  static const String employeeDutyScreen = '/employeeDuty';
 
   static Map<String, WidgetBuilder> routes = {
-    initialRoute: (context) => DashboardOwnerScreen(),
-    //    const SplashScreen(),
-    // PumpDashboardScreen(context: context),
+    initialRoute: (context) =>
+        //const EmployeeScreen(),
+        // const ChatScreen(),
+        //   DashboardOwnerScreen(),
+        const SplashScreen(),
+    //PumpDashboardScreen(context: context),
     login: (context) => const LoginScreen(),
     register: (context) => const RegistrationScreen(),
-    dashboardOwnerScreen: (context) => DashboardOwnerScreen(),
+    dashboardOwnerScreen: (context) => const DashboardOwnerScreen(),
     stock: (context) => const StocksScreen(),
     dailyExpense: (context) => DailyExpenseScreen(context: context),
     creditDebit: (context) => CreditDebit(context: context),
@@ -36,5 +45,8 @@ class AppRoutes {
         DailyOverviewScreen(users: const [], context: context),
     dashboardPumpScreen: (context) => PumpDashboardScreen(context: context),
     customerScreen: (context) => CustomerScreen(context: context),
+    chatScreen: (context) => const ChatScreen(),
+    pumpChatScreen: (context) => const PumpChatScreen(),
+    employeeDutyScreen: (context) => const EmployeeDutiesScreen()
   };
 }

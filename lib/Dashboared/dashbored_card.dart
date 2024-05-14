@@ -19,6 +19,9 @@ class DashboardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double chartWidth = screenWidth >= 600 ? 400 : screenWidth - 60;
+
     return Card(
       elevation: 4.0,
       margin: const EdgeInsets.all(16.0),
@@ -33,12 +36,12 @@ class DashboardCard extends StatelessWidget {
                 Icon(
                   icon,
                   color: color,
-                  size: 30.0,
+                  size: screenWidth > 600 ? 30.0 : 24.0,
                 ),
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 18.0,
+                  style: TextStyle(
+                    fontSize: screenWidth > 600 ? 18.0 : 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -47,17 +50,19 @@ class DashboardCard extends StatelessWidget {
             const SizedBox(height: 10.0),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 24.0,
+              style: TextStyle(
+                fontSize: screenWidth > 600 ? 24.0 : 20.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 10.0),
-            // Bar Chart Widget
             SizedBox(
-              width: 400,
+              width: chartWidth,
               height: 200,
-              child: BarChartWidget(points: dataPoints),
+              child: BarChartWidget(
+                points: dataPoints,
+                borderColor: Colors.transparent, // No borders to prevent lines
+              ),
             ),
           ],
         ),
@@ -66,126 +71,100 @@ class DashboardCard extends StatelessWidget {
   }
 }
 
-class BarChartWidget extends StatefulWidget {
+class BarChartWidget extends StatelessWidget {
   final List<Point> points;
+  final Color? borderColor; // Add this parameter to control border color
 
-  const BarChartWidget({super.key, required this.points});
+  const BarChartWidget({super.key, required this.points, this.borderColor});
 
-  @override
-  State<BarChartWidget> createState() => _BarChartWidgetState();
-}
-
-class _BarChartWidgetState extends State<BarChartWidget> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double aspectRatio = screenWidth > 600 ? 2.0 : 1.5;
+
     return AspectRatio(
-      aspectRatio: 2,
-      child: Stack(
-        children: [
-          BarChart(
-            BarChartData(
-              barGroups: _chartGroups(),
-              borderData: FlBorderData(
-                border: const Border(bottom: BorderSide(), left: BorderSide()),
+      aspectRatio: aspectRatio,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 30),
+        child: BarChart(
+          BarChartData(
+            barGroups: _createBarGroups(),
+            borderData: FlBorderData(
+              border: const Border(
+                  bottom: BorderSide(), // Keep bottom border
+                  left: BorderSide() // Or no border
+                  ),
+            ),
+            gridData: const FlGridData(show: false),
+            titlesData: FlTitlesData(
+              rightTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
               ),
-              gridData: const FlGridData(show: false),
-              titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(sideTitles: _bottomTitles),
-                leftTitles: AxisTitles(sideTitles: _leftTitles),
-                topTitles:
-                    const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                    const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: _getMonthTitle,
+                ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
-  List<Widget> _chartAmountTexts() {
-    return widget.points.map((point) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 16.0), // Adjust as needed
-        child: Text(
-          '\$${point.y.toStringAsFixed(2)}',
-          style: const TextStyle(color: Colors.black), // Add style as needed
-        ),
-      );
-    }).toList();
-  }
-
-  List<BarChartGroupData> _chartGroups() {
-    return widget.points
-        .map((point) => BarChartGroupData(
-              x: point.x.toInt(),
-              barRods: [BarChartRodData(toY: point.y)],
-            ))
+  List<BarChartGroupData> _createBarGroups() {
+    return points
+        .map(
+          (point) => BarChartGroupData(
+            x: point.x.toInt(),
+            barRods: [
+              BarChartRodData(
+                toY: point.y,
+                color: Colors.blue,
+              ),
+            ],
+          ),
+        )
         .toList();
   }
 
-  SideTitles get _bottomTitles => SideTitles(
-        showTitles: true,
-        getTitlesWidget: (value, meta) {
-          String month = '';
-          switch (value.toInt()) {
-            case 0:
-              month = 'Jan';
-              break;
-            case 1:
-              month = 'Feb';
-              break;
-            case 2:
-              month = 'Mar';
-              break;
-            case 3:
-              month = 'Apr';
-              break;
-            case 4:
-              month = 'May';
-              break;
-            case 5:
-              month = 'Jun';
-              break;
-            case 6:
-              month = 'Jul';
-              break;
-            case 7:
-              month = 'Aug';
-              break;
-            case 8:
-              month = 'Sep';
-              break;
-            case 9:
-              month = 'Oct';
-              break;
-            case 10:
-              month = 'Nov';
-              break;
-            case 11:
-              month = 'Dec';
-              break;
-          }
+  double _calculateYAxisInterval() {
+    double maxY = points.fold(0, (max, point) => point.y > max ? point.y : max);
+    return maxY > 100 ? 50 : 10;
+  }
 
-          return Text(month);
-        },
-      );
-  SideTitles get _leftTitles => SideTitles(
-        showTitles: true,
-        getTitlesWidget: (value, meta) {
-          int index = value.toInt();
-          if (index >= 0 && index < widget.points.length) {
-            // Assuming you want to display values like 10, 20, 30, 40, etc.
-            // Adjust this logic according to your needs
-            int customValue =
-                (index + 1) * 10; // Assuming you want increments of 10
-            return Text(
-                '$customValue'); // Return a Text widget with the custom value
-          }
-          return const SizedBox(); // Return an empty SizedBox if index is out of range
-        },
-      );
+  Widget _getMonthTitle(double value, TitleMeta meta) {
+    List<String> months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+
+    return Text(
+      months[value.toInt()],
+      style: const TextStyle(color: Colors.black),
+    );
+  }
+
+  Widget _getYAxisTitle(double value, TitleMeta meta) {
+    return Text(
+      '${value.toInt()}',
+      style: const TextStyle(color: Colors.black),
+    );
+  }
 }
 
 class Point {

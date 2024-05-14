@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myproject/Authentication/service.dart';
@@ -16,6 +18,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _ownerEmailController = TextEditingController();
+
+  final TextEditingController _NameController = TextEditingController();
   String? _selectedRole;
   bool _isLoading = false;
 
@@ -57,7 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     "assets/splashLogo.jpg",
                     height: 100,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   const Text(
                     'Register on PetroLink',
                     style: TextStyle(
@@ -66,9 +70,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  // const SizedBox(height: 20),
                   _buildFormFields(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   _buildRegisterButton(),
                   const SizedBox(height: 5),
                   _buildLoginButton(),
@@ -109,7 +113,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     _buildFormFields(),
                     _buildRegisterButton(),
                     const SizedBox(height: 3),
@@ -127,6 +131,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   _buildFormFields() {
     return Column(
       children: <Widget>[
+        _buildTextField(
+          controller: _NameController,
+          label: "Name",
+          hintText: 'Enter a Name',
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter a Name';
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: 10),
         _buildTextField(
           controller: _emailController,
           label: "Email",
@@ -260,7 +276,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       padding: const EdgeInsets.only(top: 30),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          fixedSize: const Size(330, 60),
+          fixedSize: const Size(200, 60),
           backgroundColor: const Color(0xFF6789CA),
         ),
         onPressed: _isLoading ? null : () => _register(context),
@@ -310,6 +326,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       String password = _passwordController.text.trim();
       String contact = _contactController.text.trim();
       String ownerEmail = _ownerEmailController.text.trim();
+      String name = _NameController.text.trim();
 
       try {
         UserCredential userCredential;
@@ -318,13 +335,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           userCredential = await _authService.createUserWithEmailAndPassword(
               email, password);
           String ownerUid = userCredential.user!.uid;
-          await _firestoreService.registerOwner(ownerUid, email, contact);
+          await _firestoreService.registerOwner(ownerUid, email, contact, name);
         } else if (_selectedRole == 'Petrol Pump') {
           userCredential = await _authService.createUserWithEmailAndPassword(
               email, password);
           String pumpUid = userCredential.user!.uid;
           await _firestoreService.registerPump(
-              pumpUid, email, contact, ownerEmail);
+              pumpUid, email, contact, ownerEmail, name);
         }
         Navigator.pushReplacementNamed(context, '/login');
       } catch (e) {

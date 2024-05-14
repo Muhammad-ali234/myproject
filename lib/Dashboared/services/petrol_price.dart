@@ -10,7 +10,7 @@ class FuelPricesesService {
     return _authService.getCurrentUserUID();
   }
 
-  Future<void> savePriceData(String type, PetrolPrice priceData) async {
+  Future<void> savePriceData(String type, DateTime date, double purchasingPrice, double sellingPrice) async {
     try {
       String? uid = await getCurrentUserUID();
       if (uid != null) {
@@ -22,8 +22,9 @@ class FuelPricesesService {
             .collection('fuel_prices')
             .add({
           'type': type,
-          'date': priceData.date,
-          'price': priceData.price,
+          'date': date,
+          'purchasing_price': purchasingPrice,
+          'selling_price': sellingPrice,
         });
       } else {
         throw Exception('User is not logged in!');
@@ -58,24 +59,23 @@ class FuelPricesesService {
 
       var doc = snapshot.docs.first;
       var date = (doc['date'] as Timestamp).toDate();
-      var price = (doc['price'] as double);
-      print(date);
-      print(price);
+      var purchasingPrice = (doc['purchasing_price'] as double);
+      var sellingPrice = (doc['selling_price'] as double);
 
-      return PetrolPrice(date, price);
+      return PetrolPrice(date, purchasingPrice, sellingPrice);
     } catch (e) {
       print("Error fetching last petrol price: $e");
       rethrow;
     }
   }
 
-  // Function to fetch the last added diesel price from Firestore
   Future<PetrolPrice?> getLastAddedDieselPrice() async {
     try {
       String? uid = await getCurrentUserUID();
       if (uid == null) {
         throw Exception('User is not logged in!');
       }
+
       QuerySnapshot snapshot = await _firestore
           .collection('users')
           .doc('Owner')
@@ -93,9 +93,10 @@ class FuelPricesesService {
 
       var doc = snapshot.docs.first;
       var date = (doc['date'] as Timestamp).toDate();
-      var price = (doc['price'] as double);
+      var purchasingPrice = (doc['purchasing_price'] as double);
+      var sellingPrice = (doc['selling_price'] as double);
 
-      return PetrolPrice(date, price);
+      return PetrolPrice(date, purchasingPrice, sellingPrice);
     } catch (e) {
       print("Error fetching last added diesel price: $e");
       rethrow;

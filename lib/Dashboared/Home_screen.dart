@@ -1,12 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:myproject/Dashboared/Pump/petrol_pump.dart';
-
 import 'package:myproject/Dashboared/dashbored_card.dart';
 import 'package:myproject/Dashboared/pump_card.dart';
 import 'package:myproject/Dashboared/sidebar.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:myproject/Dashboared/services/dashbord_service.dart';
 
-class DashboardOwnerScreen extends StatelessWidget {
+
+class DashboardOwnerScreen extends StatefulWidget {
+  const DashboardOwnerScreen({super.key});
+
+  @override
+  State<DashboardOwnerScreen> createState() => _DashboardOwnerScreenState();
+}
+
+class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
+  final DashboredService _dashboardService = DashboredService();
+
   List<Point> salesData = [
     Point(0, 20), // January
     Point(1, 30), // February
@@ -37,18 +48,7 @@ class DashboardOwnerScreen extends StatelessWidget {
     Point(11, 120), // December
   ];
 
-  List<int> registeredPumps = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7
-  ]; // Example list of registered pumps
-
-  DashboardOwnerScreen({super.key});
-
+  List<int> registeredPumps = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,45 +75,63 @@ class DashboardOwnerScreen extends StatelessWidget {
       ),
       drawer:
           MediaQuery.of(context).size.width < 600 ? const CustomDrawer() : null,
-      body: ResponsiveBuilder(
-        builder: (context, sizingInformation) {
-          if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
-            return buildMobileLayout(context);
-          } else {
-            return buildWebLayout(context);
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _dashboardService.getPumpStream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
           }
+
+          if (snapshot.hasError) {
+            return const Center(child: Text('Error loading data'));
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('No pumps registered'));
+          }
+
+          var registeredPumps = snapshot.data!.docs;
+
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth < 600) {
+                return buildMobileLayout(context, registeredPumps);
+              } else {
+                return buildWebLayout(context, registeredPumps);
+              }
+            },
+          );
         },
       ),
     );
   }
 
-  Widget buildMobileLayout(BuildContext context) {
-    List<Widget> rows = [];
+  Widget buildMobileLayout(
+      BuildContext context, List<QueryDocumentSnapshot> registeredPumps) {
+    if (registeredPumps.isEmpty) {
+      return const Center(child: Text('No pumps registered'));
+    }
 
-    // Generate rows with two PumpCard widgets in each row
-    for (int i = 0; i < registeredPumps.length; i += 2) {
-      List<Widget> pumpCards = [];
-      for (int j = i; j < i + 2 && j < registeredPumps.length; j++) {
-        pumpCards.add(
-          PumpCard(
-            pumpNumber: registeredPumps[j],
-            onTap: () {
-              Navigator.pop(context); // Close the drawer
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PetrolPumpStatus(),
+    List<Widget> pumpCards = [];
+    for (var pump in registeredPumps) {
+      var pumpData = pump.data() as Map<String, dynamic>;
+
+      // Ensure you have the correct key for 'pump_number'
+      String pumpName = pumpData['name'] ?? 'Pump Name';
+
+      pumpCards.add(
+        PumpCard(
+          pumpName: pumpName,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PetrolPumpStatus(
+                  pumpId: '',
                 ),
-              );
-            },
-          ),
-        );
-      }
-      rows.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: pumpCards,
+              ),
+            );
+          },
         ),
       );
     }
@@ -158,10 +176,11 @@ class DashboardOwnerScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Column(
-                children: rows,
+              Wrap(
+                spacing: 16.0, // Spacing between pump cards
+                runSpacing: 16.0, // Vertical spacing for wrapping
+                children: pumpCards,
               ),
-              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -169,33 +188,33 @@ class DashboardOwnerScreen extends StatelessWidget {
     );
   }
 
-  Widget buildWebLayout(BuildContext context) {
-    List<Widget> rows = [];
+  Widget buildWebLayout(
+      BuildContext context, List<QueryDocumentSnapshot> registeredPumps) {
+    if (registeredPumps.isEmpty) {
+      return const Center(child: Text('No pumps registered'));
+    }
 
-    // Generate rows with three PumpCard widgets in each row
-    for (int i = 0; i < registeredPumps.length; i += 6) {
-      List<Widget> pumpCards = [];
-      for (int j = i; j < i + 6 && j < registeredPumps.length; j++) {
-        pumpCards.add(
-          PumpCard(
-            pumpNumber: registeredPumps[j],
-            onTap: () {
-              Navigator.pop(context); // Close the drawer
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PetrolPumpStatus(),
+    List<Widget> pumpCards = [];
+    for (var pump in registeredPumps) {
+      var pumpData = pump.data() as Map<String, dynamic>;
+
+      // Ensure you have the correct key for 'pump_number'
+      String pumpName = pumpData['name'] ?? 'Pump Name';
+      String pumpId = pump.id; // Firestore document ID
+
+      pumpCards.add(
+        PumpCard(
+          pumpName: pumpName,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PetrolPumpStatus(
+                  pumpId: pumpId, // Pass the correct pump ID
                 ),
-              );
-            },
-          ),
-        );
-      }
-      rows.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: pumpCards,
+              ),
+            );
+          },
         ),
       );
     }
@@ -222,28 +241,55 @@ class DashboardOwnerScreen extends StatelessWidget {
                     children: [
                       // Total Sales Card
                       DashboardCard(
-                        title: 'Total Sales',
-                        value: '\$10,000',
-                        icon: Icons.shopping_cart,
-                        color: Colors.blue,
-                        dataPoints: salesData,
-                      ),
-                      // Total Earnings Card
+                          title: 'Monthly Sales',
+                          value: '\$120,000',
+                          icon: Icons.show_chart,
+                          color: Colors.blue,
+                          dataPoints: salesData
+                          //  [
+                          //   Point(0, 10000), // January
+                          //   Point(1, 20000), // February
+                          //   Point(2, 50000), // March
+                          //   Point(3, 60000), // April
+                          //   Point(4, 70000), // May
+                          //   Point(5, 100000), // June
+                          //   Point(6, 11000), // July
+                          //   Point(7, 12000), // August
+                          //   Point(8, 11000), // September
+                          //   Point(9, 10000), // October
+                          //   Point(10, 7000), // November
+                          //   Point(11, 5000), // December
+                          // ],
+                          ),
+
                       DashboardCard(
-                        title: 'Total Earnings',
-                        value: '\$5,000',
-                        icon: Icons.attach_money,
-                        color: Colors.green,
-                        dataPoints: earningsData,
-                      ),
+                          title: 'Monthly Earning',
+                          value: '\$120,000',
+                          icon: Icons.show_chart,
+                          color: Colors.blue,
+                          dataPoints: salesData
+                          //  [
+                          //   Point(0, 2000), // January
+                          //   Point(1, 3000), // February
+                          //   Point(2, 5000), // March
+                          //   Point(3, 7000), // April
+                          //   Point(4, 9000), // May
+                          //   Point(5, 10000), // June
+                          //   Point(6, 11000), // July
+                          //   Point(7, 12000), // August
+                          //   Point(8, 11000), // September
+                          //   Point(9, 10000), // October
+                          //   Point(10, 7000), // November
+                          //   Point(11, 5000), // December
+                          // ],
+                          ),
                     ],
                   ),
                   // Pump cards
-                  Column(
-                    children: rows,
-                  ),
-                  const SizedBox(
-                    height: 15,
+                  Wrap(
+                    spacing: 16.0, // Spacing between pump cards
+                    runSpacing: 16.0, // Vertical spacing for wrapping
+                    children: pumpCards,
                   ),
                 ],
               ),

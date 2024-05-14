@@ -3,8 +3,7 @@ import 'package:myproject/Pump/Customer/customer_data.dart';
 import 'package:myproject/Pump/common/screens/app_drawer.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
-import 'package:myproject/Pump/pump_dashboared_screen.dart';
-import '../../Credit_Debit/Models/user.dart';
+
 import '../../common/screens/sidebar.dart';
 
 // ignore: must_be_immutable
@@ -23,6 +22,9 @@ class DailyOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white, // Change the color of the back icon here
+        ),
         title: const Text(
           'Daily Overview',
           style: TextStyle(color: Colors.white),
@@ -115,13 +117,9 @@ class DailyOverviewScreen extends StatelessWidget {
                         Navigator.pushNamed(context, '/stock');
                       },
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
+                    const SizedBox(
+                      width: 20,
+                    ),
                     Card_Widget(
                       name: "Today Expense",
                       totalStock: totalStock,
@@ -148,6 +146,9 @@ class DailyOverviewScreen extends StatelessWidget {
                       },
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
               ],
             ),
@@ -184,6 +185,7 @@ class DailyOverviewScreen extends StatelessWidget {
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
+       
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: color,
@@ -208,6 +210,94 @@ class DailyOverviewScreen extends StatelessWidget {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Card_Widget extends StatelessWidget {
+  final String totalStock;
+  final String name;
+  final IconData inputIcon;
+  final Color cardColor;
+  final Color iconColor;
+  final Color textColor;
+  final IconData? secondIcon;
+  final VoidCallback onTap;
+
+  const Card_Widget({
+    super.key,
+    this.secondIcon,
+    required this.totalStock,
+    required this.inputIcon,
+    required this.name,
+    required this.cardColor,
+    required this.iconColor,
+    required this.textColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 150,
+        height: 150,
+        decoration: BoxDecoration(
+          color: cardColor,
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    inputIcon,
+                    color: iconColor,
+                    size: 30.0,
+                  ),
+                  if (secondIcon != null) ...[
+                    const SizedBox(height: 10.0),
+                    Icon(
+                      secondIcon,
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
+                  ],
+                ],
+              ),
+              const SizedBox(height: 3.0),
+              Text(
+                name,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              Text(
+                'Total: $totalStock',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: textColor.withOpacity(0.8),
                 ),
               ),
             ],

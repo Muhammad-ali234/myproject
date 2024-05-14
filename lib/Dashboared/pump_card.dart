@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class PumpCard extends StatelessWidget {
-  final int pumpNumber;
+  final String pumpName;
   final VoidCallback onTap;
 
-  const PumpCard({super.key, required this.pumpNumber, required this.onTap});
+  const PumpCard({
+    super.key,
+    required this.pumpName,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,30 +19,33 @@ class PumpCard extends StatelessWidget {
         child: Card(
           elevation: 4.0,
           child: SizedBox(
-            height: 90,
-            width: 150,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Pump $pumpNumber',
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InfoItem(label: 'Earnings', value: '\$5000'),
-                    SizedBox(
-                      width: 15,
+            height: 110,
+            width: 180,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Pump $pumpName',
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                    InfoItem(label: 'Profit', value: '\$2000'),
-                  ],
-                )
-              ],
+                  ),
+                  const SizedBox(height: 10.0),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InfoItem(label: 'Earnings', value: '\$5000'),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      InfoItem(label: 'Profit', value: '\$2000'),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

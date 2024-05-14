@@ -57,5 +57,29 @@ List<DrawerItem> getDrawerMenuItems(BuildContext context) {
       },
       route: '/stock',
     ),
+    DrawerItem(
+      icon: Icons.person,
+      title: 'Employee Duties',
+      onTap: () {
+        Navigator.pushNamed(context, '/employeeDuty');
+        Navigator.pop(context);
+      },
+      route: '/employeeDuty',
+    ),
+    DrawerItem(
+      icon: Icons.storage,
+      title: 'Chat with Us ',
+      onTap: () {
+        Navigator.pushNamed(context, '/pumpchatScreen');
+      },
+      route: '/pumpchatScreen',
+    ),
+    DrawerItem(
+        icon: Icons.logout,
+        title: 'Log Out',
+        onTap: () {
+          Navigator.pushNamed(context, '/login');
+        },
+        route: '/login')
   ];
 }

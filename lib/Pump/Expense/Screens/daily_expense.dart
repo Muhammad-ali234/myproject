@@ -186,16 +186,6 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
     );
   }
 
-  // Widget _buildSaveButton() {
-  //   return ElevatedButton(
-  //     onPressed: () {
-  //       _saveExpense();
-  //       Navigator.pop(context, _createNewExpense());
-  //     },
-  //     child: const Text('Save Expense'),
-  //   );
-  // }
-
   void _saveExpense() async {
     String expenseId = UniqueKey().toString();
     Expense newExpense = Expense(
@@ -205,6 +195,16 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
       date: dateController.text,
       detail: detailController.text,
     );
+
+    void _updateExpense(String expenseId) async {
+      Expense updateExpense = Expense(
+        id: expenseId,
+        name: nameController.text,
+        amount: int.parse(amountController.text),
+        date: dateController.text,
+        detail: detailController.text,
+      );
+    }
 
     try {
       await _expenseService.addExpense(newExpense, expenseId);
@@ -412,6 +412,7 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
                       expenses.removeAt(index);
                     });
                   },
+                  
                 );
               },
             ),

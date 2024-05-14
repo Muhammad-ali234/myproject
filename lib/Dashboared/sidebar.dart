@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myproject/Dashboared/Employee/employee.dart';
+import 'package:myproject/Dashboared/Common/chat_roam.dart';
+import 'package:myproject/Dashboared/Employee/employess_screen.dart';
+import 'package:myproject/Dashboared/Employee/reg_employee.dart';
 import 'package:myproject/Dashboared/Home_screen.dart';
 import 'package:myproject/Authentication/login_screen.dart';
 import 'package:myproject/Dashboared/Pump/account_request_screen.dart';
@@ -40,7 +42,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DashboardOwnerScreen()),
+                      builder: (context) => const DashboardOwnerScreen()),
                 );
               },
             ),
@@ -55,7 +57,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddEmployeeScreen(context)),
+                      builder: (context) => const EmployeeScreen()),
                 );
               },
             ),
@@ -87,6 +89,21 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const AccountRequested()),
+                );
+              },
+            ),
+            const SizedBox(height: 5),
+            ListTile(
+              leading: const Icon(
+                Icons.account_box,
+                color: Colors.teal,
+              ),
+              title: const Text('Chat  with Us'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ChatScreen()),
                 );
               },
             ),

@@ -14,6 +14,9 @@ class PumpDashboardScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white, // Change the color of the back icon here
+        ),
         title: const Text(
           'Welcome To petrol station 1',
           style: TextStyle(
@@ -188,7 +191,7 @@ class PumpDashboardScreen extends StatelessWidget {
                     name: "Petrol Diesel Stock",
                     totalStock: "1000 litre",
                     inputIcon: Icons.storage,
-                    cardColor: Colors.blue,
+                    cardColor: const Color(0xFF6789CA),
                     iconColor: Colors.white,
                     textColor: Colors.white,
                     onTap: () {
@@ -201,7 +204,7 @@ class PumpDashboardScreen extends StatelessWidget {
                     totalStock: "Debit 100  Credit 100",
                     inputIcon: Icons.arrow_upward_outlined,
                     secondIcon: Icons.arrow_downward,
-                    cardColor: Colors.green,
+                    cardColor: const Color(0xFF6789CA),
                     iconColor: Colors.white,
                     textColor: Colors.white,
                     onTap: () {
@@ -213,7 +216,7 @@ class PumpDashboardScreen extends StatelessWidget {
                     name: "Daily Overview",
                     totalStock: "Sale Rs:1000",
                     inputIcon: Icons.credit_card,
-                    cardColor: Colors.orange,
+                    cardColor: const Color(0xFF6789CA),
                     iconColor: Colors.white,
                     textColor: Colors.white,
                     onTap: () {
@@ -225,7 +228,7 @@ class PumpDashboardScreen extends StatelessWidget {
                     name: "Expense ",
                     totalStock: "Expense Rs:100",
                     inputIcon: Icons.attach_money,
-                    cardColor: Colors.purple,
+                    cardColor: const Color(0xFF6789CA),
                     iconColor: Colors.white,
                     textColor: Colors.white,
                     onTap: () {
@@ -237,7 +240,7 @@ class PumpDashboardScreen extends StatelessWidget {
                     name: "Total Customer",
                     totalStock: "Register Customer:100",
                     inputIcon: Icons.person,
-                    cardColor: Colors.red,
+                    cardColor: const Color(0xFF6789CA),
                     iconColor: Colors.white,
                     textColor: Colors.white,
                     onTap: () {
