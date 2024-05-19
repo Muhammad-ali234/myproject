@@ -1,4 +1,3 @@
-import 'package:myproject/Pump/Customer/service.dart';
 
 class Customer {
   String id;

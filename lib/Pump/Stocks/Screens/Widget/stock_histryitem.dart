@@ -11,7 +11,7 @@ class StockHistoryItemWidget extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
-        title: Text('${historyItem.type}: ${historyItem.amount}'),
+        title: Text('${historyItem.type}: ${historyItem.litres}'),
         subtitle: Text('Updated on ${historyItem.timestamp.toString()}'),
       ),
     );

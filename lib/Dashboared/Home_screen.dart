@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:myproject/Dashboared/Pump/petrol_pump.dart';
 import 'package:myproject/Dashboared/dashbored_card.dart';
 import 'package:myproject/Dashboared/pump_card.dart';
+import 'package:myproject/Dashboared/services/service.dart';
 import 'package:myproject/Dashboared/sidebar.dart';
 import 'package:myproject/Dashboared/services/dashbord_service.dart';
-
 
 class DashboardOwnerScreen extends StatefulWidget {
   const DashboardOwnerScreen({super.key});
@@ -17,6 +16,8 @@ class DashboardOwnerScreen extends StatefulWidget {
 
 class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
   final DashboredService _dashboardService = DashboredService();
+
+  final GraphService _service = GraphService();
 
   List<Point> salesData = [
     Point(0, 20), // January
@@ -206,6 +207,7 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
         PumpCard(
           pumpName: pumpName,
           onTap: () {
+            _service.initializeData();
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -245,50 +247,19 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
                           value: '\$120,000',
                           icon: Icons.show_chart,
                           color: Colors.blue,
-                          dataPoints: salesData
-                          //  [
-                          //   Point(0, 10000), // January
-                          //   Point(1, 20000), // February
-                          //   Point(2, 50000), // March
-                          //   Point(3, 60000), // April
-                          //   Point(4, 70000), // May
-                          //   Point(5, 100000), // June
-                          //   Point(6, 11000), // July
-                          //   Point(7, 12000), // August
-                          //   Point(8, 11000), // September
-                          //   Point(9, 10000), // October
-                          //   Point(10, 7000), // November
-                          //   Point(11, 5000), // December
-                          // ],
-                          ),
+                          dataPoints: salesData),
 
                       DashboardCard(
                           title: 'Monthly Earning',
                           value: '\$120,000',
                           icon: Icons.show_chart,
                           color: Colors.blue,
-                          dataPoints: salesData
-                          //  [
-                          //   Point(0, 2000), // January
-                          //   Point(1, 3000), // February
-                          //   Point(2, 5000), // March
-                          //   Point(3, 7000), // April
-                          //   Point(4, 9000), // May
-                          //   Point(5, 10000), // June
-                          //   Point(6, 11000), // July
-                          //   Point(7, 12000), // August
-                          //   Point(8, 11000), // September
-                          //   Point(9, 10000), // October
-                          //   Point(10, 7000), // November
-                          //   Point(11, 5000), // December
-                          // ],
-                          ),
+                          dataPoints: salesData),
                     ],
                   ),
-                  // Pump cards
                   Wrap(
-                    spacing: 16.0, // Spacing between pump cards
-                    runSpacing: 16.0, // Vertical spacing for wrapping
+                    spacing: 16.0,
+                    runSpacing: 16.0,
                     children: pumpCards,
                   ),
                 ],

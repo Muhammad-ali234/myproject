@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myproject/Authentication/service.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -33,12 +32,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(
-      builder: (context, sizingInformation) {
-        if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-          return _buildWebLayout();
-        } else {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Responsive UI logic
+        if (constraints.maxWidth < 600) {
+          // Mobile layout
           return _buildMobileLayout();
+        } else {
+          // Web layout
+          return _buildWebLayout();
         }
       },
     );

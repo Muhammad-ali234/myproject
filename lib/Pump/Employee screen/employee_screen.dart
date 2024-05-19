@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:myproject/Dashboared/Employee/employee_service.dart';
-import 'package:myproject/Dashboared/dashbored_styles.dart';
-import 'package:myproject/Dashboared/sidebar.dart';
-import 'package:myproject/Dashboared/widget/droped_down_button.dart';
-import 'package:myproject/Dashboared/widget/search_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:myproject/Pump/Employee%20screen/service.dart';
 import 'package:myproject/Pump/common/screens/app_drawer.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
+import 'package:myproject/Common/constant.dart';
+import 'package:myproject/Pump/common/screens/sidebar.dart';
+import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
 
 class EmployeeDutiesScreen extends StatefulWidget {
   const EmployeeDutiesScreen({super.key});
@@ -44,15 +42,16 @@ class _EmployeeDutiesScreenState extends State<EmployeeDutiesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, // Change the color of the back icon here
+        iconTheme: IconThemeData(
+          color: AppColor
+              .dashbordWhiteColor, // Change the color of the back icon here
         ),
-        title: const Text(
+        title: Text(
           'Empoyee Duties Screen',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
       ),
       drawer: MediaQuery.of(context).size.width < 600
           ? AppDrawer(
@@ -81,11 +80,12 @@ class _EmployeeDutiesScreenState extends State<EmployeeDutiesScreen> {
           SizedBox(
             width: 300,
             child: TextField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search employees...',
-                hintStyle: TextStyle(color: Color(0xFF6789CA)),
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.search, color: Color(0xFF6789CA)),
+                hintStyle: TextStyle(color: AppColor.dashbordBlueColor),
+                border: const OutlineInputBorder(),
+                suffixIcon:
+                    Icon(Icons.search, color: AppColor.dashbordBlueColor),
               ),
               style: const TextStyle(color: Colors.black),
               onChanged: (value) {
@@ -105,11 +105,41 @@ class _EmployeeDutiesScreenState extends State<EmployeeDutiesScreen> {
   }
 
   Widget _buildWebLayout() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
+        SideBar(
+          menuItems: getMenuItems(context),
+        ),
         Expanded(
-          child: _buildRegisteredEmployeesStream(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search employees...',
+                    hintStyle: TextStyle(color: AppColor.dashbordBlueColor),
+                    border: const OutlineInputBorder(),
+                    suffixIcon:
+                        Icon(Icons.search, color: AppColor.dashbordBlueColor),
+                  ),
+                  style: const TextStyle(color: Colors.black),
+                  onChanged: (value) {
+                    setState(() {
+                      searchTerm = value.toLowerCase(); // Store the search term
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                child: _buildRegisteredEmployeesStream(),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -169,9 +199,9 @@ class _EmployeeDutiesScreenState extends State<EmployeeDutiesScreen> {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.person,
-                                    color: Colors.blueAccent,
+                                    color: AppColor.dashbordBlueColor,
                                   ),
                                   const SizedBox(width: 10),
                                   Text(

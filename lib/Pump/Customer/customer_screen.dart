@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart'; // Changed import
 import 'package:myproject/Pump/Customer/add_customer.dart';
-import 'package:myproject/Pump/Credit_Debit/Screens/user_detailed.dart';
 import 'package:myproject/Pump/Customer/customer_detaile.dart';
 import 'package:myproject/Pump/Customer/service.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
 import 'package:myproject/Pump/common/widgets/save_button.dart';
-import 'package:myproject/Pump/common/models/drawer_item.dart';
 import 'package:myproject/Pump/common/screens/app_drawer.dart';
 import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
 import 'package:myproject/Pump/Customer/customer_data.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:myproject/Pump/Customer/customer_data.dart';
+import 'package:myproject/Common/constant.dart';
 
 // ignore: must_be_immutable
 class CustomerScreen extends StatefulWidget {
@@ -26,6 +23,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
   List<Customer> customers = []; // Changed type
   bool _isSearching = false;
   late TextEditingController _searchController;
+  final CustomerService _customerService = CustomerService();
 
   @override
   void initState() {
@@ -51,18 +49,20 @@ class _CustomerScreenState extends State<CustomerScreen> {
     }
   }
 
+  void _updateCustomer(int index) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: _isSearching
             ? _buildSearchField()
-            : const Text(
+            : Text(
                 'Customer Screen',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: AppColor.dashbordWhiteColor),
               ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
         actions: _buildAppBarActions(),
       ),
       drawer: MediaQuery.of(context).size.width < 600
@@ -76,15 +76,16 @@ class _CustomerScreenState extends State<CustomerScreen> {
   }
 
   Widget _buildBody() {
-    return ResponsiveBuilder(
-      builder: (context, sizingInformation) {
-        if (sizingInformation.isMobile) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 600) {
           return _buildMobileLayout();
         } else {
           return _buildWebLayout();
         }
       },
     );
+
   }
 
   Widget _buildWebLayout() {
@@ -143,10 +144,6 @@ class _CustomerScreenState extends State<CustomerScreen> {
                                       ),
                                     ),
                                   ],
-
-                                  // onTap: () {
-
-                                  // },
                                 ),
                               ),
                               Padding(
@@ -156,10 +153,36 @@ class _CustomerScreenState extends State<CustomerScreen> {
                                     Column(
                                       children: [
                                         IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddCustomer(
+                                                    customer: customers[index],
+                                                    onDelete: () {
+                                                      setState(() {
+                                                        fetchUsers();
+                                                      });
+                                                    },
+                                                    onUpdate: () {
+                                                      setState(() {});
+                                                    },
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                             icon: const Icon(Icons.edit)),
                                         IconButton(
-                                            onPressed: () {},
+                                            onPressed: () async {
+                                              await _customerService
+                                                  .deleteCustomer(
+                                                      customers[index].id);
+                                              setState(() {
+                                                customers.removeAt(
+                                                    index); // Remove from local list
+                                              });
+                                            },
                                             icon: const Icon(Icons.delete))
                                       ],
                                     ),
@@ -193,6 +216,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
   }
 
   Widget _buildMobileLayout() {
+    print('mobile layout');
     return Row(
       children: [
         Expanded(
@@ -251,19 +275,6 @@ class _CustomerScreenState extends State<CustomerScreen> {
       ],
     );
   }
-
-  // void _addCustomer(Customer customer) {
-  //   Customer user = Customer(
-  //     id: customer.id,
-  //     name: customer.name,
-  //     email: customer.email,
-  //     contact: customer.contact,
-  //   );
-  //   setState(() {
-  //     // Assuming UserData is properly defined and addUser method accepts a User object
-  //     CustomerData.addUser(user);
-  //   });
-  // }
 
   Widget _buildSearchField() {
     return Container(

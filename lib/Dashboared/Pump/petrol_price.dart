@@ -11,45 +11,6 @@ class PetrolPriceScreen extends StatefulWidget {
 }
 
 class _PetrolPriceScreenState extends State<PetrolPriceScreen> {
-  // final DateTime _selectedPetrolDate = DateTime.now();
-
-  // double _petrolPrice = 0.0;
-  // double _dieselPrice = 0.0;
-
-  // final FuelPricesesService _fuelPricesesService = FuelPricesesService();
-
-  // void _submitPetrolForm() {
-  //   if (_petrolFormKey.currentState!.validate()) {
-  //     _petrolFormKey.currentState!.save();
-
-  //     PetrolPrice petrolPriceData =
-  //         PetrolPrice(_selectedPetrolDate, _petrolPrice);
-
-  //     // Save to Firestore with 'petrol' as the type
-  //     _fuelPricesesService.savePriceData('petrol', petrolPriceData).then((_) {
-  //       print('Petrol price added: $petrolPriceData');
-  //     }).catchError((error) {
-  //       print('Failed to add petrol price: $error');
-  //     });
-  //   }
-  //   _petrolPrice = 0.0;
-  //   _dieselPrice = 0.0;
-  // }
-
-  // void _submitDieselForm() {
-  //   if (_dieselFormKey.currentState!.validate()) {
-  //     _dieselFormKey.currentState!.save();
-  //     PetrolPrice dieselPriceData =
-  //         PetrolPrice(_selectedDieselDate, _dieselPrice);
-
-  //     // Save to Firestore with 'diesel' as the type
-  //     _fuelPricesesService.savePriceData('diesel', dieselPriceData).then((_) {
-  //       print('Diesel price added: $dieselPriceData');
-  //     }).catchError((error) {
-  //       print('Failed to add diesel price: $error');
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myproject/Common/constant.dart';
 
 class SaveButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -18,8 +19,8 @@ class SaveButton extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.blue,
+            foregroundColor: AppColor.dashbordWhiteColor,
+            backgroundColor: AppColor.dashbordBlueColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),

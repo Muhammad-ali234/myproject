@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myproject/Pump/Credit_Debit/Models/user.dart';
 import 'package:myproject/Pump/Customer/service.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
 import 'package:myproject/Pump/Customer/customer_data.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:myproject/Common/constant.dart';
 import '../../common/screens/app_drawer.dart';
 import '../../common/screens/sidebar.dart';
 import 'user_detailed.dart';
@@ -51,17 +50,18 @@ class _CreditDebitState extends State<CreditDebit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, // Change the color of the back icon here
+        iconTheme: IconThemeData(
+          color: AppColor
+              .dashbordWhiteColor, // Change the color of the back icon here
         ),
         title: _isSearching
             ? _buildSearchField()
-            : const Text(
+            : Text(
                 'Credit Debit Screen',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: AppColor.dashbordWhiteColor),
               ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
         actions: _buildAppBarActions(),
       ),
       drawer: MediaQuery.of(context).size.width < 600
@@ -75,11 +75,14 @@ class _CreditDebitState extends State<CreditDebit> {
   }
 
   Widget _buildBody() {
-    return ResponsiveBuilder(
-      builder: (context, sizingInformation) {
-        if (sizingInformation.isMobile) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Responsive UI logic
+        if (constraints.maxWidth < 600) {
+          // Mobile layout
           return _buildMobileLayout();
         } else {
+          // Web layout
           return _buildWebLayout();
         }
       },
@@ -200,7 +203,7 @@ class _CreditDebitState extends State<CreditDebit> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColor.dashbordWhiteColor,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: TextField(

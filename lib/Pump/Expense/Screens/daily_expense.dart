@@ -5,7 +5,7 @@ import 'package:myproject/Pump/common/screens/app_drawer.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
 import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:myproject/Common/constant.dart';
 
 import '../Widgets/expense_card.dart';
 
@@ -49,7 +49,7 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
             width: 400,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColor.dashbordWhiteColor,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
@@ -126,12 +126,14 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
           actions: [
             TextButton(
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(const Color(0xFF6789CA)),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    AppColor.dashbordBlueColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    AppColor.dashbordWhiteColor),
               ),
               onPressed: () {
                 // Close the dialog
+
                 Navigator.pop(context);
               },
               child: const Text('Cancel'),
@@ -159,9 +161,10 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
   Widget _buildSaveButton(GlobalKey<FormState> formKey) {
     return ElevatedButton(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        foregroundColor:
+            MaterialStateProperty.all<Color>(AppColor.dashbordWhiteColor),
         backgroundColor:
-            MaterialStateProperty.all<Color>(const Color(0xFF6789CA)),
+            MaterialStateProperty.all<Color>(AppColor.dashbordBlueColor),
       ),
       onPressed: () {
         if (formKey.currentState!.validate()) {
@@ -196,7 +199,7 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
       detail: detailController.text,
     );
 
-    void _updateExpense(String expenseId) async {
+    void updateExpense0(String expenseId) async {
       Expense updateExpense = Expense(
         id: expenseId,
         name: nameController.text,
@@ -282,15 +285,16 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, // Change the color of the back icon here
+        iconTheme: IconThemeData(
+          color: AppColor
+              .dashbordWhiteColor, // Change the color of the back icon here
         ),
-        title: const Text(
+        title: Text(
           'Daily Expenses',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
         actions: [
           IconButton(
             onPressed: () {},
@@ -304,11 +308,14 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
               drawerItems: getDrawerMenuItems(context),
             )
           : null,
-      body: ResponsiveBuilder(
-        builder: (context, sizingInformation) {
-          if (sizingInformation.isMobile) {
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          // Responsive UI logic
+          if (constraints.maxWidth < 600) {
+            // Mobile layout
             return _buildMobileLayout();
           } else {
+            // Web layout
             return _buildWebLayout();
           }
         },
@@ -327,11 +334,11 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
           onPressed: _showExpenseFormDialog,
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(
-                const Color(0xFF6789CA)), // Set the background color
+                AppColor.dashbordBlueColor), // Set the background color
           ),
-          child: const Text(
+          child: Text(
             'Add New Expense',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: AppColor.dashbordWhiteColor),
           ),
         ),
         const SizedBox(height: 16.0),
@@ -367,11 +374,11 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
                   onPressed: _showExpenseFormDialog,
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xFF6789CA)), // Set the background color
+                        AppColor.dashbordBlueColor), // Set the background color
                   ),
-                  child: const Text(
+                  child: Text(
                     'Add New Expense',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: AppColor.dashbordWhiteColor),
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -403,17 +410,20 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
               itemCount: expenses.length,
               itemBuilder: (context, index) {
                 return ExpenseCard(
-                  expenseId: expenses[index].id,
-                  expense: expenses[index],
-                  expenseService: _expenseService,
-                  onDelete: () {
-                    // Update the UI after deleting the expense
-                    setState(() {
-                      expenses.removeAt(index);
+                    expenseId: expenses[index].id,
+                    expense: expenses[index],
+                    expenseService: _expenseService,
+                    onDelete: () {
+                      // Update the UI after deleting the expense
+                      setState(() {
+                        expenses.removeAt(index);
+                      });
+                    },
+                    onUpdate: () {
+                      setState(() {
+                        _loadExpenses();
+                      });
                     });
-                  },
-                  
-                );
               },
             ),
     );

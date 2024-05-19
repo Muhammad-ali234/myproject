@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:myproject/Pump/Credit_Debit/Screens/Transaction_histry.dart';
-import 'package:myproject/Pump/Credit_Debit/Models/user.dart';
 import 'package:myproject/Pump/Customer/customer_data.dart';
 import 'package:myproject/Pump/Customer/customer_screen.dart';
 import 'package:myproject/Pump/common/screens/app_drawer.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
 import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
+import 'package:myproject/Common/constant.dart';
 
 class CustomerDetailsScreen extends StatelessWidget {
   final Customer user;
@@ -19,11 +18,11 @@ class CustomerDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           user.name,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+          style:  TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor:AppColor.dashbordBlueColor,
       ),
       drawer: MediaQuery.of(context).size.width < 600
           ? AppDrawer(

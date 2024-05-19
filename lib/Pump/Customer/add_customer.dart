@@ -1,45 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:myproject/Pump/Credit_Debit/Models/user.dart';
 import 'package:myproject/Pump/Customer/customer_data.dart';
 import 'package:myproject/Pump/Customer/service.dart';
-import 'package:myproject/Pump/common/widgets/save_button.dart';
 import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:myproject/Common/constant.dart';
 
 class AddCustomer extends StatefulWidget {
-  const AddCustomer({
-    super.key,
-  });
+  final Customer? customer;
+  final VoidCallback? onDelete;
+  final VoidCallback? onUpdate;
+  const AddCustomer({super.key, this.customer, this.onDelete, this.onUpdate});
 
   @override
   _AddCustomerState createState() => _AddCustomerState();
 }
 
 class _AddCustomerState extends State<AddCustomer> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController contactController = TextEditingController();
-  final CustomerService _customerService = CustomerService();
+  late final GlobalKey<FormState> _formKey;
+  late final TextEditingController nameController;
+  late final TextEditingController emailController;
+  late final TextEditingController contactController;
+  late final CustomerService _customerService;
+  // late final String id;
+
+  @override
+  void initState() {
+    super.initState();
+    _formKey = GlobalKey<FormState>();
+    _customerService = CustomerService();
+    nameController = TextEditingController(text: widget.customer?.name ?? '');
+    emailController = TextEditingController(text: widget.customer?.email ?? '');
+    contactController =
+        TextEditingController(text: widget.customer?.contact ?? '');
+    // id = widget.customer?.id ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           'Add Customer',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
       ),
-      body: ResponsiveBuilder(
-        builder: (context, sizingInformation) {
-          if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-            return _buildWebLayout();
-          } else {
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          // Responsive UI logic
+          if (constraints.maxWidth < 600) {
+            // Mobile layout
             return _buildMobileLayout();
+          } else {
+            // Web layout
+            return _buildWebLayout();
           }
         },
       ),
@@ -109,12 +124,12 @@ class _AddCustomerState extends State<AddCustomer> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: AppColor.dashbordBlueColor,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
+                    child:  Text(
                       'Save',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: AppColor.dashbordWhiteColor),
                     ),
                   ),
                 ],
@@ -177,16 +192,18 @@ class _AddCustomerState extends State<AddCustomer> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _saveUser();
+                    setState(() {
+                      _saveUser();
+                    });
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: AppColor.dashbordBlueColor,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: const Text(
+                child:  Text(
                   'Save',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColor.dashbordWhiteColor),
                 ),
               ),
             ],
@@ -202,9 +219,9 @@ class _AddCustomerState extends State<AddCustomer> {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.blue),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
+        labelStyle:  TextStyle(color: AppColor.dashbordBlueColor),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColor.dashbordBlueColor),
         ),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
@@ -224,9 +241,29 @@ class _AddCustomerState extends State<AddCustomer> {
       credit: 0,
       debit: 0,
     );
-    setState(() async {
+
+    if (widget.customer != null) {
+      // Update mode
+      final updateCustomer = Customer(
+        id: widget.customer!.id,
+        name: nameController.text,
+        email: emailController.text,
+        contact: contactController.text,
+        credit: 0,
+        debit: 0,
+      );
+
+      // Wait for the update operation to complete
+      await _customerService.updateCustomer(updateCustomer);
+      widget.onUpdate!();
+      widget.onDelete!();
+    } else {
+      // Add mode
       await _customerService.addCustomer(newCustomer);
-    });
+      setState(() {});
+    }
+
+    // After the async operation completes, navigate back
     Navigator.pop(context);
   }
 

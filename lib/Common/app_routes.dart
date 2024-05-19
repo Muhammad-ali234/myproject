@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myproject/Authentication/splash_screen.dart';
-import 'package:myproject/Dashboared/Common/chat_roam.dart';
+import 'package:myproject/Dashboared/chat%20room/dashbored_chat.dart';
 import 'package:myproject/Dashboared/Home_screen.dart';
 import 'package:myproject/Pump/Employee%20screen/employee_screen.dart';
 import 'package:myproject/Pump/Expense/Screens/daily_expense.dart';
@@ -41,11 +41,10 @@ class AppRoutes {
     stock: (context) => const StocksScreen(),
     dailyExpense: (context) => DailyExpenseScreen(context: context),
     creditDebit: (context) => CreditDebit(context: context),
-    dailyOverview: (context) =>
-        DailyOverviewScreen(users: const [], context: context),
+    dailyOverview: (context) => const DailyOverviewScreen(),
     dashboardPumpScreen: (context) => PumpDashboardScreen(context: context),
     customerScreen: (context) => CustomerScreen(context: context),
-    chatScreen: (context) => const ChatScreen(),
+    chatScreen: (context) => const DashbordChat(),
     pumpChatScreen: (context) => const PumpChatScreen(),
     employeeDutyScreen: (context) => const EmployeeDutiesScreen()
   };

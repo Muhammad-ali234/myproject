@@ -11,8 +11,7 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          // Check if the screen width is less than a certain threshold to determine if it's a mobile or web layout
-          bool isMobileLayout = constraints.maxWidth < 600;
+         
 
           return Center(
             child: Padding(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myproject/Dashboared/Common/chat_roam.dart';
+import 'package:myproject/Dashboared/chat%20room/dashbored_chat.dart';
 import 'package:myproject/Dashboared/Employee/employess_screen.dart';
-import 'package:myproject/Dashboared/Employee/reg_employee.dart';
 import 'package:myproject/Dashboared/Home_screen.dart';
 import 'package:myproject/Authentication/login_screen.dart';
 import 'package:myproject/Dashboared/Pump/account_request_screen.dart';
@@ -103,7 +102,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChatScreen()),
+                  MaterialPageRoute(builder: (context) => const DashbordChat()),
                 );
               },
             ),

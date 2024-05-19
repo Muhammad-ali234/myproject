@@ -53,6 +53,13 @@ List<MenuItem> getMenuItems(BuildContext context) {
       },
     ),
     MenuItem(
+      icon: Icons.person_4_outlined,
+      title: 'Employees Duties',
+      onTap: () {
+        Navigator.pushNamed(context, '/employeeDuty');
+      },
+    ),
+    MenuItem(
       icon: Icons.logout,
       title: 'Log Out',
       onTap: () {

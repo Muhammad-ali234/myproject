@@ -4,10 +4,10 @@ import 'package:myproject/Dashboared/services/petrol_price.dart';
 
 Widget buildDieselSummaryCard() {
 
-  final FuelPricesesService _fuelPricesService = FuelPricesesService();
+  final FuelPricesesService fuelPricesService = FuelPricesesService();
 
   return FutureBuilder<PetrolPrice?>(
-    future: _fuelPricesService.getLastAddedDieselPrice(),
+    future: fuelPricesService.getLastAddedDieselPrice(),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return _buildLoadingCard();
@@ -95,7 +95,7 @@ Widget _buildDieselErrorCard() {
 
 // Widget for no data state
 Widget _buildDieselEmptyCard() {
-  return  Card(
+  return  const Card(
     elevation: 3,
     color: Colors.indigo,
     child: Padding(

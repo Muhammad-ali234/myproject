@@ -28,6 +28,50 @@ class CustomerService {
     }
   }
 
+  Future<void> updateCustomer(Customer customer) async {
+    try {
+      final uid = await _authService.getCurrentUserUID();
+      if (uid != null) {
+        CollectionReference customerCollection = _firestore
+            .collection('users')
+            .doc('Pump')
+            .collection('Pump')
+            .doc(uid)
+            .collection('customer');
+
+        await customerCollection
+            .doc(customer.id)
+            .update(customer.toMap()); // Update customer data in Firestore
+      } else {
+        throw Exception("User UID is null");
+      }
+    } catch (error) {
+      throw Exception("Failed to update customer: $error");
+    }
+  }
+
+  Future<void> deleteCustomer(String customerId) async {
+    try {
+      final uid = await _authService.getCurrentUserUID();
+      if (uid != null) {
+        CollectionReference customerCollection = _firestore
+            .collection('users')
+            .doc('Pump')
+            .collection('Pump')
+            .doc(uid)
+            .collection('customer');
+
+        await customerCollection
+            .doc(customerId)
+            .delete(); // Delete customer from Firestore
+      } else {
+        throw Exception("User UID is null");
+      }
+    } catch (error) {
+      throw Exception("Failed to delete customer: $error");
+    }
+  }
+
   Future<List<Customer>> getCustomers() async {
     try {
       final uid = await _authService.getCurrentUserUID();

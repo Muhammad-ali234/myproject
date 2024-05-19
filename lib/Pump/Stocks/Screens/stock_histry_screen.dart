@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myproject/Pump/Stocks/Models/stock_histry_Item.dart';
 import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
+import 'package:myproject/Common/constant.dart';
 
 class StockHistoryScreen extends StatelessWidget {
   final List<StockHistoryItem> stockHistory;
@@ -21,16 +22,19 @@ class StockHistoryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, // Change the color of the back icon here
+        iconTheme: IconThemeData(
+          color: AppColor
+              .dashbordWhiteColor, // Change the color of the back icon here
         ),
         title: Text(
           '$historyType History',
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -69,7 +73,7 @@ class StockHistoryScreen extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(vertical: 8),
                         child: ListTile(
                           title: Text(
-                              '${filteredHistory[index].type}: ${filteredHistory[index].amount}'),
+                              '${filteredHistory[index].type}: ${filteredHistory[index].litres}'),
                           subtitle: Text(
                               'Updated on ${filteredHistory[index].timestamp.toString()}'),
                         ),
@@ -100,7 +104,7 @@ class StockHistoryScreen extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: ListTile(
                     title: Text(
-                        '${filteredHistory[index].type}: Stock ${filteredHistory[index].amount}'),
+                        '${filteredHistory[index].type}: Stock ${filteredHistory[index].litres}'),
                     subtitle: Text(
                         'Updated on ${filteredHistory[index].timestamp.toString()}'),
                   ),

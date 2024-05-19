@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myproject/Pump/Stocks/Models/stock_histry_Item.dart';
 import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
+import 'package:myproject/Common/constant.dart';
 
 class MeterReadingHistoryScreen extends StatelessWidget {
   final List<StockHistoryItem> stockHistory;
@@ -22,11 +23,13 @@ class MeterReadingHistoryScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           '$historyType History',
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -66,7 +69,7 @@ class MeterReadingHistoryScreen extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(vertical: 8),
                         child: ListTile(
                           title: Text(
-                              '${filteredHistory[index].type}: ${filteredHistory[index].amount}'),
+                              '${filteredHistory[index].type}: ${filteredHistory[index].litres}'),
                           subtitle: Text(
                               'Updated on ${filteredHistory[index].timestamp.toString()}'),
                         ),
@@ -88,13 +91,6 @@ class MeterReadingHistoryScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Stock History',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
           const SizedBox(height: 20),
           Expanded(
             child: ListView.builder(
@@ -104,7 +100,7 @@ class MeterReadingHistoryScreen extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: ListTile(
                     title: Text(
-                        '${filteredHistory[index].type}: ${filteredHistory[index].amount}'),
+                        '${filteredHistory[index].type}: ${filteredHistory[index].litres}'),
                     subtitle: Text(
                         'Updated on ${filteredHistory[index].timestamp.toString()}'),
                   ),

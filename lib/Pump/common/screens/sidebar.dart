@@ -9,7 +9,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Drawer(
-//       backgroundColor: const Color(0xFF6789CA),
+//       backgroundColor: AppColor.dashbordBlueColor,
 //       child: ListView(
 //         children: [
 //           // const SizedBox(
@@ -18,7 +18,7 @@
 //           for (var menuItem in menuItems)
 //             Card(
 //               elevation: 2,
-//               color: const Color(0xFF6789CA),
+//               color: AppColor.dashbordBlueColor,
 //               child: Container(
 //                 decoration: BoxDecoration(
 //                   border: Border.all(
@@ -71,6 +71,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:myproject/Pump/pump_dashboared_screen.dart';
+import 'package:myproject/Common/constant.dart';
 
 class SideBar extends StatelessWidget {
   final List<MenuItem> menuItems;
@@ -82,11 +83,11 @@ class SideBar extends StatelessWidget {
     return Drawer(
       elevation: 0, // Remove the shadow
       shape: Border.all(
-        color: const Color(0xFF6789CA), // Make the border transparent
+        color: AppColor.dashbordBlueColor, // Make the border transparent
         width: 0, // Set the width to 0
       ),
       child: Container(
-        color: const Color(0xFF6789CA),
+        color: AppColor.dashbordBlueColor,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myproject/Authentication/service.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,12 +28,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(
-      builder: (context, sizingInformation) {
-        if (sizingInformation.deviceScreenType == DeviceScreenType.desktop) {
-          return _buildWebLayout();
-        } else {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Responsive UI logic
+        if (constraints.maxWidth < 600) {
+          // Mobile layout
           return _buildMobileLayout();
+        } else {
+          // Web layout
+          return _buildWebLayout();
         }
       },
     );
@@ -355,9 +357,9 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         return;
       }
-      print("dataddddddd${userDoc.data()}");
+      
 
-      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+      // Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
       if ((_selectedPetrolPump != "Owner") && (_selectedPetrolPump != "Pump")) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

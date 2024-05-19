@@ -12,7 +12,7 @@ class FirestoreService {
   Future<String> addStockData({
     required String type,
     required Timestamp date,
-    required double amount,
+    required double litres,
   }) async {
     try {
       String? uid = await getCurrentUserUID(); // Get the current user's UID
@@ -28,7 +28,7 @@ class FirestoreService {
             .doc(type.toLowerCase()); // Use the type as document ID
         await docRef.set({
           'type': type,
-          'amount': amount,
+          'litres': litres,
           'date': date,
         }, SetOptions(merge: true)); // Use merge option to update existing data
         return docRef.id; // Return the document ID
@@ -43,7 +43,7 @@ class FirestoreService {
   Future<void> addStockHistry({
     required String type,
     required Timestamp date,
-    required double amount,
+    required double litres,
   }) async {
     try {
       String? uid = await getCurrentUserUID();
@@ -62,7 +62,7 @@ class FirestoreService {
         await docRef.set(
           {
             'type': type,
-            'amount': amount,
+            'litres': litres,
             'date': date,
           },
         );
@@ -76,7 +76,7 @@ class FirestoreService {
   Future<void> addMeterReading({
     required String type,
     required Timestamp date,
-    required double amount,
+    required double litres,
   }) async {
     try {
       String? uid = await getCurrentUserUID();
@@ -93,7 +93,7 @@ class FirestoreService {
         await meterReadingDoc.set(
           {
             'type': type,
-            'amount': amount,
+            'litres': litres,
             'date': date,
           },
         );
@@ -106,7 +106,7 @@ class FirestoreService {
   Future<void> addMeterReadingHistry({
     required String type,
     required Timestamp date,
-    required double amount,
+    required double litres,
   }) async {
     try {
       String? uid = await getCurrentUserUID();
@@ -125,7 +125,7 @@ class FirestoreService {
         await docRef.set(
           {
             'type': type,
-            'amount': amount,
+            'litres': litres,
             'date': date,
           },
         );
@@ -158,9 +158,9 @@ class FirestoreService {
             .get();
 
         double petrolStock =
-            petrolSnapshot.exists ? petrolSnapshot['amount'] : 0.0;
+            petrolSnapshot.exists ? petrolSnapshot['litres'] : 0.0;
         double dieselStock =
-            dieselSnapshot.exists ? dieselSnapshot['amount'] : 0.0;
+            dieselSnapshot.exists ? dieselSnapshot['litres'] : 0.0;
 
         return {'petrol': petrolStock, 'diesel': dieselStock};
       }
@@ -250,7 +250,7 @@ class FirestoreService {
         var data = documentSnapshot.data() as Map<String, dynamic>;
 
         // Extract and return the previous reading
-        return data['amount'] ?? 0.0;
+        return data['litres'] ?? 0.0;
       } else {
         // If no previous reading is found, return null
         return null;

@@ -8,13 +8,13 @@ class DropdownFilterButton extends StatefulWidget {
   final Color iconColor; // Icon color
 
   const DropdownFilterButton({
-    Key? key,
+    super.key,
     required this.options, // List of filter options
     required this.onChanged, // Required callback
     this.initialHint = 'Select...', // Default hint text
     this.backgroundColor = Colors.blue, // Default background color
     this.iconColor = Colors.white, // Default icon color
-  }) : super(key: key);
+  });
 
   @override
   _DropdownFilterButtonState createState() => _DropdownFilterButtonState();

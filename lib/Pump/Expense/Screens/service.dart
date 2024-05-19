@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:myproject/Authentication/service.dart';
 import 'package:myproject/Pump/Expense/Models/expense.dart'; // Import the Expense class
 
 class ExpenseService {
@@ -21,8 +20,7 @@ class ExpenseService {
             .collection('Pump')
             .doc(uid)
             .collection('expenses');
-        // Store the new expense in Firestore with its provided ID
-        await expenseCollection.doc(expenseId).set(expense.toMap());
+        await expenseCollection.doc().set(expense.toMap());
       } else {
         throw Exception('User is not logged in!');
       }
@@ -41,7 +39,7 @@ class ExpenseService {
           .collection('Pump')
           .doc('total_expense')
           .get();
-      // Extract and return total expense from data
+
       return snapshot.exists
           ? (snapshot.data() as Map<String, dynamic>)['total'] ?? 0
           : 0;
@@ -50,6 +48,30 @@ class ExpenseService {
       rethrow;
     }
   }
+
+  // Future<void> saveTotalExpense(int totalExpense) async {
+  //   try {
+  //     String? uid = await getCurrentUserUID();
+  //     if (uid != null) {
+  //       await _firestore
+  //           .collection('users')
+  //           .doc('Pump')
+  //           .collection('Pump')
+  //           .doc(uid)
+  //           .collection('total_expense')
+  //           .doc('total')
+  //           .set({
+  //         'total': totalExpense,
+  //         'date': DateTime.now(), // Save the current date and time
+  //       });
+  //     } else {
+  //       throw Exception('User is not logged in!');
+  //     }
+  //   } catch (e) {
+  //     print("Error saving total expense: $e");
+  //     rethrow;
+  //   }
+  // }
 
   Future<void> saveTotalExpense(int totalExpense) async {
     try {
@@ -61,8 +83,10 @@ class ExpenseService {
             .collection('Pump')
             .doc(uid)
             .collection('total_expense')
-            .doc('total')
-            .set({'total': totalExpense});
+            .add({
+          'total': totalExpense,
+          'date': DateTime.now(), // Save the current date and time
+        });
       } else {
         throw Exception('User is not logged in!');
       }
@@ -129,9 +153,8 @@ class ExpenseService {
             .collection('Pump')
             .doc(uid)
             .collection('expenses')
-            .doc(expenseId) // Use the expense ID to find the document
-            .update(updatedExpense
-                .toMap()); // Use update to modify existing document
+            .doc(expenseId)
+            .update(updatedExpense.toMap());
       } else {
         throw Exception('User is not logged in!');
       }
@@ -144,8 +167,6 @@ class ExpenseService {
 
 class FirebaseAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-  // Method to get the current user's UID
   Future<String?> getCurrentUserUID() async {
     final User? user = _firebaseAuth.currentUser;
     return user?.uid;

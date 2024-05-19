@@ -1,14 +1,15 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:myproject/Pump/Expense/Models/expense.dart';
 import 'package:myproject/Pump/Expense/Screens/service.dart';
+import 'package:myproject/Common/constant.dart';
 
 class ExpenseCard extends StatefulWidget {
   final String expenseId;
   final Expense expense;
   final ExpenseService expenseService;
   final VoidCallback onDelete;
+  final VoidCallback onUpdate;
 
   const ExpenseCard({
     super.key,
@@ -16,6 +17,7 @@ class ExpenseCard extends StatefulWidget {
     required this.expense,
     required this.expenseService,
     required this.onDelete,
+    required this.onUpdate,
   });
 
   @override
@@ -136,9 +138,9 @@ class _ExpenseCardState extends State<ExpenseCard> {
                 },
               ),
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.edit,
-                  color: Color(0xFF6789CA),
+                  color: AppColor.dashbordBlueColor,
                 ),
                 onPressed: () {
                   showDialog(
@@ -163,7 +165,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
         width: 400,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.dashbordWhiteColor,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -248,7 +250,12 @@ class _ExpenseCardState extends State<ExpenseCard> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () => _updateExpense(expenseId),
+                  onPressed: () {
+                    setState(() {
+                      _updateExpense(expenseId);
+                      widget.onUpdate();
+                    });
+                  },
                   child: const Text('Save Expense'),
                 ),
               ],

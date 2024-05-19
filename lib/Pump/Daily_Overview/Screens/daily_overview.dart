@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:myproject/Pump/Customer/customer_data.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:myproject/Common/constant.dart';
+import 'package:myproject/Pump/Daily_Overview/Screens/service.dart';
 import 'package:myproject/Pump/common/screens/app_drawer.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
+import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
 
-import '../../common/screens/sidebar.dart';
-
-// ignore: must_be_immutable
 class DailyOverviewScreen extends StatelessWidget {
-  final Color cardColor = const Color(0xFF6789CA);
-  final Color titleTextColor = Colors.white;
-  final Color iconColor = Colors.white;
-  String selectedFuelType = 'Petrol';
-  final List<Customer>? users;
-  final BuildContext context;
-  final String totalStock = "100";
-
-  DailyOverviewScreen({super.key, this.users, required this.context});
+  const DailyOverviewScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, // Change the color of the back icon here
+        iconTheme: IconThemeData(
+          color: AppColor
+              .dashbordWhiteColor, // Change the color of the back icon here
         ),
-        title: const Text(
+        title: Text(
           'Daily Overview',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.filter_list),
+          ),
+        ],
       ),
       drawer: MediaQuery.of(context).size.width < 600
           ? AppDrawer(
@@ -38,178 +41,169 @@ class DailyOverviewScreen extends StatelessWidget {
               drawerItems: getDrawerMenuItems(context),
             )
           : null,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 600) {
-            // Mobile layout
-            return buildMobileLayout();
-          } else {
-            // Web layout
-            return buildWebLayout(context);
-          }
-        },
+      body: Row(
+        children: [
+          if (width >= 600)
+            SideBar(
+              menuItems: getMenuItems(context),
+            ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: FutureBuilder<Map<String, dynamic>>(
+                future: _fetchData(), // Asynchronously fetch data
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // While data is being fetched, show a loading indicator
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    // If an error occurs during data fetching, display an error message
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    // Data has been successfully fetched, display the UI
+                    final Map<String, dynamic> data = snapshot.data!;
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildSalesInfo(data),
+                          const SizedBox(height: 20),
+                          _buildBarChart(data, width),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget buildWebLayout(BuildContext context) {
-    return Row(
-      children: [
-        // sidebar
-        SideBar(
-          menuItems: getMenuItems(context),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Row(
-                  children: [
-                    SizedBox(
-                      width: 950,
-                    ),
-                    Icon(
-                      Icons.calendar_month,
-                      size: 40,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Card_Widget(
-                      name: "Total Petrol Sale",
-                      totalStock: totalStock,
-                      inputIcon: Icons.storage,
-                      cardColor: cardColor, // Use the defined color
-                      iconColor: iconColor,
-                      textColor: titleTextColor,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/stock');
-                      },
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Card_Widget(
-                      name: "Today Credit",
-                      totalStock: totalStock,
-                      inputIcon: Icons.arrow_downward,
-                      cardColor: cardColor, // Use the defined color
-                      iconColor: iconColor,
-                      textColor: titleTextColor,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/stock');
-                      },
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Card_Widget(
-                      name: "Today Debit",
-                      totalStock: totalStock,
-                      inputIcon: Icons.arrow_upward,
-                      cardColor: cardColor, // Use the defined color
-                      iconColor: iconColor,
-                      textColor: titleTextColor,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/stock');
-                      },
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Card_Widget(
-                      name: "Today Expense",
-                      totalStock: totalStock,
-                      inputIcon: Icons.arrow_upward,
-                      cardColor: cardColor, // Use the defined color
-                      iconColor: iconColor,
-                      textColor: titleTextColor,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/stock');
-                      },
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Card_Widget(
-                      name: "Net Amount",
-                      totalStock: totalStock,
-                      inputIcon: Icons.arrow_upward,
-                      cardColor: cardColor, // Use the defined color
-                      iconColor: iconColor,
-                      textColor: titleTextColor,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/stock');
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+  Future<Map<String, dynamic>> _fetchData() async {
+    // Create an instance of the service
+    DailyOverviewService service = DailyOverviewService();
+
+    // Fetch data from service
+    Map<String, double> totalMeterReadings =
+        await service.getTotalMeterReadingsOnCurrentDate();
+    Map<String, double> totalTransactions =
+        await service.getTodaysTotalCreditAndDebitForAllCustomers();
+    double totalExpenses = await service.fetchTotalExpenseForToday();
+
+    // Combine all data into one map
+    Map<String, dynamic> data = {
+      'totalPetrolSales': totalMeterReadings['petrol'] ?? 0.0,
+      'totalDieselSales': totalMeterReadings['diesel'] ?? 0.0,
+      'totalCredit': totalTransactions['totalCredit'] ?? 0.0,
+      'totalDebit': totalTransactions['totalDebit'] ?? 0.0,
+      'totalExpenses': totalExpenses ?? 0.0,
+    };
+
+    return data;
   }
 
-  Widget buildMobileLayout() {
-    return SingleChildScrollView(
+  Widget _buildSalesInfo(Map<String, dynamic> data) {
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.only(bottom: 16),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildOverviewCard('Today Credit', '1881', cardColor),
-            _buildOverviewCard('Today Debit', '2772', cardColor),
-            _buildOverviewCard('Today Expense', '50', cardColor),
-            _buildOverviewCard('Net Amount', '250', cardColor),
-            _buildOverviewCard('Today Sale', '1000', cardColor),
+            _buildSalesRow('Total Petrol Sales:', data['totalPetrolSales'],
+                AppColor.dashbordSBlueColor),
+            _buildSalesRow('Total Diesel Sales:', data['totalDieselSales'],
+                AppColor.dashbordGreenColor),
+            _buildSalesRow('Total Credit:', data['totalCredit'],
+                AppColor.dashbordYellowColor),
+            _buildSalesRow(
+                'Total Debit:', data['totalDebit'], AppColor.dashbordRedColor),
+            _buildSalesRow('Total Expenses:', data['totalExpenses'],
+                AppColor.dashbordPurpleColor),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildOverviewCard(
-    String title,
-    String amount,
-    Color color,
-  ) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Container(
-       
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: color,
-        ),
+  Widget _buildSalesRow(String title, double value, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title, style: const TextStyle(fontSize: 16)),
+          Text(value.toString(), style: TextStyle(fontSize: 16, color: color)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBarChart(Map<String, dynamic> data, double width) {
+    return AspectRatio(
+      aspectRatio: width >= 600 ? 4 : 1.5,
+      child: Card(
+        elevation: 4,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+              const SizedBox(
+                height: 50,
               ),
-              const SizedBox(height: 8),
-              Text(
-                '\$$amount',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              Expanded(
+                child: BarChart(
+                  BarChartData(
+                    borderData: FlBorderData(show: false),
+                    barGroups: [
+                      _buildBarGroup(0, data['totalPetrolSales'],
+                          AppColor.dashbordSBlueColor),
+                      _buildBarGroup(1, data['totalDieselSales'],
+                          AppColor.dashbordGreenColor),
+                      _buildBarGroup(
+                          2, data['totalCredit'], AppColor.dashbordYellowColor),
+                      _buildBarGroup(
+                          3, data['totalDebit'], AppColor.dashbordRedColor),
+                      _buildBarGroup(4, data['totalExpenses'],
+                          AppColor.dashbordPurpleColor),
+                    ],
+                    titlesData: FlTitlesData(
+                      leftTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      rightTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      topTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (value, meta) {
+                            switch (value.toInt()) {
+                              case 0:
+                                return const Text('Petrol');
+                              case 1:
+                                return const Text('Diesel');
+                              case 2:
+                                return const Text('Credit');
+                              case 3:
+                                return const Text('Debit');
+                              case 4:
+                                return const Text('Expenses');
+                              default:
+                                return const Text('');
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -218,92 +212,14 @@ class DailyOverviewScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-class Card_Widget extends StatelessWidget {
-  final String totalStock;
-  final String name;
-  final IconData inputIcon;
-  final Color cardColor;
-  final Color iconColor;
-  final Color textColor;
-  final IconData? secondIcon;
-  final VoidCallback onTap;
-
-  const Card_Widget({
-    super.key,
-    this.secondIcon,
-    required this.totalStock,
-    required this.inputIcon,
-    required this.name,
-    required this.cardColor,
-    required this.iconColor,
-    required this.textColor,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 150,
-        height: 150,
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(15.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    inputIcon,
-                    color: iconColor,
-                    size: 30.0,
-                  ),
-                  if (secondIcon != null) ...[
-                    const SizedBox(height: 10.0),
-                    Icon(
-                      secondIcon,
-                      color: Colors.white,
-                      size: 30.0,
-                    ),
-                  ],
-                ],
-              ),
-              const SizedBox(height: 3.0),
-              Text(
-                name,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
-                ),
-              ),
-              const SizedBox(height: 10.0),
-              Text(
-                'Total: $totalStock',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: textColor.withOpacity(0.8),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+  BarChartGroupData _buildBarGroup(int titleIndex, double value, Color color) {
+    return BarChartGroupData(
+      x: titleIndex,
+      barRods: [
+        BarChartRodData(toY: value, color: color),
+      ],
+      showingTooltipIndicators: [0],
     );
   }
 }

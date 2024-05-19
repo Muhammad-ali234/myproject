@@ -3,7 +3,7 @@ import 'package:myproject/Pump/common/screens/app_drawer.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
 import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:myproject/Common/constant.dart';
 
 class PumpDashboardScreen extends StatelessWidget {
   final BuildContext context;
@@ -23,7 +23,7 @@ class PumpDashboardScreen extends StatelessWidget {
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
       ),
       drawer: MediaQuery.of(context).size.width < 600
           ? AppDrawer(
@@ -31,11 +31,14 @@ class PumpDashboardScreen extends StatelessWidget {
               drawerItems: getDrawerMenuItems(context),
             )
           : null,
-      body: ResponsiveBuilder(
-        builder: (context, sizingInformation) {
-          if (sizingInformation.isMobile) {
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          // Responsive UI logic
+          if (constraints.maxWidth < 600) {
+            // Mobile layout
             return _buildMobileLayout(context);
           } else {
+            // Web layout
             return _buildWebLayout(context);
           }
         },
@@ -47,30 +50,6 @@ class PumpDashboardScreen extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          // Container(
-          //   width: double.infinity,
-          //   height: 60,
-          //   decoration: const BoxDecoration(
-          //     color: Color(0xFF6789CA),
-          //   ),
-          //   child: const Row(
-          //     children: [
-          //       SizedBox(width: 20),
-          //       Icon(Icons.menu, color: Colors.white),
-          //       SizedBox(
-          //           width:
-          //               600), // Add some space between the menu icon and the text
-          //       Text(
-          //         'Petrol Pump Station 1',
-          //         style: TextStyle(
-          //           fontSize: 20,
-          //           fontWeight: FontWeight.bold,
-          //           color: Colors.white,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Expanded(
             child: Row(
               children: [
@@ -95,9 +74,6 @@ class PumpDashboardScreen extends StatelessWidget {
                           name: "Petrol Diesel Stock",
                           totalStock: "1000 litre",
                           inputIcon: Icons.storage,
-                          cardColor: Colors.blue,
-                          iconColor: Colors.white,
-                          textColor: Colors.white,
                           onTap: () {
                             Navigator.pushNamed(context, '/stock');
                           },
@@ -110,9 +86,6 @@ class PumpDashboardScreen extends StatelessWidget {
                           totalStock: "Debit 100  Credit 100",
                           inputIcon: Icons.arrow_upward_outlined,
                           secondIcon: Icons.arrow_downward,
-                          cardColor: Colors.green,
-                          iconColor: Colors.white,
-                          textColor: Colors.white,
                           onTap: () {
                             Navigator.pushNamed(context, '/credit_debit');
                           },
@@ -124,9 +97,6 @@ class PumpDashboardScreen extends StatelessWidget {
                           name: "Daily Overview",
                           totalStock: "Sale Rs:1000",
                           inputIcon: Icons.credit_card,
-                          cardColor: Colors.orange,
-                          iconColor: Colors.white,
-                          textColor: Colors.white,
                           onTap: () {
                             Navigator.pushNamed(context, '/daily_overview');
                           },
@@ -144,9 +114,6 @@ class PumpDashboardScreen extends StatelessWidget {
                           name: "Expense ",
                           totalStock: "Expense Rs:100",
                           inputIcon: Icons.attach_money,
-                          cardColor: Colors.purple,
-                          iconColor: Colors.white,
-                          textColor: Colors.white,
                           onTap: () {
                             Navigator.pushNamed(context, '/daily_expense');
                           },
@@ -158,15 +125,13 @@ class PumpDashboardScreen extends StatelessWidget {
                           name: "Total Customer",
                           totalStock: "Register Customer:100",
                           inputIcon: Icons.person,
-                          cardColor: Colors.red,
-                          iconColor: Colors.white,
-                          textColor: Colors.white,
                           onTap: () {
                             Navigator.pushNamed(context, '/customerScreen');
                           },
                         ),
                       ],
                     ),
+                    
                   ],
                 ),
               ],
@@ -191,9 +156,6 @@ class PumpDashboardScreen extends StatelessWidget {
                     name: "Petrol Diesel Stock",
                     totalStock: "1000 litre",
                     inputIcon: Icons.storage,
-                    cardColor: const Color(0xFF6789CA),
-                    iconColor: Colors.white,
-                    textColor: Colors.white,
                     onTap: () {
                       Navigator.pushNamed(context, '/stock');
                     },
@@ -204,9 +166,6 @@ class PumpDashboardScreen extends StatelessWidget {
                     totalStock: "Debit 100  Credit 100",
                     inputIcon: Icons.arrow_upward_outlined,
                     secondIcon: Icons.arrow_downward,
-                    cardColor: const Color(0xFF6789CA),
-                    iconColor: Colors.white,
-                    textColor: Colors.white,
                     onTap: () {
                       Navigator.pushNamed(context, '/credit_debit');
                     },
@@ -216,9 +175,6 @@ class PumpDashboardScreen extends StatelessWidget {
                     name: "Daily Overview",
                     totalStock: "Sale Rs:1000",
                     inputIcon: Icons.credit_card,
-                    cardColor: const Color(0xFF6789CA),
-                    iconColor: Colors.white,
-                    textColor: Colors.white,
                     onTap: () {
                       Navigator.pushNamed(context, '/daily_overview');
                     },
@@ -228,9 +184,6 @@ class PumpDashboardScreen extends StatelessWidget {
                     name: "Expense ",
                     totalStock: "Expense Rs:100",
                     inputIcon: Icons.attach_money,
-                    cardColor: const Color(0xFF6789CA),
-                    iconColor: Colors.white,
-                    textColor: Colors.white,
                     onTap: () {
                       Navigator.pushNamed(context, '/daily_expense');
                     },
@@ -240,9 +193,6 @@ class PumpDashboardScreen extends StatelessWidget {
                     name: "Total Customer",
                     totalStock: "Register Customer:100",
                     inputIcon: Icons.person,
-                    cardColor: const Color(0xFF6789CA),
-                    iconColor: Colors.white,
-                    textColor: Colors.white,
                     onTap: () {
                       Navigator.pushNamed(context, '/customerScreen');
                     },
@@ -261,9 +211,7 @@ class Card_Widget extends StatelessWidget {
   final String totalStock;
   final String name;
   final IconData inputIcon;
-  final Color cardColor;
-  final Color iconColor;
-  final Color textColor;
+
   final IconData? secondIcon;
   final VoidCallback onTap;
 
@@ -273,9 +221,6 @@ class Card_Widget extends StatelessWidget {
     required this.totalStock,
     required this.inputIcon,
     required this.name,
-    required this.cardColor,
-    required this.iconColor,
-    required this.textColor,
     required this.onTap,
   });
 
@@ -287,7 +232,7 @@ class Card_Widget extends StatelessWidget {
         width: 300,
         height: 150,
         decoration: BoxDecoration(
-          color: cardColor,
+          color: AppColor.dashbordBlueColor,
           borderRadius: BorderRadius.circular(15.0),
           boxShadow: [
             BoxShadow(
@@ -307,14 +252,14 @@ class Card_Widget extends StatelessWidget {
                 children: [
                   Icon(
                     inputIcon,
-                    color: iconColor,
+                    color: AppColor.dashbordWhiteColor,
                     size: 30.0,
                   ),
                   if (secondIcon != null) ...[
                     const SizedBox(height: 10.0),
                     Icon(
                       secondIcon,
-                      color: Colors.white,
+                      color: AppColor.dashbordWhiteColor,
                       size: 30.0,
                     ),
                   ],
@@ -326,7 +271,7 @@ class Card_Widget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: textColor,
+                  color: AppColor.dashbordWhiteColor,
                 ),
               ),
               const SizedBox(height: 10.0),
@@ -334,7 +279,7 @@ class Card_Widget extends StatelessWidget {
                 'Total: $totalStock',
                 style: TextStyle(
                   fontSize: 14.0,
-                  color: textColor.withOpacity(0.8),
+                  color: AppColor.dashbordWhiteColor.withOpacity(0.8),
                 ),
               ),
             ],

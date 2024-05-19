@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:myproject/Pump/Stocks/Screens/meter_reading_histry.dart';
 import 'package:myproject/Pump/Stocks/Screens/service.dart';
 import 'package:myproject/Pump/Stocks/Screens/stock_histry_screen.dart';
-import 'package:myproject/Pump/Stocks/Widget/image_picker.dart';
 import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
+import 'package:myproject/Common/constant.dart';
 
 import '../../common/screens/app_drawer.dart';
 import '../../common/screens/sidebar.dart';
@@ -46,7 +46,7 @@ class _StocksScreenState extends State<StocksScreen> {
 
   void addToStock() async {
     String? uid = await _authService.getCurrentUserUID();
-    double amount = double.parse(
+    double litres = double.parse(
       selectedFuelType == 'Petrol'
           ? petrolController.text
           : dieselController.text,
@@ -54,14 +54,14 @@ class _StocksScreenState extends State<StocksScreen> {
 
     setState(() {
       if (selectedFuelType == 'Petrol') {
-        petrolStock += amount;
+        petrolStock += litres;
       } else {
-        dieselStock += amount;
+        dieselStock += litres;
       }
 
       stockHistory.add(StockHistoryItem(
         type: '$selectedFuelType Stock',
-        amount: amount,
+        litres: litres,
         timestamp: DateTime.now(),
       ));
     });
@@ -71,7 +71,7 @@ class _StocksScreenState extends State<StocksScreen> {
         await _firestoreService.addStockData(
           type: 'Petrol',
           date: Timestamp.now(),
-          amount: amount,
+          litres: litres,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -93,7 +93,7 @@ class _StocksScreenState extends State<StocksScreen> {
         await _firestoreService.addStockData(
           type: 'Diesel',
           date: Timestamp.now(),
-          amount: amount,
+          litres: litres,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -117,7 +117,7 @@ class _StocksScreenState extends State<StocksScreen> {
         await _firestoreService.addStockHistry(
           type: 'Petrol',
           date: Timestamp.now(),
-          amount: amount,
+          litres: litres,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -139,7 +139,7 @@ class _StocksScreenState extends State<StocksScreen> {
         await _firestoreService.addStockHistry(
           type: 'Diesel',
           date: Timestamp.now(),
-          amount: amount,
+          litres:litres,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -204,143 +204,83 @@ class _StocksScreenState extends State<StocksScreen> {
     }
   }
 
-  // Future<void> deductFromStock({double? amount}) async {
-  //   double deductionAmount = amount ?? double.parse(pumpReadingController.text);
+  Future<void> deductFromStock({double? litres}) async {
+    double deductionLitres = litres ?? double.parse(pumpReadingController.text);
 
-  //   // Get the previous reading from Firestore
-  //   double previousReading =
-  //       await _firestoreService.getPreviousMeterReading(selectedFuelType) ??
-  //           0.0;
-
-  //   // Calculate the difference between the current reading and the previous reading
-  //   double currentReading = 0.0;
-  //   setState(() {
-  //     currentReading = deductionAmount - previousReading;
-  //     if (selectedFuelType == 'Petrol') {
-  //       petrolStock -= currentReading;
-  //     } else {
-  //       dieselStock -= currentReading;
-  //     }
-
-  //     stockHistory.add(
-  //       StockHistoryItem(
-  //         type: '$selectedFuelType Pump Reading',
-  //         amount: currentReading,
-  //         timestamp: DateTime.now(),
-  //       ),
-  //     );
-  //   });
-
-  //   // Add the meter reading data to Firestore
-  //   try {
-  //     await _firestoreService.addMeterReading(
-  //       type: selectedFuelType,
-  //       date: Timestamp.now(),
-  //       amount: currentReading,
-  //     );
-
-  //     // Update the stock data in Firestore
-  //     if (selectedFuelType == 'Petrol') {
-  //       await _firestoreService.addStockData(
-  //         type: 'Petrol',
-  //         date: Timestamp.now(),
-  //         amount: petrolStock, // Deducting the amount from stock
-  //       );
-  //     } else {
-  //       await _firestoreService.addStockData(
-  //         type: 'Diesel',
-  //         date: Timestamp.now(),
-  //         amount: dieselStock, // Deducting the amount from stock
-  //       );
-  //     }
-
-  //     // Clear the text field after updating the stock.
-  //     pumpReadingController.clear();
-
-  //     // Show a SnackBar to provide feedback.
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(
-  //           '$selectedFuelType Pump Reading deducted from stock successfully!',
-  //         ),
-  //         duration: const Duration(seconds: 2),
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Failed to deduct pump reading from stock: $e'),
-  //         duration: const Duration(seconds: 2),
-  //       ),
-  //     );
-  //   }
-  // }
-  Future<void> deductFromStock({double? amount}) async {
-    double deductionAmount = amount ?? double.parse(pumpReadingController.text);
-
-    // Get the previous reading from Firestore
     double previousReading =
         await _firestoreService.getPreviousMeterReading(selectedFuelType) ??
             0.0;
+    if (deductionLitres > previousReading) {
+      double currentReading = deductionLitres - previousReading;
+      setState(() {
+        if (selectedFuelType == 'Petrol') {
+          petrolStock -= currentReading;
+        } else {
+          dieselStock -= currentReading;
+        }
 
-    // Calculate the current reading based on the difference
-    double currentReading = deductionAmount - previousReading;
-
-    setState(() {
-      if (selectedFuelType == 'Petrol') {
-        petrolStock -= currentReading;
-      } else {
-        dieselStock -= currentReading;
-      }
-
-      stockHistory.add(
-        StockHistoryItem(
-          type: '$selectedFuelType Pump Reading',
-          amount: currentReading,
-          timestamp: DateTime.now(),
-        ),
-      );
-    });
-
-    // Add the meter reading data to Firestore
-    try {
-      await _firestoreService.addMeterReading(
-        type: selectedFuelType,
-        date: Timestamp.now(),
-        amount: deductionAmount,
-      );
-
-      // Update the stock data in Firestore
-      if (selectedFuelType == 'Petrol') {
-        await _firestoreService.addStockData(
-          type: 'Petrol',
-          date: Timestamp.now(),
-          amount: petrolStock,
-        );
-      } else {
-        await _firestoreService.addStockData(
-          type: 'Diesel',
-          date: Timestamp.now(),
-          amount: dieselStock,
-        );
-      }
-      pumpReadingController.clear();
-      currentReading = 0.0;
-
-      // Show a SnackBar to provide feedback.
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            '$selectedFuelType Pump Reading deducted from stock successfully!',
+        stockHistory.add(
+          StockHistoryItem(
+            type: '$selectedFuelType Pump Reading',
+            litres: currentReading,
+            timestamp: DateTime.now(),
           ),
-          duration: const Duration(seconds: 2),
-        ),
-      );
-    } catch (e) {
+        );
+      });
+
+      try {
+        await _firestoreService.addMeterReading(
+          type: selectedFuelType,
+          date: Timestamp.now(),
+          litres: deductionLitres,
+        );
+
+        await _firestoreService.addMeterReadingHistry(
+          type: selectedFuelType,
+          date: Timestamp.now(),
+          litres: currentReading,
+        );
+
+        // Update the stock data in Firestore
+        if (selectedFuelType == 'Petrol') {
+          await _firestoreService.addStockData(
+            type: 'Petrol',
+            date: Timestamp.now(),
+            litres: petrolStock,
+          );
+        } else {
+          await _firestoreService.addStockData(
+            type: 'Diesel',
+            date: Timestamp.now(),
+            litres: dieselStock,
+          );
+        }
+        pumpReadingController.clear();
+        currentReading = 0.0;
+
+        // Show a SnackBar to provide feedback.
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '$selectedFuelType Pump Reading deducted from stock successfully!',
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to deduct pump reading from stock: $e'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to deduct pump reading from stock: $e'),
-          duration: const Duration(seconds: 2),
+        const SnackBar(
+          content: Text(
+              'Failed to deduct pump reading from stock Please the deduction amount is greater than previous reading'),
+          duration: Duration(seconds: 2),
         ),
       );
     }
@@ -372,16 +312,19 @@ class _StocksScreenState extends State<StocksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, // Change the color of the back icon here
+        iconTheme: IconThemeData(
+          color: AppColor
+              .dashbordWhiteColor, // Change the color of the back icon here
         ),
-        title: const Text(
+        title: Text(
           'Petrol Diesel Stock',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF6789CA),
+        backgroundColor: AppColor.dashbordBlueColor,
       ),
       drawer: MediaQuery.of(context).size.width < 600
           ? AppDrawer(
@@ -467,15 +410,15 @@ class _StocksScreenState extends State<StocksScreen> {
                       onPressed: addToStock,
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(
-                                0xFF6789CA)), // Set the background color
+                            AppColor
+                                .dashbordBlueColor), // Set the background color
                       ),
-                      child: const Text(
+                      child: Text(
                         'Add Fuel to Stock',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                            color: AppColor.dashbordWhiteColor),
                       ),
                     ),
                     ElevatedButton(
@@ -492,13 +435,13 @@ class _StocksScreenState extends State<StocksScreen> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(
-                                0xFF6789CA)), // Set the background color
+                            AppColor
+                                .dashbordBlueColor), // Set the background color
                       ),
-                      child: const Text(
+                      child: Text(
                         'View Stock History',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColor.dashbordWhiteColor,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -508,12 +451,12 @@ class _StocksScreenState extends State<StocksScreen> {
                       width: 80,
                       height: 35,
                       decoration: BoxDecoration(
-                          color: const Color(0xFF6789CA),
+                          color: AppColor.dashbordBlueColor,
                           borderRadius: BorderRadius.circular(20)),
                       child: Center(
                         child: DropdownButton<String>(
-                          dropdownColor: const Color(0xFF6789CA),
-                          iconEnabledColor: Colors.white,
+                          dropdownColor: AppColor.dashbordBlueColor,
+                          iconEnabledColor: AppColor.dashbordWhiteColor,
                           value: selectedFuelType,
                           onChanged: (value) {
                             setState(() {
@@ -526,7 +469,8 @@ class _StocksScreenState extends State<StocksScreen> {
                               value: value,
                               child: Text(
                                 value,
-                                style: const TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: AppColor.dashbordWhiteColor),
                               ),
                             );
                           }).toList(),
@@ -536,33 +480,7 @@ class _StocksScreenState extends State<StocksScreen> {
                   ],
                 ),
                 const SizedBox(height: 50),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => StockHistoryScreen(
-                //           historyType: 'Stock',
-                //           stockHistory: stockHistory,
-                //         ),
-                //       ),
-                //     );
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     foregroundColor: Colors.white,
-                //     backgroundColor: Colors.blue,
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(10.0),
-                //     ),
-                //   ),
-                //   child: const Text(
-                //     'View Stock History',
-                //     style: TextStyle(
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
+
                 const SizedBox(height: 20),
                 TextField(
                   controller: pumpReadingController,
@@ -602,13 +520,13 @@ class _StocksScreenState extends State<StocksScreen> {
                       onPressed: deductFromStock,
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(
-                                0xFF6789CA)), // Set the background color
+                            AppColor
+                                .dashbordBlueColor), // Set the background color
                       ),
-                      child: const Text(
+                      child: Text(
                         'Deduct Pump Reading from Stock',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColor.dashbordWhiteColor,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -628,14 +546,14 @@ class _StocksScreenState extends State<StocksScreen> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(
-                                0xFF6789CA)), // Set the background color
+                            AppColor
+                                .dashbordBlueColor), // Set the background color
                       ),
-                      child: const Text(
+                      child: Text(
                         'View Pump Reading History',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white,
+                          color: AppColor.dashbordWhiteColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -644,12 +562,12 @@ class _StocksScreenState extends State<StocksScreen> {
                       width: 80,
                       height: 33,
                       decoration: BoxDecoration(
-                          color: const Color(0xFF6789CA),
+                          color: AppColor.dashbordBlueColor,
                           borderRadius: BorderRadius.circular(20)),
                       child: Center(
                         child: DropdownButton<String>(
-                          iconEnabledColor: Colors.white,
-                          dropdownColor: const Color(0xFF6789CA),
+                          iconEnabledColor: AppColor.dashbordWhiteColor,
+                          dropdownColor: AppColor.dashbordBlueColor,
                           value: selectedFuelType,
                           onChanged: (value) {
                             setState(() {
@@ -662,7 +580,8 @@ class _StocksScreenState extends State<StocksScreen> {
                               value: value,
                               child: Text(
                                 value,
-                                style: const TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: AppColor.dashbordWhiteColor),
                               ),
                             );
                           }).toList(),
@@ -685,7 +604,7 @@ class _StocksScreenState extends State<StocksScreen> {
                 //     );
                 //   },
                 //   style: ElevatedButton.styleFrom(
-                //     foregroundColor: Colors.white,
+                //     foregroundColor: AppColor.dashbordWhiteColor,
                 //     backgroundColor: Colors.blue,
                 //     shape: RoundedRectangleBorder(
                 //       borderRadius: BorderRadius.circular(10.0),
@@ -752,23 +671,24 @@ class _StocksScreenState extends State<StocksScreen> {
                   onPressed: addToStock,
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xFF6789CA)), // Set the background color
+                        AppColor.dashbordBlueColor), // Set the background color
                   ),
-                  child: const Text(
+                  child: Text(
                     'Add Fuel to Stock',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(
+                        color: AppColor.dashbordWhiteColor, fontSize: 16),
                   ),
                 ),
                 Container(
                   width: 80,
                   height: 35,
                   decoration: BoxDecoration(
-                      color: const Color(0xFF6789CA),
+                      color: AppColor.dashbordBlueColor,
                       borderRadius: BorderRadius.circular(20)),
                   child: Center(
                     child: DropdownButton<String>(
-                      iconEnabledColor: Colors.white,
-                      dropdownColor: const Color(0xFF6789CA),
+                      iconEnabledColor: AppColor.dashbordWhiteColor,
+                      dropdownColor: AppColor.dashbordBlueColor,
                       value: selectedFuelType,
                       onChanged: (value) {
                         setState(() {
@@ -781,7 +701,8 @@ class _StocksScreenState extends State<StocksScreen> {
                           value: value,
                           child: Text(
                             value,
-                            style: const TextStyle(color: Colors.white),
+                            style:
+                                TextStyle(color: AppColor.dashbordWhiteColor),
                           ),
                         );
                       }).toList(),
@@ -805,11 +726,12 @@ class _StocksScreenState extends State<StocksScreen> {
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
-                    const Color(0xFF6789CA)), // Set the background color
+                    AppColor.dashbordBlueColor), // Set the background color
               ),
-              child: const Text(
+              child: Text(
                 'View Stock History',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                style:
+                    TextStyle(color: AppColor.dashbordWhiteColor, fontSize: 16),
               ),
             ),
             const SizedBox(height: 20),
@@ -845,18 +767,19 @@ class _StocksScreenState extends State<StocksScreen> {
                   onPressed: deductFromStock,
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xFF6789CA)), // Set the background color
+                        AppColor.dashbordBlueColor), // Set the background color
                   ),
-                  child: const Text(
+                  child: Text(
                     'Add Reading',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(
+                        color: AppColor.dashbordWhiteColor, fontSize: 16),
                   ),
                 ),
                 Container(
                   width: 80,
                   height: 33,
                   decoration: BoxDecoration(
-                      color: const Color(0xFF6789CA),
+                      color: AppColor.dashbordBlueColor,
                       borderRadius: BorderRadius.circular(20)),
                   child: Center(
                     child: DropdownButton<String>(
@@ -872,7 +795,8 @@ class _StocksScreenState extends State<StocksScreen> {
                           value: value,
                           child: Text(
                             value,
-                            style: const TextStyle(color: Colors.white),
+                            style:
+                                TextStyle(color: AppColor.dashbordWhiteColor),
                           ),
                         );
                       }).toList(),
@@ -885,7 +809,7 @@ class _StocksScreenState extends State<StocksScreen> {
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
-                    const Color(0xFF6789CA)), // Set the background color
+                    AppColor.dashbordBlueColor), // Set the background color
               ),
               onPressed: () {
                 Navigator.push(
@@ -898,9 +822,10 @@ class _StocksScreenState extends State<StocksScreen> {
                   ),
                 );
               },
-              child: const Text(
+              child: Text(
                 'View Pump Reading History',
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                style:
+                    TextStyle(fontSize: 16, color: AppColor.dashbordWhiteColor),
               ),
             ),
           ],
@@ -909,116 +834,3 @@ class _StocksScreenState extends State<StocksScreen> {
     );
   }
 }
-
-
-
-
- // Future<void> deductFromStock({double? amount}) async {
-  //   double deductionAmount = amount ?? double.parse(pumpReadingController.text);
-
-  //   setState(() {
-  //     if (selectedFuelType == 'Petrol') {
-  //       petrolStock -= deductionAmount;
-  //     } else {
-  //       dieselStock -= deductionAmount;
-  //     }
-
-  //     stockHistory.add(
-  //       StockHistoryItem(
-  //         type: '$selectedFuelType Pump Reading',
-  //         amount: deductionAmount,
-  //         timestamp: DateTime.now(),
-  //       ),
-  //     );
-  //   });
-
-  //   // Add the meter reading data to Firestore
-  //   try {
-  //     await _firestoreService.addMeterReading(
-  //       type: selectedFuelType,
-  //       date: Timestamp.now(),
-  //       amount: deductionAmount,
-  //     );
-
-  //     // Update the stock data in Firestore
-  //     if (selectedFuelType == 'Petrol') {
-  //       await _firestoreService.addStockData(
-  //         type: 'Petrol',
-  //         date: Timestamp.now(),
-  //         amount: petrolStock, // Deducting the amount from stock
-  //       );
-  //     } else {
-  //       await _firestoreService.addStockData(
-  //         type: 'Diesel',
-  //         date: Timestamp.now(),
-  //         amount: dieselStock, // Deducting the amount from stock
-  //       );
-  //     }
-
-  //     // Clear the text field after updating the stock.
-  //     pumpReadingController.clear();
-
-  //     // Show a SnackBar to provide feedback.
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(
-  //           '$selectedFuelType Pump Reading deducted from stock successfully!',
-  //         ),
-  //         duration: const Duration(seconds: 2),
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Failed to deduct pump reading from stock: $e'),
-  //         duration: const Duration(seconds: 2),
-  //       ),
-  //     );
-  //   }
-  //   //
-  //   if (selectedFuelType == 'Petrol') {
-  //     try {
-  //       await _firestoreService.addMeterReadingHistry(
-  //         type: 'Petrol',
-  //         date: Timestamp.now(),
-  //         amount: deductionAmount,
-  //       );
-
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Petrol stock histry added successfully!'),
-  //           duration: Duration(seconds: 2),
-  //         ),
-  //       );
-  //     } catch (e) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text('Failed to add petrol stock histry : $e'),
-  //           duration: const Duration(seconds: 2),
-  //         ),
-  //       );
-  //     }
-  //   } else {
-  //     try {
-  //       await _firestoreService.addMeterReadingHistry(
-  //         type: 'Diesel',
-  //         date: Timestamp.now(),
-  //         amount: deductionAmount,
-  //       );
-
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Diesel stock histry added successfully!'),
-  //           duration: Duration(seconds: 2),
-  //         ),
-  //       );
-  //     } catch (e) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text('Failed to add diesel stock histry: $e'),
-  //           duration: const Duration(seconds: 2),
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }

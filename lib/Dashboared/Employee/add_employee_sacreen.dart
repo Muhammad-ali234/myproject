@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myproject/Dashboared/Employee/employee_service.dart';
 import 'package:myproject/Dashboared/dashbored_styles.dart';
-import 'package:myproject/Dashboared/sidebar.dart';
 import 'package:myproject/Dashboared/widget/droped_down_button.dart'; // Custom drop-down button
 
 class AddEmployeeScreen extends StatefulWidget {
@@ -56,7 +55,6 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Employee")),
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
