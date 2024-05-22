@@ -139,7 +139,7 @@ class _StocksScreenState extends State<StocksScreen> {
         await _firestoreService.addStockHistry(
           type: 'Diesel',
           date: Timestamp.now(),
-          litres:litres,
+          litres: litres,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -406,53 +406,91 @@ class _StocksScreenState extends State<StocksScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(
-                      onPressed: addToStock,
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                    SizedBox(
+                      width: 200,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: addToStock,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
                             AppColor
-                                .dashbordBlueColor), // Set the background color
-                      ),
-                      child: Text(
-                        'Add Fuel to Stock',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColor.dashbordWhiteColor),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => StockHistoryScreen(
-                              historyType: 'Stock',
-                              stockHistory: stockHistory,
+                                .dashbordBlueColor, // Set the background color
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // Set the button shape
                             ),
                           ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            AppColor
-                                .dashbordBlueColor), // Set the background color
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 24.0), // Set the padding
+                          ),
+                          elevation: MaterialStateProperty.all<double>(
+                              5.0), // Set the elevation
+                        ),
+                        child: Text(
+                          'Add Fuel to Stock',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.dashbordWhiteColor),
+                        ),
                       ),
-                      child: Text(
-                        'View Stock History',
-                        style: TextStyle(
-                          color: AppColor.dashbordWhiteColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                    ),
+                    SizedBox(
+                      width: 200,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StockHistoryScreen(
+                                historyType: 'Stock',
+                                stockHistory: stockHistory,
+                              ),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColor
+                                .dashbordBlueColor, // Set the background color
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // Set the button shape
+                            ),
+                          ),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 24.0), // Set the padding
+                          ),
+                          elevation: MaterialStateProperty.all<double>(
+                              5.0), // Set the elevation
+                        ),
+                        child: Text(
+                          'View Stock History',
+                          style: TextStyle(
+                            color: AppColor.dashbordWhiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                     Container(
-                      width: 80,
-                      height: 35,
+                      width: 100,
+                      height: 50,
                       decoration: BoxDecoration(
                           color: AppColor.dashbordBlueColor,
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(12)),
                       child: Center(
                         child: DropdownButton<String>(
                           dropdownColor: AppColor.dashbordBlueColor,
@@ -516,54 +554,92 @@ class _StocksScreenState extends State<StocksScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(
-                      onPressed: deductFromStock,
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                    SizedBox(
+                      height: 50,
+                      width: 300,
+                      child: ElevatedButton(
+                        onPressed: deductFromStock,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
                             AppColor
-                                .dashbordBlueColor), // Set the background color
-                      ),
-                      child: Text(
-                        'Deduct Pump Reading from Stock',
-                        style: TextStyle(
-                          color: AppColor.dashbordWhiteColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                                .dashbordBlueColor, // Set the background color
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // Set the button shape
+                            ),
+                          ),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 24.0), // Set the padding
+                          ),
+                          elevation: MaterialStateProperty.all<double>(
+                              5.0), // Set the elevation
+                        ),
+                        child: Text(
+                          'Deduct Pump Reading from Stock',
+                          style: TextStyle(
+                            color: AppColor.dashbordWhiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MeterReadingHistoryScreen(
-                              stockHistory: meterReadingHistory,
-                              historyType: 'Pump Reading',
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MeterReadingHistoryScreen(
+                                stockHistory: meterReadingHistory,
+                                historyType: 'Pump Reading',
+                              ),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColor
+                                .dashbordBlueColor, // Set the background color
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // Set the button shape
                             ),
                           ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            AppColor
-                                .dashbordBlueColor), // Set the background color
-                      ),
-                      child: Text(
-                        'View Pump Reading History',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColor.dashbordWhiteColor,
-                          fontWeight: FontWeight.bold,
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 24.0), // Set the padding
+                          ),
+                          elevation: MaterialStateProperty.all<double>(
+                              5.0), // Set the elevation
+                        ),
+                        child: Text(
+                          'View Pump Reading History',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColor.dashbordWhiteColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                     Container(
-                      width: 80,
-                      height: 33,
+                      width: 100,
+                      height: 50,
                       decoration: BoxDecoration(
                           color: AppColor.dashbordBlueColor,
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(12)),
                       child: Center(
                         child: DropdownButton<String>(
                           iconEnabledColor: AppColor.dashbordWhiteColor,
@@ -591,33 +667,6 @@ class _StocksScreenState extends State<StocksScreen> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => MeterReadingHistoryScreen(
-                //           stockHistory: meterReadingHistory,
-                //           historyType: 'Pump Reading',
-                //         ),
-                //       ),
-                //     );
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     foregroundColor: AppColor.dashbordWhiteColor,
-                //     backgroundColor: Colors.blue,
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(10.0),
-                //     ),
-                //   ),
-                //   child: const Text(
-                //     'View Pump Reading History',
-                //     style: TextStyle(
-                //       fontSize: 16,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -667,24 +716,42 @@ class _StocksScreenState extends State<StocksScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: addToStock,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColor.dashbordBlueColor), // Set the background color
-                  ),
-                  child: Text(
-                    'Add Fuel to Stock',
-                    style: TextStyle(
-                        color: AppColor.dashbordWhiteColor, fontSize: 16),
+                SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: addToStock,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        AppColor.dashbordBlueColor, // Set the background color
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              12.0), // Set the button shape
+                        ),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(
+                            vertical: 16.0,
+                            horizontal: 24.0), // Set the padding
+                      ),
+                      elevation: MaterialStateProperty.all<double>(
+                          5.0), // Set the elevation
+                    ),
+                    child: Text(
+                      'Add Fuel to Stock',
+                      style: TextStyle(
+                          color: AppColor.dashbordWhiteColor, fontSize: 16),
+                    ),
                   ),
                 ),
                 Container(
-                  width: 80,
-                  height: 35,
+                  width: 100,
+                  height: 40,
                   decoration: BoxDecoration(
                       color: AppColor.dashbordBlueColor,
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(12)),
                   child: Center(
                     child: DropdownButton<String>(
                       iconEnabledColor: AppColor.dashbordWhiteColor,
@@ -712,26 +779,43 @@ class _StocksScreenState extends State<StocksScreen> {
               ],
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => StockHistoryScreen(
-                      stockHistory: stockHistory,
-                      historyType: 'Stock', // or any meaningful string
+            SizedBox(
+              width: 100,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StockHistoryScreen(
+                        stockHistory: stockHistory,
+                        historyType: 'Stock', // or any meaningful string
+                      ),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    AppColor.dashbordBlueColor, // Set the background color
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12.0), // Set the button shape
                     ),
                   ),
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    AppColor.dashbordBlueColor), // Set the background color
-              ),
-              child: Text(
-                'View Stock History',
-                style:
-                    TextStyle(color: AppColor.dashbordWhiteColor, fontSize: 16),
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.symmetric(
+                        vertical: 16.0, horizontal: 24.0), // Set the padding
+                  ),
+                  elevation: MaterialStateProperty.all<double>(
+                      5.0), // Set the elevation
+                ),
+                child: Text(
+                  'View Stock History',
+                  style: TextStyle(
+                      color: AppColor.dashbordWhiteColor, fontSize: 16),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -743,36 +827,52 @@ class _StocksScreenState extends State<StocksScreen> {
                   const InputDecoration(labelText: 'Enter Meter Reading'),
             ),
             const SizedBox(height: 10),
-           IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const ImageScreen()));
-                    },
-                    icon: const Icon(Icons.camera)),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const ImageScreen()));
+                },
+                icon: const Icon(Icons.camera)),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: deductFromStock,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColor.dashbordBlueColor), // Set the background color
-                  ),
-                  child: Text(
-                    'Add Reading',
-                    style: TextStyle(
-                        color: AppColor.dashbordWhiteColor, fontSize: 16),
+                SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: deductFromStock,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        AppColor.dashbordBlueColor, // Set the background color
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              12.0), // Set the button shape
+                        ),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(
+                            vertical: 16.0,
+                            horizontal: 24.0), // Set the padding
+                      ),
+                      elevation: MaterialStateProperty.all<double>(
+                          5.0), // Set the elevation
+                    ),
+                    child: Text(
+                      'Add Reading',
+                      style: TextStyle(
+                          color: AppColor.dashbordWhiteColor, fontSize: 16),
+                    ),
                   ),
                 ),
                 Container(
-                  width: 80,
-                  height: 33,
+                  width: 100,
+                  height: 40,
                   decoration: BoxDecoration(
                       color: AppColor.dashbordBlueColor,
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(12)),
                   child: Center(
                     child: DropdownButton<String>(
                       value: selectedFuelType,
@@ -798,26 +898,43 @@ class _StocksScreenState extends State<StocksScreen> {
               ],
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    AppColor.dashbordBlueColor), // Set the background color
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MeterReadingHistoryScreen(
-                      stockHistory: meterReadingHistory,
-                      historyType: 'Pump Reading', // or any meaningful string
+            SizedBox(
+              width: 200,
+              height: 40,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    AppColor.dashbordBlueColor, // Set the background color
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12.0), // Set the button shape
                     ),
                   ),
-                );
-              },
-              child: Text(
-                'View Pump Reading History',
-                style:
-                    TextStyle(fontSize: 16, color: AppColor.dashbordWhiteColor),
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.symmetric(
+                        vertical: 16.0, horizontal: 24.0), // Set the padding
+                  ),
+                  elevation: MaterialStateProperty.all<double>(
+                      5.0), // Set the elevation
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MeterReadingHistoryScreen(
+                        stockHistory: meterReadingHistory,
+                        historyType: 'Pump Reading', // or any meaningful string
+                      ),
+                    ),
+                  );
+                },
+                child: Text(
+                  'View Pump Reading History',
+                  style: TextStyle(
+                      fontSize: 16, color: AppColor.dashbordWhiteColor),
+                ),
               ),
             ),
           ],

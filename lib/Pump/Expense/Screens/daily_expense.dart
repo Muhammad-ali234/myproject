@@ -330,15 +330,32 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
         const SizedBox(height: 16.0),
         _buildExpenseList(),
         const SizedBox(height: 16.0),
-        ElevatedButton(
-          onPressed: _showExpenseFormDialog,
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
-                AppColor.dashbordBlueColor), // Set the background color
-          ),
-          child: Text(
-            'Add New Expense',
-            style: TextStyle(color: AppColor.dashbordWhiteColor),
+        SizedBox(
+          width: 180,
+          height: 50,
+          child: ElevatedButton(
+            onPressed: _showExpenseFormDialog,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                AppColor.dashbordBlueColor, // Set the background color
+              ),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(12.0), // Set the button shape
+                ),
+              ),
+              padding: MaterialStateProperty.all<EdgeInsets>(
+                const EdgeInsets.symmetric(
+                    vertical: 16.0, horizontal: 24.0), // Set the padding
+              ),
+              elevation:
+                  MaterialStateProperty.all<double>(5.0), // Set the elevation
+            ),
+            child: Text(
+              'Add New Expense',
+              style: TextStyle(color: AppColor.dashbordWhiteColor),
+            ),
           ),
         ),
         const SizedBox(height: 16.0),
@@ -370,15 +387,33 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
                 const SizedBox(height: 16.0),
                 _buildExpenseList(),
                 const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: _showExpenseFormDialog,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColor.dashbordBlueColor), // Set the background color
-                  ),
-                  child: Text(
-                    'Add New Expense',
-                    style: TextStyle(color: AppColor.dashbordWhiteColor),
+                SizedBox(
+                  width: 200,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: _showExpenseFormDialog,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        AppColor.dashbordBlueColor, // Set the background color
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              12.0), // Set the button shape
+                        ),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(
+                            vertical: 16.0,
+                            horizontal: 24.0), // Set the padding
+                      ),
+                      elevation: MaterialStateProperty.all<double>(
+                          5.0), // Set the elevation
+                    ),
+                    child: Text(
+                      'Add New Expense',
+                      style: TextStyle(color: AppColor.dashbordWhiteColor),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16.0),
