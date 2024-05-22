@@ -53,6 +53,9 @@ dependencies:
   # google_ml_kit: ^0.16.3
 
   intl: any
+  camera: ^0.10.5+2
+  google_mlkit_text_recognition: ^0.13.0
+  permission_handler: ^10.4.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

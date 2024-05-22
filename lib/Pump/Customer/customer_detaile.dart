@@ -18,11 +18,13 @@ class CustomerDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           user.name,
-          style:  TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: AppColor.dashbordWhiteColor),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: AppColor.dashbordWhiteColor),
         ),
         centerTitle: true,
-        backgroundColor:AppColor.dashbordBlueColor,
+        backgroundColor: AppColor.dashbordBlueColor,
       ),
       drawer: MediaQuery.of(context).size.width < 600
           ? AppDrawer(
@@ -60,7 +62,7 @@ class CustomerDetailsScreen extends StatelessWidget {
               elevation: 20,
               child: IntrinsicWidth(
                 child: SizedBox(
-                  height: 385,
+                  height: 370,
                   width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -71,8 +73,8 @@ class CustomerDetailsScreen extends StatelessWidget {
                       _buildInfoTile('Contact', user.contact, Icons.phone),
                       _buildTotalTile('Total Credits', user.credit!,
                           Icons.arrow_upward, Colors.green),
-                      _buildTotalTile('Total Debits', user.debit!,
-                          Icons.arrow_downward, Colors.red),
+                      // _buildTotalTile('Total Debits', user.debit!,
+                      //     Icons.arrow_downward, Colors.red),
                     ],
                   ),
                 ),
@@ -96,8 +98,8 @@ class CustomerDetailsScreen extends StatelessWidget {
             _buildInfoTile('Contact', user.contact, Icons.phone),
             _buildTotalTile('Total Credits', user.credit!, Icons.arrow_upward,
                 Colors.green),
-            _buildTotalTile(
-                'Total Debits', user.debit!, Icons.arrow_downward, Colors.red),
+            // _buildTotalTile(
+            //     'Total Debits', user.debit!, Icons.arrow_downward, Colors.red),
           ],
         ),
       ),

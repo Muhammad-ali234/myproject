@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myproject/Authentication/service.dart';
+import 'package:myproject/Common/constant.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -259,9 +260,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               borderSide: BorderSide(color: Colors.grey.shade400),
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColor.dashbordBlueColor),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -279,7 +280,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(200, 60),
-          backgroundColor: const Color(0xFF6789CA),
+          backgroundColor: AppColor.dashbordBlueColor,
         ),
         onPressed: _isLoading ? null : () => _register(context),
         child: _isLoading
@@ -306,10 +307,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           // Navigate to the registration screen
           Navigator.pushNamed(context, '/login');
         },
-        child: const Text(
+        child: Text(
           "Login",
           style: TextStyle(
-            color: Colors.blue,
+            color: AppColor.dashbordBlueColor,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),

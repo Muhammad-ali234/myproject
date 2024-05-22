@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myproject/Authentication/service.dart';
+import 'package:myproject/Common/constant.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -209,9 +210,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               borderSide: BorderSide(color: Colors.grey.shade400),
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColor.dashbordBlueColor),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -278,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(330, 60),
-          backgroundColor: const Color(0xFF6789CA),
+          backgroundColor: AppColor.dashbordBlueColor,
         ),
         onPressed: _isLoading ? null : () => _login(context),
         child: _isLoading
@@ -303,10 +304,10 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: () {
           Navigator.pushNamed(context, '/register');
         },
-        child: const Text(
+        child: Text(
           "Register",
           style: TextStyle(
-            color: Colors.blue,
+            color: AppColor.dashbordBlueColor,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -357,7 +358,6 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         return;
       }
-      
 
       // Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
       if ((_selectedPetrolPump != "Owner") && (_selectedPetrolPump != "Pump")) {
@@ -426,9 +426,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               borderSide: BorderSide(color: Colors.grey.shade400),
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColor.dashbordBlueColor),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0, horizontal: 10),

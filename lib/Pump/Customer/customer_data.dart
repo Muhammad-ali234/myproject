@@ -16,7 +16,7 @@ class Customer {
     this.debit,
   });
 
-  // Define the toMap method to convert Customer object to a Map
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

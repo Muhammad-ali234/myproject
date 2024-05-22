@@ -21,26 +21,21 @@ class CreditDebitService {
             .doc('Pump')
             .collection('Pump')
             .doc(uid)
-            .collection('customer') // Assuming 'customer' is a subcollection
+            .collection('customer')
             .doc(customerId);
 
         DocumentSnapshot customerSnapshot = await customerRef.get();
 
-        double currentDebit = customerSnapshot['debit'] ?? 0;
         double currentCredit = customerSnapshot['credit'] ?? 0;
 
-        double newDebit = currentDebit;
-        double newCredit = currentCredit;
-
         if (isCredit) {
-          newCredit += amount;
+          currentCredit += amount;
         } else {
-          newDebit += amount;
+          currentCredit -= amount;
         }
 
         await customerRef.update({
-          'debit': newDebit,
-          'credit': newCredit,
+          'credit': currentCredit,
         });
       } else {
         throw Exception('User is not logged in');

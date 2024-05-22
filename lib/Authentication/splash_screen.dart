@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myproject/Common/constant.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({
@@ -11,8 +12,6 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-         
-
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -39,7 +38,7 @@ class SplashScreen extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size(330, 60),
-                      backgroundColor: const Color(0xFF6789CA),
+                      backgroundColor: AppColor.dashbordBlueColor,
                     ),
                     onPressed: () {
                       // Navigate to the login screen

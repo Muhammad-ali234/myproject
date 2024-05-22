@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:myproject/Pump/Stocks/Screens/Widget/image_picker.dart';
 import 'package:myproject/Pump/Stocks/Screens/meter_reading_histry.dart';
 import 'package:myproject/Pump/Stocks/Screens/service.dart';
 import 'package:myproject/Pump/Stocks/Screens/stock_histry_screen.dart';
@@ -24,7 +25,6 @@ class _StocksScreenState extends State<StocksScreen> {
   double dieselStock = 0.0;
   List<StockHistoryItem> stockHistory = [];
   List<StockHistoryItem> meterReadingHistory = [];
-
   TextEditingController petrolController = TextEditingController();
   TextEditingController dieselController = TextEditingController();
   TextEditingController pumpReadingController = TextEditingController();
@@ -743,22 +743,14 @@ class _StocksScreenState extends State<StocksScreen> {
                   const InputDecoration(labelText: 'Enter Meter Reading'),
             ),
             const SizedBox(height: 10),
-            // ImagePickerScreen(
-            //   onTextExtracted: (text) {
-            //     setState(() {
-            //       _extractedText = text;
-            //     });
-            //     if (text.isNotEmpty) {
-            //       // Remove non-numeric characters from the extracted text
-            //       String sanitizedText =
-            //           text.replaceAll(RegExp(r'[^0-9.]'), '');
-            //       // Set the sanitized text to the pumpReadingController
-            //       pumpReadingController.text = sanitizedText;
-            //       // Ensure the UI updates after setting the text
-            //       setState(() {});
-            //     }
-            //   },
-            // ),
+           IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const ImageScreen()));
+                    },
+                    icon: const Icon(Icons.camera)),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
