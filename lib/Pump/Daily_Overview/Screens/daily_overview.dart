@@ -20,7 +20,7 @@ class DailyOverviewScreen extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: AppColor
-              .dashbordWhiteColor, // Change the color of the back icon here
+              .dashbordWhiteColor, 
         ),
         title: Text(
           'Daily Overview',

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myproject/Dashboared/Pump/petrol_pump.dart';
+import 'package:myproject/Dashboared/barchart/barchart_screen.dart';
 import 'package:myproject/Dashboared/dashbored_card.dart';
 import 'package:myproject/Dashboared/pump_card.dart';
 import 'package:myproject/Dashboared/services/service.dart';
@@ -127,10 +128,11 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const PetrolPumpStatus(
-                  pumpId: '',
-                ),
-              ),
+                  builder: (context) => const MeterReadingsScreen()
+                  // const PetrolPumpStatus(
+                  //   pumpId: '',
+                  // ),
+                  ),
             );
           },
         ),
@@ -211,10 +213,11 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => PetrolPumpStatus(
-                  pumpId: pumpId, // Pass the correct pump ID
-                ),
-              ),
+                  builder: (context) => const MeterReadingsScreen()
+                  // PetrolPumpStatus(
+                  //   pumpId: pumpId, // Pass the correct pump ID
+                  // ),
+                  ),
             );
           },
         ),
@@ -242,13 +245,16 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Total Sales Card
-                      DashboardCard(
-                          title: 'Monthly Sales',
-                          value: '\$120,000',
-                          icon: Icons.show_chart,
-                          color: Colors.blue,
-                          dataPoints: salesData),
-
+                      // DashboardCard(
+                      //     title: 'Monthly Sales',
+                      //     value: '\$120,000',
+                      //     icon: Icons.show_chart,
+                      //     color: Colors.blue,
+                      //     dataPoints: salesData),
+                      const SizedBox(
+                          height: 400,
+                          width: 400,
+                          child: Expanded(child: MeterReadingsScreen())),
                       DashboardCard(
                           title: 'Monthly Earning',
                           value: '\$120,000',
