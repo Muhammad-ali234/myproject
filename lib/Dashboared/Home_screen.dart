@@ -128,11 +128,10 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const MeterReadingsScreen()
-                  // const PetrolPumpStatus(
-                  //   pumpId: '',
-                  // ),
-                  ),
+                builder: (context) => const PetrolPumpStatus(
+                  pumpId: '',
+                ),
+              ),
             );
           },
         ),
@@ -213,11 +212,10 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const MeterReadingsScreen()
-                  // PetrolPumpStatus(
-                  //   pumpId: pumpId, // Pass the correct pump ID
-                  // ),
-                  ),
+                builder: (context) => PetrolPumpStatus(
+                  pumpId: pumpId, // Pass the correct pump ID
+                ),
+              ),
             );
           },
         ),
@@ -240,28 +238,13 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Total Sales Card
-                      // DashboardCard(
-                      //     title: 'Monthly Sales',
-                      //     value: '\$120,000',
-                      //     icon: Icons.show_chart,
-                      //     color: Colors.blue,
-                      //     dataPoints: salesData),
-                      const SizedBox(
-                          height: 400,
-                          width: 400,
-                          child: Expanded(child: MeterReadingsScreen())),
-                      DashboardCard(
-                          title: 'Monthly Earning',
-                          value: '\$120,000',
-                          icon: Icons.show_chart,
-                          color: Colors.blue,
-                          dataPoints: salesData),
-                    ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SizedBox(
+                        height: 350, width: 1000, child: MeterReadingsScreen()),
                   ),
                   Wrap(
                     spacing: 16.0,
