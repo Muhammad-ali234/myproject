@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myproject/Authentication/splash_screen.dart';
-import 'package:myproject/Dashboared/chat%20room/dashbored_chat.dart';
-import 'package:myproject/Dashboared/Home_screen.dart';
+import 'package:myproject/Dashboared/Chat%20room/dashbored_chat.dart';
+import 'package:myproject/Dashboared/Dashboared/Screens/Home_screen.dart';
 import 'package:myproject/Pump/Employee%20screen/employee_screen.dart';
 import 'package:myproject/Pump/Expense/Screens/daily_expense.dart';
 import 'package:myproject/Pump/Customer/customer_screen.dart';
@@ -29,11 +29,11 @@ class AppRoutes {
   static const String employeeDutyScreen = '/employeeDuty';
 
   static Map<String, WidgetBuilder> routes = {
-    initialRoute: (context) =>
-        //const EmployeeScreen(),
-        // const ChatScreen(),
-        //   DashboardOwnerScreen(),
-        const SplashScreen(),
+    initialRoute: (context) => const RegistrationScreen(),
+    //const EmployeeScreen(),
+    // const ChatScreen(),
+    //   DashboardOwnerScreen(),
+    //  const SplashScreen(),
     //PumpDashboardScreen(context: context),
     login: (context) => const LoginScreen(),
     register: (context) => const RegistrationScreen(),

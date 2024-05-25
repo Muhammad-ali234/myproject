@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myproject/Dashboared/chat%20room/dashbored_chat.dart';
+import 'package:myproject/Dashboared/Chat%20room/dashbored_chat.dart';
 import 'package:myproject/Dashboared/Employee/employess_screen.dart';
-import 'package:myproject/Dashboared/Home_screen.dart';
+import 'package:myproject/Dashboared/Dashboared/Screens/Home_screen.dart';
 import 'package:myproject/Authentication/login_screen.dart';
 import 'package:myproject/Dashboared/Pump/account_request_screen.dart';
 import 'package:myproject/Dashboared/Pump/petrol_price.dart';

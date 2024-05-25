@@ -19,8 +19,7 @@ class DailyOverviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: AppColor
-              .dashbordWhiteColor, 
+          color: AppColor.dashbordWhiteColor,
         ),
         title: Text(
           'Daily Overview',
@@ -87,19 +86,13 @@ class DailyOverviewScreen extends StatelessWidget {
     DailyOverviewService service = DailyOverviewService();
 
     // Fetch data from service
-    Map<String, double> totalMeterReadings =
-        await service.getTotalMeterReadingsOnCurrentDate();
-    Map<String, double> totalTransactions =
-        await service.getTodaysTotalCreditAndDebitForAllCustomers();
-    double totalExpenses = await service.fetchTotalExpenseForToday();
-
-    // Combine all data into one map
+    Map<String, dynamic> fetchData = await service.loadDataFromFirestore();
     Map<String, dynamic> data = {
-      'totalPetrolSales': totalMeterReadings['petrol'] ?? 0.0,
-      'totalDieselSales': totalMeterReadings['diesel'] ?? 0.0,
-      'totalCredit': totalTransactions['totalCredit'] ?? 0.0,
-      'totalDebit': totalTransactions['totalDebit'] ?? 0.0,
-      'totalExpenses': totalExpenses ?? 0.0,
+      'totalPetrolSales': fetchData['petrol'] ?? 0.0,
+      'totalDieselSales': fetchData['diesel'] ?? 0.0,
+      'totalCredit': fetchData['credit'] ?? 0.0,
+      'totalDebit': fetchData['debit'] ?? 0.0,
+      'totalExpenses': fetchData['expense'] ?? 0.0,
     };
 
     return data;
@@ -158,6 +151,7 @@ class DailyOverviewScreen extends StatelessWidget {
               Expanded(
                 child: BarChart(
                   BarChartData(
+                    gridData: const FlGridData(show: false),
                     borderData: FlBorderData(show: false),
                     barGroups: [
                       _buildBarGroup(0, data['totalPetrolSales'],
