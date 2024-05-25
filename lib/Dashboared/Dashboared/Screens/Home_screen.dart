@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myproject/Dashboared/Pump/petrol_pump.dart';
+import 'package:myproject/Dashboared/Pump%20Card%20Dahsboared/petrol_pump.dart';
 import 'package:myproject/Dashboared/Barchart/barchart_screen.dart';
 import 'package:myproject/Dashboared/Dashboared/widget/dashbored_card.dart';
 import 'package:myproject/Dashboared/Dashboared/widget/pump_card.dart';
