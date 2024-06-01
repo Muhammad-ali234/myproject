@@ -85,7 +85,6 @@ class _CustomerScreenState extends State<CustomerScreen> {
         }
       },
     );
-
   }
 
   Widget _buildWebLayout() {
@@ -216,7 +215,6 @@ class _CustomerScreenState extends State<CustomerScreen> {
   }
 
   Widget _buildMobileLayout() {
-    print('mobile layout');
     return Row(
       children: [
         Expanded(
@@ -226,6 +224,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                 child: ListView.builder(
                   itemCount: customers.length,
                   itemBuilder: (context, index) {
+                    print(customers.length.toString());
                     return Card(
                       elevation: 4,
                       margin: const EdgeInsets.symmetric(

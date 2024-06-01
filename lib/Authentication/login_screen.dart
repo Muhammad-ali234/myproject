@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myproject/Authentication/service.dart';
 import 'package:myproject/Common/constant.dart';
-import 'package:myproject/Pump/Daily_Overview/Screens/service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -283,7 +283,16 @@ class _LoginScreenState extends State<LoginScreen> {
           fixedSize: const Size(330, 60),
           backgroundColor: AppColor.dashbordBlueColor,
         ),
-        onPressed: _isLoading ? null : () => _login(context),
+        onPressed: _isLoading
+            ? null
+            : () async {
+                _login(context);
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('isLoggedIn', true);
+                SharedPreferences rolePref =
+                    await SharedPreferences.getInstance();
+                await rolePref.setString('userRole', _selectedPetrolPump!);
+              },
         child: _isLoading
             ? const CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white))

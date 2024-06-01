@@ -124,8 +124,8 @@ class _DieselFormWidgetState extends State<DieselFormWidget> {
           ElevatedButton(
             onPressed: _submitDieselForm,
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.teal),
-              foregroundColor: MaterialStateProperty.all(Colors.white),
+              backgroundColor: WidgetStateProperty.all(Colors.teal),
+              foregroundColor: WidgetStateProperty.all(Colors.white),
             ),
             child: const Text('Add Diesel Price'),
           ),

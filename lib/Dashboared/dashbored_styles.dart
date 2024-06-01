@@ -5,10 +5,10 @@ class AppStyle {
   static ButtonStyle dashbordButton() {
     return ButtonStyle(
       // Blue background color
-      padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(
+      padding: WidgetStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(
         horizontal: 20,
       )), // Padding for the button
-      shape: MaterialStateProperty.all<OutlinedBorder>(
+      shape: WidgetStateProperty.all<OutlinedBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5), // Rectangular shape
         ),
