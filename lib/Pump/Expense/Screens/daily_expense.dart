@@ -126,9 +126,9 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
           actions: [
             TextButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(
                     AppColor.dashbordBlueColor),
-                foregroundColor: MaterialStateProperty.all<Color>(
+                foregroundColor: WidgetStateProperty.all<Color>(
                     AppColor.dashbordWhiteColor),
               ),
               onPressed: () {
@@ -162,9 +162,9 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
     return ElevatedButton(
       style: ButtonStyle(
         foregroundColor:
-            MaterialStateProperty.all<Color>(AppColor.dashbordWhiteColor),
+            WidgetStateProperty.all<Color>(AppColor.dashbordWhiteColor),
         backgroundColor:
-            MaterialStateProperty.all<Color>(AppColor.dashbordBlueColor),
+            WidgetStateProperty.all<Color>(AppColor.dashbordBlueColor),
       ),
       onPressed: () {
         if (formKey.currentState!.validate()) {
@@ -336,21 +336,21 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
           child: ElevatedButton(
             onPressed: _showExpenseFormDialog,
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
+              backgroundColor: WidgetStateProperty.all<Color>(
                 AppColor.dashbordBlueColor, // Set the background color
               ),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(12.0), // Set the button shape
                 ),
               ),
-              padding: MaterialStateProperty.all<EdgeInsets>(
+              padding: WidgetStateProperty.all<EdgeInsets>(
                 const EdgeInsets.symmetric(
                     vertical: 16.0, horizontal: 24.0), // Set the padding
               ),
               elevation:
-                  MaterialStateProperty.all<double>(5.0), // Set the elevation
+                  WidgetStateProperty.all<double>(5.0), // Set the elevation
             ),
             child: Text(
               'Add New Expense',
@@ -393,21 +393,21 @@ class _DailyExpenseScreenState extends State<DailyExpenseScreen> {
                   child: ElevatedButton(
                     onPressed: _showExpenseFormDialog,
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
+                      backgroundColor: WidgetStateProperty.all<Color>(
                         AppColor.dashbordBlueColor, // Set the background color
                       ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               12.0), // Set the button shape
                         ),
                       ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
+                      padding: WidgetStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(
                             vertical: 16.0,
                             horizontal: 24.0), // Set the padding
                       ),
-                      elevation: MaterialStateProperty.all<double>(
+                      elevation: WidgetStateProperty.all<double>(
                           5.0), // Set the elevation
                     ),
                     child: Text(

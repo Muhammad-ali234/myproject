@@ -132,8 +132,8 @@ class _PetrolFormWidgetState extends State<PetrolFormWidget> {
               setState(() => _submitPetrolForm());
             },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.teal),
-              foregroundColor: MaterialStateProperty.all(Colors.white),
+              backgroundColor: WidgetStateProperty.all(Colors.teal),
+              foregroundColor: WidgetStateProperty.all(Colors.white),
             ),
             child: const Text('Add Petrol Price'), // Button text
           ),

@@ -412,23 +412,23 @@ class _StocksScreenState extends State<StocksScreen> {
                       child: ElevatedButton(
                         onPressed: addToStock,
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                             AppColor
                                 .dashbordBlueColor, // Set the background color
                           ),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   12.0), // Set the button shape
                             ),
                           ),
-                          padding: MaterialStateProperty.all<EdgeInsets>(
+                          padding: WidgetStateProperty.all<EdgeInsets>(
                             const EdgeInsets.symmetric(
                                 vertical: 16.0,
                                 horizontal: 24.0), // Set the padding
                           ),
-                          elevation: MaterialStateProperty.all<double>(
+                          elevation: WidgetStateProperty.all<double>(
                               5.0), // Set the elevation
                         ),
                         child: Text(
@@ -456,23 +456,23 @@ class _StocksScreenState extends State<StocksScreen> {
                           );
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                             AppColor
                                 .dashbordBlueColor, // Set the background color
                           ),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   12.0), // Set the button shape
                             ),
                           ),
-                          padding: MaterialStateProperty.all<EdgeInsets>(
+                          padding: WidgetStateProperty.all<EdgeInsets>(
                             const EdgeInsets.symmetric(
                                 vertical: 16.0,
                                 horizontal: 24.0), // Set the padding
                           ),
-                          elevation: MaterialStateProperty.all<double>(
+                          elevation: WidgetStateProperty.all<double>(
                               5.0), // Set the elevation
                         ),
                         child: Text(
@@ -560,23 +560,23 @@ class _StocksScreenState extends State<StocksScreen> {
                       child: ElevatedButton(
                         onPressed: deductFromStock,
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                             AppColor
                                 .dashbordBlueColor, // Set the background color
                           ),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   12.0), // Set the button shape
                             ),
                           ),
-                          padding: MaterialStateProperty.all<EdgeInsets>(
+                          padding: WidgetStateProperty.all<EdgeInsets>(
                             const EdgeInsets.symmetric(
                                 vertical: 16.0,
                                 horizontal: 24.0), // Set the padding
                           ),
-                          elevation: MaterialStateProperty.all<double>(
+                          elevation: WidgetStateProperty.all<double>(
                               5.0), // Set the elevation
                         ),
                         child: Text(
@@ -605,23 +605,23 @@ class _StocksScreenState extends State<StocksScreen> {
                           );
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                             AppColor
                                 .dashbordBlueColor, // Set the background color
                           ),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                              WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   12.0), // Set the button shape
                             ),
                           ),
-                          padding: MaterialStateProperty.all<EdgeInsets>(
+                          padding: WidgetStateProperty.all<EdgeInsets>(
                             const EdgeInsets.symmetric(
                                 vertical: 16.0,
                                 horizontal: 24.0), // Set the padding
                           ),
-                          elevation: MaterialStateProperty.all<double>(
+                          elevation: WidgetStateProperty.all<double>(
                               5.0), // Set the elevation
                         ),
                         child: Text(
@@ -722,21 +722,21 @@ class _StocksScreenState extends State<StocksScreen> {
                   child: ElevatedButton(
                     onPressed: addToStock,
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
+                      backgroundColor: WidgetStateProperty.all<Color>(
                         AppColor.dashbordBlueColor, // Set the background color
                       ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               12.0), // Set the button shape
                         ),
                       ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
+                      padding: WidgetStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(
                             vertical: 16.0,
                             horizontal: 24.0), // Set the padding
                       ),
-                      elevation: MaterialStateProperty.all<double>(
+                      elevation: WidgetStateProperty.all<double>(
                           5.0), // Set the elevation
                     ),
                     child: Text(
@@ -795,20 +795,20 @@ class _StocksScreenState extends State<StocksScreen> {
                   );
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                     AppColor.dashbordBlueColor, // Set the background color
                   ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(12.0), // Set the button shape
                     ),
                   ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
+                  padding: WidgetStateProperty.all<EdgeInsets>(
                     const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 24.0), // Set the padding
                   ),
-                  elevation: MaterialStateProperty.all<double>(
+                  elevation: WidgetStateProperty.all<double>(
                       5.0), // Set the elevation
                 ),
                 child: Text(
@@ -843,21 +843,21 @@ class _StocksScreenState extends State<StocksScreen> {
                   child: ElevatedButton(
                     onPressed: deductFromStock,
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
+                      backgroundColor: WidgetStateProperty.all<Color>(
                         AppColor.dashbordBlueColor, // Set the background color
                       ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               12.0), // Set the button shape
                         ),
                       ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
+                      padding: WidgetStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(
                             vertical: 16.0,
                             horizontal: 24.0), // Set the padding
                       ),
-                      elevation: MaterialStateProperty.all<double>(
+                      elevation: WidgetStateProperty.all<double>(
                           5.0), // Set the elevation
                     ),
                     child: Text(
@@ -903,20 +903,20 @@ class _StocksScreenState extends State<StocksScreen> {
               height: 40,
               child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                     AppColor.dashbordBlueColor, // Set the background color
                   ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(12.0), // Set the button shape
                     ),
                   ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
+                  padding: WidgetStateProperty.all<EdgeInsets>(
                     const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 24.0), // Set the padding
                   ),
-                  elevation: MaterialStateProperty.all<double>(
+                  elevation: WidgetStateProperty.all<double>(
                       5.0), // Set the elevation
                 ),
                 onPressed: () {
