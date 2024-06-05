@@ -20,7 +20,7 @@ class PumpCard extends StatelessWidget {
           elevation: 4.0,
           child: SizedBox(
             height: 110,
-            width: 180,
+            width: 100,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -34,16 +34,16 @@ class PumpCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InfoItem(label: 'Earnings', value: '\$5000'),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      InfoItem(label: 'Profit', value: '\$2000'),
-                    ],
-                  )
+                  // const Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     InfoItem(label: 'Earnings', value: '\$5000'),
+                  //     SizedBox(
+                  //       width: 15,
+                  //     ),
+                  //     InfoItem(label: 'Profit', value: '\$2000'),
+                  //   ],
+                  // )
                 ],
               ),
             ),

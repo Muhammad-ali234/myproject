@@ -176,13 +176,13 @@ class CustomerDetailsScreen extends StatelessWidget {
       //       builder: (context) => CreditDebitFormScreen(type: type, user: ,)),
       // );
     } else if (type == 'View') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CustomerScreen(
-                  context: context,
-                )),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (context) => CustomerScreen(
+      //             context: context,
+      //           )),
+      // );
     }
   }
 }

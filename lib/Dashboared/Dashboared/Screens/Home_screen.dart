@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myproject/Dashboared/Pump%20Card%20Dahsboared/petrol_pump.dart';
 import 'package:myproject/Dashboared/Barchart/barchart_screen.dart';
-import 'package:myproject/Dashboared/Dashboared/widget/dashbored_card.dart';
 import 'package:myproject/Dashboared/Dashboared/widget/pump_card.dart';
 import 'package:myproject/Dashboared/services/service.dart';
 import 'package:myproject/Dashboared/sidebar.dart';
@@ -115,13 +114,12 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 350, width: 1000, child: GraphScreen()),
+              SizedBox(height: 350, width: 550, child: GraphScreen()),
               const SizedBox(height: 20),
-              const SizedBox(height: 10),
               Center(
                 child: Wrap(
-                  spacing: 16.0, // Spacing between pump cards
-                  runSpacing: 16.0, // Vertical spacing for wrapping
+                  // Spacing between pump cards
+                  // Vertical spacing for wrapping
                   children: pumpCards,
                 ),
               ),

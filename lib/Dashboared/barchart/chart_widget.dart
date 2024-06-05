@@ -27,76 +27,81 @@ class BarChartScreen extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BarChart(
-                  BarChartData(
-                    barTouchData: BarTouchData(
-                        touchTooltipData: BarTouchTooltipData(
-                            tooltipBgColor:
-                                const Color.fromARGB(255, 235, 233, 233))),
-                    gridData: const FlGridData(show: false),
-                    borderData: FlBorderData(
-                      border: const Border(
-                        top: BorderSide.none,
-                        right: BorderSide.none,
-                        left: BorderSide(width: 1, color: Colors.black),
-                        bottom: BorderSide(width: 1, color: Colors.black),
-                      ),
+              child: BarChart(
+                BarChartData(
+                  barTouchData: BarTouchData(
+                      touchTooltipData: BarTouchTooltipData(
+                          tooltipBgColor:
+                              const Color.fromARGB(255, 235, 233, 233))),
+                  gridData: const FlGridData(show: false),
+                  borderData: FlBorderData(
+                    border: const Border(
+                      top: BorderSide.none,
+                      right: BorderSide.none,
+                      left: BorderSide(width: 1, color: Colors.black),
+                      bottom: BorderSide(width: 1, color: Colors.black),
                     ),
-                    alignment: BarChartAlignment.spaceAround,
-                    maxY: maxY,
-                    barGroups: _getBarGroups(context),
-                    titlesData: FlTitlesData(
-                      rightTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      topTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          getTitlesWidget: (value, meta) {
-                            final List<String> monthNames = [
-                              'Jan',
-                              'Feb',
-                              'Mar',
-                              'Apr',
-                              'May',
-                              'Jun',
-                              'Jul',
-                              'Aug',
-                              'Sep',
-                              'Oct',
-                              'Nov',
-                              'Dec'
-                            ];
-                            if (value.toInt() < 0 ||
-                                value.toInt() >= monthNames.length) {
-                              return const Text('');
-                            }
-                            return Text(monthNames[value.toInt()]);
-                          },
-                        ),
+                  ),
+                  alignment: BarChartAlignment.spaceAround,
+                  maxY: maxY,
+                  barGroups: _getBarGroups(context),
+                  titlesData: FlTitlesData(
+                    rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    topTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) {
+                          final List<String> monthNames = [
+                            'Jan',
+                            'Feb',
+                            'Mar',
+                            'Apr',
+                            'May',
+                            'Jun',
+                            'Jul',
+                            'Aug',
+                            'Sep',
+                            'Oct',
+                            'Nov',
+                            'Dec'
+                          ];
+                          if (value.toInt() < 0 ||
+                              value.toInt() >= monthNames.length) {
+                            return const Text('');
+                          }
+                          return SizedBox(
+                            width: 15,
+                            child: FittedBox(
+                                child: Text(monthNames[value.toInt()])),
+                          );
+                        },
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildLegendItem(Colors.blue, 'Petrol'),
-                  _buildLegendItem(Colors.green, 'Diesel'),
-                  _buildLegendItem(Colors.red, 'Credit'),
-                  _buildLegendItem(Colors.orange, 'Debit'),
-                  _buildLegendItem(Colors.purple, 'Expense'),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildLegendItem(Colors.blue, 'Petrol'),
+                _buildLegendItem(Colors.green, 'Diesel'),
+                _buildLegendItem(Colors.red, 'Credit'),
+                // _buildLegendItem(Colors.orange, 'Debit'),
+                // _buildLegendItem(Colors.purple, 'Expense'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildLegendItem(Colors.orange, 'Debit'),
+                _buildLegendItem(Colors.purple, 'Expense'),
+              ],
             ),
           ],
         ),
