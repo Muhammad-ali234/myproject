@@ -8,7 +8,6 @@ class BarChartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate the maximum value in your data
     double maxValue = 0;
     for (var entry in monthlyReadings.values) {
       for (var value in entry.values) {
@@ -19,20 +18,26 @@ class BarChartScreen extends StatelessWidget {
     }
     double maxY = maxValue + 100;
 
+    double screenWidth = MediaQuery.of(context).size.width;
+    double barWidth = screenWidth < 600 ? 5 : 15;
+    double fontSize = screenWidth < 600 ? 10 : 14;
+    double reservedSize = screenWidth < 600 ? 22 : 28;
+
     return Card(
       color: Colors.white,
       elevation: 6,
       child: Padding(
-        padding: const EdgeInsets.all(23.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Expanded(
               child: BarChart(
                 BarChartData(
                   barTouchData: BarTouchData(
-                      touchTooltipData: BarTouchTooltipData(
-                          tooltipBgColor:
-                              const Color.fromARGB(255, 235, 233, 233))),
+                    touchTooltipData: BarTouchTooltipData(
+                      tooltipBgColor: Colors.grey.shade200,
+                    ),
+                  ),
                   gridData: const FlGridData(show: false),
                   borderData: FlBorderData(
                     border: const Border(
@@ -44,7 +49,7 @@ class BarChartScreen extends StatelessWidget {
                   ),
                   alignment: BarChartAlignment.spaceAround,
                   maxY: maxY,
-                  barGroups: _getBarGroups(context),
+                  barGroups: _getBarGroups(barWidth),
                   titlesData: FlTitlesData(
                     rightTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
@@ -55,6 +60,7 @@ class BarChartScreen extends StatelessWidget {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
+                        reservedSize: reservedSize,
                         getTitlesWidget: (value, meta) {
                           final List<String> monthNames = [
                             'Jan',
@@ -74,10 +80,16 @@ class BarChartScreen extends StatelessWidget {
                               value.toInt() >= monthNames.length) {
                             return const Text('');
                           }
-                          return SizedBox(
-                            width: 15,
-                            child: FittedBox(
-                                child: Text(monthNames[value.toInt()])),
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              monthNames[value.toInt()],
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -86,19 +98,14 @@ class BarChartScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            const SizedBox(height: 10),
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 10.0,
               children: [
                 _buildLegendItem(Colors.blue, 'Petrol'),
                 _buildLegendItem(Colors.green, 'Diesel'),
                 _buildLegendItem(Colors.red, 'Credit'),
-                // _buildLegendItem(Colors.orange, 'Debit'),
-                // _buildLegendItem(Colors.purple, 'Expense'),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
                 _buildLegendItem(Colors.orange, 'Debit'),
                 _buildLegendItem(Colors.purple, 'Expense'),
               ],
@@ -109,7 +116,7 @@ class BarChartScreen extends StatelessWidget {
     );
   }
 
-  List<BarChartGroupData> _getBarGroups(BuildContext context) {
+  List<BarChartGroupData> _getBarGroups(double barWidth) {
     int index = 0;
     return monthlyReadings.entries.map((entry) {
       final data = entry.value;
@@ -119,8 +126,6 @@ class BarChartScreen extends StatelessWidget {
       final debit = data['debit'] ?? 0.0;
       final expense = data['expense'] ?? 0.0;
 
-      final double barWidth =
-          (MediaQuery.of(context).size.width) >= 605 ? 10 : 3;
       return BarChartGroupData(
         x: index++,
         barRods: [
@@ -136,15 +141,15 @@ class BarChartScreen extends StatelessWidget {
 
   Widget _buildLegendItem(Color color, String label) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          width: 5,
-          height: 5,
-          child: DecoratedBox(decoration: BoxDecoration(color: color)),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 5),
         Text(label, style: TextStyle(color: color)),
-        const SizedBox(width: 10),
       ],
     );
   }
