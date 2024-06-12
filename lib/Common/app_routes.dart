@@ -28,12 +28,13 @@ class AppRoutes {
   static const String employeeDutyScreen = '/employeeDuty';
 
   static Map<String, WidgetBuilder> routes = {
-    initialRoute: (context) => const RegistrationScreen(),
-    //const EmployeeScreen(),
-    // const ChatScreen(),
-    //   DashboardOwnerScreen(),
-    //  const SplashScreen(),
-    //PumpDashboardScreen(context: context),
+    initialRoute: (context) =>
+        //const RegistrationScreen(),
+        //const EmployeeScreen(),
+        // const ChatScreen(),
+        //   DashboardOwnerScreen(),
+        //  const SplashScreen(),
+        PumpDashboardScreen(context: context),
     login: (context) => const LoginScreen(),
     register: (context) => const RegistrationScreen(),
     dashboardOwnerScreen: (context) => const DashboardOwnerScreen(),

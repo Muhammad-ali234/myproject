@@ -4,18 +4,18 @@ import 'package:myproject/Pump/common/screens/drawer_meue_item.dart';
 import 'package:myproject/Pump/common/screens/sidebar.dart';
 import 'package:myproject/Pump/common/widgets/sidebar_menue_item.dart';
 import 'package:myproject/Common/constant.dart';
+import 'package:myproject/Pump/header_container.dart';
+import 'package:myproject/Pump/info_container.dart';
 
 class PumpDashboardScreen extends StatelessWidget {
   final BuildContext context;
   const PumpDashboardScreen({super.key, required this.context});
   @override
   Widget build(BuildContext context) {
-    String totalStock = "1000";
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
-          color: Colors.white, // Change the color of the back icon here
+          color: Colors.white,
         ),
         title: const Text(
           'Welcome To petrol station 1',
@@ -72,7 +72,6 @@ class PumpDashboardScreen extends StatelessWidget {
                         ),
                         Card_Widget(
                           name: "Petrol Diesel Stock",
-                          totalStock: "1000 litre",
                           inputIcon: Icons.storage,
                           onTap: () {
                             Navigator.pushNamed(context, '/stock');
@@ -83,7 +82,6 @@ class PumpDashboardScreen extends StatelessWidget {
                         ),
                         Card_Widget(
                           name: "Debit Credit ",
-                          totalStock: "Debit 100  Credit 100",
                           inputIcon: Icons.arrow_upward_outlined,
                           secondIcon: Icons.arrow_downward,
                           onTap: () {
@@ -95,7 +93,6 @@ class PumpDashboardScreen extends StatelessWidget {
                         ),
                         Card_Widget(
                           name: "Daily Overview",
-                          totalStock: "Sale Rs:1000",
                           inputIcon: Icons.credit_card,
                           onTap: () {
                             Navigator.pushNamed(context, '/daily_overview');
@@ -112,7 +109,6 @@ class PumpDashboardScreen extends StatelessWidget {
                         ),
                         Card_Widget(
                           name: "Expense ",
-                          totalStock: "Expense Rs:100",
                           inputIcon: Icons.attach_money,
                           onTap: () {
                             Navigator.pushNamed(context, '/daily_expense');
@@ -123,7 +119,6 @@ class PumpDashboardScreen extends StatelessWidget {
                         ),
                         Card_Widget(
                           name: "Total Customer",
-                          totalStock: "Register Customer:100",
                           inputIcon: Icons.person,
                           onTap: () {
                             Navigator.pushNamed(context, '/customerScreen');
@@ -131,7 +126,6 @@ class PumpDashboardScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    
                   ],
                 ),
               ],
@@ -143,72 +137,82 @@ class PumpDashboardScreen extends StatelessWidget {
   }
 
   Widget _buildMobileLayout(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Card_Widget(
-                    name: "Petrol Diesel Stock",
-                    totalStock: "1000 litre",
-                    inputIcon: Icons.storage,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: <Widget>[
+          const Expanded(flex: 2, child: HeaderContainer()),
+          Expanded(
+            flex: 2,
+            child: Row(
+              children: [
+                Expanded(
+                  child: InfoContainer(
+                    icon: Icons.local_gas_station, // Changed icon
+                    label: 'Petrol Diesel Stock',
                     onTap: () {
                       Navigator.pushNamed(context, '/stock');
                     },
                   ),
-                  const SizedBox(height: 20),
-                  Card_Widget(
-                    name: "Debit Credit ",
-                    totalStock: "Debit 100  Credit 100",
-                    inputIcon: Icons.arrow_upward_outlined,
-                    secondIcon: Icons.arrow_downward,
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: InfoContainer(
+                    icon: Icons.account_balance_wallet, // Changed icon
+                    label: 'Debit Credit',
                     onTap: () {
                       Navigator.pushNamed(context, '/credit_debit');
                     },
                   ),
-                  const SizedBox(height: 20),
-                  Card_Widget(
-                    name: "Daily Overview",
-                    totalStock: "Sale Rs:1000",
-                    inputIcon: Icons.credit_card,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            flex: 2,
+            child: Row(
+              children: [
+                Expanded(
+                  child: InfoContainer(
+                    icon: Icons.timeline, // Changed icon
+                    label: 'Daily Overview',
                     onTap: () {
                       Navigator.pushNamed(context, '/daily_overview');
                     },
                   ),
-                  const SizedBox(height: 20),
-                  Card_Widget(
-                    name: "Expense ",
-                    totalStock: "Expense Rs:100",
-                    inputIcon: Icons.attach_money,
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: InfoContainer(
+                    icon: Icons.attach_money,
+                    label: 'Expense',
                     onTap: () {
                       Navigator.pushNamed(context, '/daily_expense');
                     },
                   ),
-                  const SizedBox(height: 20),
-                  Card_Widget(
-                    name: "Total Customer",
-                    totalStock: "Register Customer:100",
-                    inputIcon: Icons.person,
-                    onTap: () {
-                      Navigator.pushNamed(context, '/customerScreen');
-                    },
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ),
-      ],
+          const SizedBox(height: 10),
+          Expanded(
+            flex: 2,
+            child: InfoContainer(
+              icon: Icons.group, // Changed icon
+              label: 'Total Customer',
+              onTap: () => Navigator.pushNamed(context, '/customerScreen'),
+            ),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }
 
+// web Card
 class Card_Widget extends StatelessWidget {
-  final String totalStock;
   final String name;
   final IconData inputIcon;
 
@@ -218,7 +222,6 @@ class Card_Widget extends StatelessWidget {
   const Card_Widget({
     super.key,
     this.secondIcon,
-    required this.totalStock,
     required this.inputIcon,
     required this.name,
     required this.onTap,
@@ -274,12 +277,77 @@ class Card_Widget extends StatelessWidget {
                   color: AppColor.dashbordWhiteColor,
                 ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// mobile Card
+class CardWidget extends StatelessWidget {
+  final String name;
+  final IconData inputIcon;
+  final IconData? secondIcon;
+  final VoidCallback onTap;
+
+  const CardWidget({
+    super.key,
+    this.secondIcon,
+    required this.inputIcon,
+    required this.name,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        height: 120,
+        decoration: BoxDecoration(
+          color: AppColor.dashbordBlueColor,
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    inputIcon,
+                    color: AppColor.dashbordWhiteColor,
+                    size: 30.0,
+                  ),
+                  if (secondIcon != null) ...[
+                    const SizedBox(width: 10.0),
+                    Icon(
+                      secondIcon,
+                      color: AppColor.dashbordWhiteColor,
+                      size: 30.0,
+                    ),
+                  ],
+                ],
+              ),
               const SizedBox(height: 10.0),
               Text(
-                'Total: $totalStock',
+                name,
                 style: TextStyle(
-                  fontSize: 14.0,
-                  color: AppColor.dashbordWhiteColor.withOpacity(0.8),
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.dashbordWhiteColor,
                 ),
               ),
             ],

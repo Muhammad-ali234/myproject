@@ -44,6 +44,123 @@ class _StocksScreenState extends State<StocksScreen> {
     fetchMeterReadingHistory();
   }
 
+  // void addToStock() async {
+  //   String? uid = await _authService.getCurrentUserUID();
+  //   double litres = double.parse(
+  //     selectedFuelType == 'Petrol'
+  //         ? petrolController.text
+  //         : dieselController.text,
+  //   );
+
+  //   setState(() {
+  //     if (selectedFuelType == 'Petrol') {
+  //       petrolStock += litres;
+  //     } else {
+  //       dieselStock += litres;
+  //     }
+
+  //     stockHistory.add(StockHistoryItem(
+  //       type: '$selectedFuelType Stock',
+  //       litres: litres,
+  //       timestamp: DateTime.now(),
+  //     ));
+  //   });
+  //   // add stock data to firestore
+  //   if (selectedFuelType == 'Petrol') {
+  //     try {
+  //       await _firestoreService.addStockData(
+  //         type: 'Petrol',
+  //         date: Timestamp.now(),
+  //         litres: litres,
+  //       );
+
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Petrol stock added successfully!'),
+  //           duration: Duration(seconds: 2),
+  //         ),
+  //       );
+  //     } catch (e) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text('Failed to add petrol stock: $e'),
+  //           duration: const Duration(seconds: 2),
+  //         ),
+  //       );
+  //     }
+  //   } else {
+  //     try {
+  //       await _firestoreService.addStockData(
+  //         type: 'Diesel',
+  //         date: Timestamp.now(),
+  //         litres: litres,
+  //       );
+
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Diesel stock added successfully!'),
+  //           duration: Duration(seconds: 2),
+  //         ),
+  //       );
+  //     } catch (e) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text('Failed to add diesel stock: $e'),
+  //           duration: const Duration(seconds: 2),
+  //         ),
+  //       );
+  //     }
+  //   }
+  //   // add stock histry to firestore
+  //   if (selectedFuelType == 'Petrol') {
+  //     try {
+  //       await _firestoreService.addStockHistry(
+  //         type: 'Petrol',
+  //         date: Timestamp.now(),
+  //         litres: litres,
+  //       );
+
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Petrol stock histry added successfully!'),
+  //           duration: Duration(seconds: 2),
+  //         ),
+  //       );
+  //     } catch (e) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text('Failed to add petrol stock histry : $e'),
+  //           duration: const Duration(seconds: 2),
+  //         ),
+  //       );
+  //     }
+  //   } else {
+  //     try {
+  //       await _firestoreService.addStockHistry(
+  //         type: 'Diesel',
+  //         date: Timestamp.now(),
+  //         litres: litres,
+  //       );
+
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Diesel stock histry added successfully!'),
+  //           duration: Duration(seconds: 2),
+  //         ),
+  //       );
+  //     } catch (e) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text('Failed to add diesel stock histry: $e'),
+  //           duration: const Duration(seconds: 2),
+  //         ),
+  //       );
+  //     }
+  //   }
+
+  //   petrolController.clear();
+  //   dieselController.clear();
+  // }
   void addToStock() async {
     String? uid = await _authService.getCurrentUserUID();
     double litres = double.parse(
@@ -65,97 +182,49 @@ class _StocksScreenState extends State<StocksScreen> {
         timestamp: DateTime.now(),
       ));
     });
-    // add stock data to firestore
-    if (selectedFuelType == 'Petrol') {
-      try {
-        await _firestoreService.addStockData(
-          type: 'Petrol',
-          date: Timestamp.now(),
-          litres: litres,
-        );
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Petrol stock added successfully!'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to add petrol stock: $e'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
-    } else {
-      try {
-        await _firestoreService.addStockData(
-          type: 'Diesel',
-          date: Timestamp.now(),
-          litres: litres,
-        );
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Diesel stock added successfully!'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to add diesel stock: $e'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
+    // Add stock data to Firestore
+    try {
+      await _firestoreService.addStockData(
+        type: selectedFuelType,
+        date: Timestamp.now(),
+        litres: litres,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$selectedFuelType stock added successfully!'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to add $selectedFuelType stock: $e'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     }
-    // add stock histry to firestore
-    if (selectedFuelType == 'Petrol') {
-      try {
-        await _firestoreService.addStockHistry(
-          type: 'Petrol',
-          date: Timestamp.now(),
-          litres: litres,
-        );
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Petrol stock histry added successfully!'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to add petrol stock histry : $e'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
-    } else {
-      try {
-        await _firestoreService.addStockHistry(
-          type: 'Diesel',
-          date: Timestamp.now(),
-          litres: litres,
-        );
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Diesel stock histry added successfully!'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to add diesel stock histry: $e'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
+    // Add stock history to Firestore
+    try {
+      await _firestoreService.addStockHistry(
+        type: selectedFuelType,
+        date: Timestamp.now(),
+        litres: litres,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$selectedFuelType stock history added successfully!'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to add $selectedFuelType stock history: $e'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     }
 
     petrolController.clear();
@@ -163,12 +232,28 @@ class _StocksScreenState extends State<StocksScreen> {
   }
 
   // Fetch stock data from Firestore
+  // Future<void> fetchStockData() async {
+  //   try {
+  //     Map<String, double> stockData = await _firestoreService.fetchStockData();
+  //     setState(() {
+  //       petrolStock = (stockData['petrol'] ?? 0.0).toDouble();
+  //     dieselStock = (stockData['diesel'] ?? 0.0).toDouble();
+  //     });
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text('Error fetching stock data: $e'),
+  //         duration: const Duration(seconds: 2),
+  //       ),
+  //     );
+  //   }
+  // }
   Future<void> fetchStockData() async {
     try {
-      Map<String, double> stockData = await _firestoreService.fetchStockData();
+      Map<String, dynamic> stockData = await _firestoreService.fetchStockData();
       setState(() {
-        petrolStock = stockData['petrol'] ?? 0.0;
-        dieselStock = stockData['diesel'] ?? 0.0;
+        petrolStock = (stockData['petrol'] ?? 0.0).toDouble();
+        dieselStock = (stockData['diesel'] ?? 0.0).toDouble();
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -181,19 +266,42 @@ class _StocksScreenState extends State<StocksScreen> {
   }
 
   // fetch histry of stock
+  // Future<void> fetchStockHistory() async {
+  //   try {
+  //     List<Map<String, dynamic>> stockHistoryData =
+  //         await _firestoreService.fetchStockHistory();
+  //     List<StockHistoryItem> historyItems = stockHistoryData
+  //         .map((item) => StockHistoryItem.fromMap(item))
+  //         .toList();
+
+  //     if (historyItems.isNotEmpty) {
+  //       setState(() {
+  //         stockHistory = historyItems;
+  //       });
+  //     } else {}
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text("Error fetching stock history: $e"),
+  //         duration: const Duration(seconds: 2),
+  //       ),
+  //     );
+  //   }
+  // }
   Future<void> fetchStockHistory() async {
     try {
       List<Map<String, dynamic>> stockHistoryData =
           await _firestoreService.fetchStockHistory();
-      List<StockHistoryItem> historyItems = stockHistoryData
-          .map((item) => StockHistoryItem.fromMap(item))
-          .toList();
+      List<StockHistoryItem> historyItems = stockHistoryData.map((item) {
+        double litres = (item['litres'] ?? 0.0).toDouble();
+        return StockHistoryItem.fromMap(item..['litres'] = litres);
+      }).toList();
 
       if (historyItems.isNotEmpty) {
         setState(() {
           stockHistory = historyItems;
         });
-      } else {}
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -204,14 +312,96 @@ class _StocksScreenState extends State<StocksScreen> {
     }
   }
 
+  // Future<void> deductFromStock({double? litres}) async {
+  //   double deductionLitres = litres ?? double.parse(pumpReadingController.text);
+
+  //   double previousReading =
+  //       await _firestoreService.getPreviousMeterReading(selectedFuelType) ??
+  //           0.0;
+  //   if (deductionLitres > previousReading) {
+  //     double currentReading = deductionLitres - previousReading;
+  //     setState(() {
+  //       if (selectedFuelType == 'Petrol') {
+  //         petrolStock -= currentReading;
+  //       } else {
+  //         dieselStock -= currentReading;
+  //       }
+
+  //       stockHistory.add(
+  //         StockHistoryItem(
+  //           type: '$selectedFuelType Pump Reading',
+  //           litres: currentReading,
+  //           timestamp: DateTime.now(),
+  //         ),
+  //       );
+  //     });
+
+  //     try {
+  //       await _firestoreService.addMeterReading(
+  //         type: selectedFuelType,
+  //         date: Timestamp.now(),
+  //         litres: deductionLitres,
+  //       );
+
+  //       await _firestoreService.addMeterReadingHistry(
+  //         type: selectedFuelType,
+  //         date: Timestamp.now(),
+  //         litres: currentReading,
+  //       );
+
+  //       // Update the stock data in Firestore
+  //       if (selectedFuelType == 'Petrol') {
+  //         await _firestoreService.addStockData(
+  //           type: 'Petrol',
+  //           date: Timestamp.now(),
+  //           litres: petrolStock,
+  //         );
+  //       } else {
+  //         await _firestoreService.addStockData(
+  //           type: 'Diesel',
+  //           date: Timestamp.now(),
+  //           litres: dieselStock,
+  //         );
+  //       }
+  //       pumpReadingController.clear();
+  //       currentReading = 0.0;
+
+  //       // Show a SnackBar to provide feedback.
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text(
+  //             '$selectedFuelType Pump Reading deducted from stock successfully!',
+  //           ),
+  //           duration: const Duration(seconds: 2),
+  //         ),
+  //       );
+  //     } catch (e) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text('Failed to deduct pump reading from stock: $e'),
+  //           duration: const Duration(seconds: 2),
+  //         ),
+  //       );
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text(
+  //             'Failed to deduct pump reading from stock Please the deduction amount is greater than previous reading'),
+  //         duration: Duration(seconds: 2),
+  //       ),
+  //     );
+  //   }
+  // }
   Future<void> deductFromStock({double? litres}) async {
     double deductionLitres = litres ?? double.parse(pumpReadingController.text);
-
     double previousReading =
         await _firestoreService.getPreviousMeterReading(selectedFuelType) ??
             0.0;
+
     if (deductionLitres > previousReading) {
       double currentReading = deductionLitres - previousReading;
+
       setState(() {
         if (selectedFuelType == 'Petrol') {
           petrolStock -= currentReading;
@@ -241,7 +431,6 @@ class _StocksScreenState extends State<StocksScreen> {
           litres: currentReading,
         );
 
-        // Update the stock data in Firestore
         if (selectedFuelType == 'Petrol') {
           await _firestoreService.addStockData(
             type: 'Petrol',
@@ -255,15 +444,14 @@ class _StocksScreenState extends State<StocksScreen> {
             litres: dieselStock,
           );
         }
+
         pumpReadingController.clear();
         currentReading = 0.0;
 
-        // Show a SnackBar to provide feedback.
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              '$selectedFuelType Pump Reading deducted from stock successfully!',
-            ),
+                '$selectedFuelType Pump Reading deducted from stock successfully!'),
             duration: const Duration(seconds: 2),
           ),
         );
@@ -279,7 +467,7 @@ class _StocksScreenState extends State<StocksScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-              'Failed to deduct pump reading from stock Please the deduction amount is greater than previous reading'),
+              'Failed to deduct pump reading from stock: deduction amount is greater than previous reading'),
           duration: Duration(seconds: 2),
         ),
       );
@@ -718,7 +906,7 @@ class _StocksScreenState extends State<StocksScreen> {
               children: [
                 SizedBox(
                   width: 200,
-                  height: 40,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: addToStock,
                     style: ButtonStyle(
@@ -748,7 +936,7 @@ class _StocksScreenState extends State<StocksScreen> {
                 ),
                 Container(
                   width: 100,
-                  height: 40,
+                  height: 50,
                   decoration: BoxDecoration(
                       color: AppColor.dashbordBlueColor,
                       borderRadius: BorderRadius.circular(12)),
@@ -781,7 +969,7 @@ class _StocksScreenState extends State<StocksScreen> {
             const SizedBox(height: 20),
             SizedBox(
               width: 100,
-              height: 40,
+              height: 50,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -839,7 +1027,7 @@ class _StocksScreenState extends State<StocksScreen> {
               children: [
                 SizedBox(
                   width: 200,
-                  height: 40,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: deductFromStock,
                     style: ButtonStyle(
@@ -869,7 +1057,7 @@ class _StocksScreenState extends State<StocksScreen> {
                 ),
                 Container(
                   width: 100,
-                  height: 40,
+                  height: 50,
                   decoration: BoxDecoration(
                       color: AppColor.dashbordBlueColor,
                       borderRadius: BorderRadius.circular(12)),
@@ -900,7 +1088,7 @@ class _StocksScreenState extends State<StocksScreen> {
             const SizedBox(height: 20),
             SizedBox(
               width: 200,
-              height: 40,
+              height: 50,
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
