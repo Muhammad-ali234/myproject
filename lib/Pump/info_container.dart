@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myproject/Common/constant.dart';
 
 class InfoContainer extends StatelessWidget {
   final IconData icon;
@@ -32,7 +33,7 @@ class InfoContainer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 40, color: Colors.blue),
+            Icon(icon, size: 40, color: AppColor.dashbordBlueColor),
             const SizedBox(height: 10),
             Text(
               label,

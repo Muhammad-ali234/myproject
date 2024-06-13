@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:myproject/Pump/Stocks/Screens/stocks_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ImageScreen extends StatefulWidget {
@@ -215,10 +216,13 @@ class _ImageScreenState extends State<ImageScreen> with WidgetsBindingObserver {
       final inputImage = InputImage.fromFile(file);
       final recognizedText = await textRecognizer.processImage(inputImage);
 
+      final numericText = recognizedText.text.replaceAll(RegExp(r'\D'), '');
+
       await navigator.push(
         MaterialPageRoute(
-          builder: (BuildContext context) =>
-              ResultScreen(text: recognizedText.text),
+          builder: (BuildContext context) => 
+          // ResultScreen(text: numericText),
+          StocksScreen(imageText:numericText,),
         ),
       );
       setState(() {
@@ -237,23 +241,23 @@ class _ImageScreenState extends State<ImageScreen> with WidgetsBindingObserver {
   }
 }
 
-class ResultScreen extends StatelessWidget {
-  final String text;
+// class ResultScreen extends StatelessWidget {
+//   final String text;
 
-  const ResultScreen({super.key, required this.text});
+//   const ResultScreen({super.key, required this.text});
 
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Result'),
-          centerTitle: true,
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(30.0),
-          child: Text(
-            text,
-            style: const TextStyle(fontSize: 20),
-          ),
-        ),
-      );
-}
+//   @override
+//   Widget build(BuildContext context) => Scaffold(
+//         appBar: AppBar(
+//           title: const Text('Result'),
+//           centerTitle: true,
+//         ),
+//         body: Container(
+//           padding: const EdgeInsets.all(30.0),
+//           child: Text(
+//             text,
+//             style: const TextStyle(fontSize: 20),
+//           ),
+//         ),
+//       );
+// }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myproject/Common/constant.dart';
 
 class HeaderContainer extends StatelessWidget {
   const HeaderContainer({super.key});
@@ -8,7 +9,7 @@ class HeaderContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: AppColor.dashbordBlueColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
           BoxShadow(

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myproject/Common/constant.dart';
 
 class ChatScreen extends StatelessWidget {
   String name;
-  ChatScreen({super.key,required this.name});
+  ChatScreen({super.key, required this.name});
 
   final TextEditingController _messageController = TextEditingController();
 
@@ -187,8 +188,11 @@ class ChatScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () => _sendMessage(context),
-                  backgroundColor: Colors.teal,
-                  child: const Icon(Icons.send),
+                  backgroundColor: AppColor.dashbordBlueColor,
+                  child: Icon(
+                    Icons.send,
+                    color: AppColor.dashbordWhiteColor,
+                  ),
                 ),
               ],
             ),

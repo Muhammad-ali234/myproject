@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myproject/Authentication/service.dart';
@@ -18,7 +16,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _ownerEmailController = TextEditingController();
-
   final TextEditingController _NameController = TextEditingController();
   String? _selectedRole;
   bool _isLoading = false;
@@ -27,7 +24,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final FirestoreService _firestoreService = FirestoreService();
 
   List<String> roles = [
-    "Owner",
+    "Admin",
     "Petrol Pump",
   ];
 
@@ -104,7 +101,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Image.asset("assets/splashLogo.jpg"),
+                    Image.asset(
+                      "assets/splashLogo.jpg",
+                      height: 90,
+                    ),
                     const Padding(
                       padding: EdgeInsets.only(top: 15),
                       child: Text(
@@ -137,7 +137,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _buildTextField(
           controller: _NameController,
           label: "Name",
-          hintText: 'Enter a Name',
+          hintText: 'Name',
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter a Name';
@@ -149,7 +149,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _buildTextField(
           controller: _emailController,
           label: "Email",
-          hintText: 'Enter email address',
+          hintText: 'example@gmail.com',
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
@@ -164,7 +164,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _buildTextField(
           controller: _passwordController,
           label: "Password",
-          hintText: 'Enter password',
+          hintText: 'password',
           obscureText: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -180,39 +180,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _buildTextField(
           controller: _contactController,
           label: "Contact Number",
-          hintText: 'Enter contact number',
+          hintText: '+923184439061',
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your contact number';
             }
-            return null;
-          },
-        ),
-        DropdownButtonFormField<String>(
-          value: _selectedRole,
-          hint: const Text('Select Role'),
-          onChanged: (newValue) {
-            setState(() {
-              _selectedRole = newValue;
-            });
-          },
-          items: roles.map((role) {
-            return DropdownMenuItem<String>(
-              value: role,
-              child: Text(role),
-            );
-          }).toList(),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please select your role';
+            if (!isValidPakistaniContact(value)) {
+              return 'Please enter a valid Pakistani contact number';
             }
             return null;
           },
         ),
+        const SizedBox(height: 10),
+        _buildRoleSelection(),
         if (_selectedRole == 'Petrol Pump') ...[
-          TextFormField(
+          _buildTextField(
             controller: _ownerEmailController,
-            decoration: const InputDecoration(labelText: 'Owner Email'),
+            label: "Owner Email",
+            hintText: 'example@gmail.com',
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter the owner\'s email';
@@ -221,6 +206,46 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             },
           ),
         ],
+      ],
+    );
+  }
+
+  Widget _buildRoleSelection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Select Role',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+          ),
+        ),
+        Row(
+          children: roles.map((role) {
+            return Expanded(
+              child: RadioListTile<String>(
+                title: Text(role),
+                value: role,
+                groupValue: _selectedRole,
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedRole = newValue;
+                  });
+                },
+              ),
+            );
+          }).toList(),
+        ),
+        if (_selectedRole == null)
+          const Text(
+            'Please select your role',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.red,
+            ),
+          ),
       ],
     );
   }
@@ -269,14 +294,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           validator: validator,
         ),
-        const SizedBox(height: 5),
       ],
     );
   }
 
   Widget _buildRegisterButton() {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),
+      padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(200, 60),
@@ -334,7 +358,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       try {
         UserCredential userCredential;
 
-        if (_selectedRole == 'Owner') {
+        if (_selectedRole == 'Admin') {
           userCredential = await _authService.createUserWithEmailAndPassword(
               email, password);
           String ownerUid = userCredential.user!.uid;
@@ -367,5 +391,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool isValidEmail(String email) {
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     return emailRegex.hasMatch(email);
+  }
+
+  bool isValidPakistaniContact(String contact) {
+    final contactRegex = RegExp(r'^\+92[0-9]{10}$');
+    return contactRegex.hasMatch(contact);
   }
 }

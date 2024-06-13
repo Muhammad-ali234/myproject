@@ -24,7 +24,6 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
         title:
             Text('Employee Management', style: AppStyle.textWhiteColorHeader()),
         centerTitle: true,
@@ -151,47 +150,140 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     );
   }
 
+  // Widget _buildMobileLayout() {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(16.0),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Card(
+  //           elevation: 5, // Elevation for shadow
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(10), // Rounded corners
+  //           ),
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //               // Background color
+  //               borderRadius: BorderRadius.circular(10), // Same as Card shape
+  //             ),
+  //             height: 90, // Fixed height
+  //             width: double.infinity, // Takes the full width
+  //             child: const Padding(
+  //               padding:
+  //                   EdgeInsets.all(16.0), // Uniform padding inside the card
+  //               child: Row(
+  //                 children: [
+  //                   // Text column
+  //                   Expanded(
+  //                     // Takes available space but doesn't affect the icon
+  //                     child: Column(
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       mainAxisAlignment:
+  //                           MainAxisAlignment.start, // Aligns text to the start
+  //                       children: [
+  //                         Text(
+  //                           'Total Employees: 100', // Example data
+  //                           style: TextStyle(
+  //                             fontSize: 20, // Header-like font size
+  //                             color: Colors.black, // White text for contrast
+  //                             fontWeight: FontWeight.bold, // Bold text
+  //                           ),
+  //                         ),
+  //                         Text(
+  //                           'Full-Time: 70, Part-Time: 20, Contract: 10', // Example data
+  //                           style: TextStyle(
+  //                             fontSize: 16,
+  //                             color: Colors.black,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                   // Icon
+  //                   Icon(
+  //                     Icons.people,
+  //                     size: 40, // Larger icon
+  //                     color: Colors.black, // Consistent with text color
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         Padding(
+  //           padding: const EdgeInsets.only(top: 8, left: 8),
+  //           child: Row(
+  //             children: [
+  //               ElevatedButton(
+  //                 style: AppStyle.dashbordButton(),
+  //                 onPressed: () => _setScreen(0),
+  //                 child: Text(
+  //                   'Registered Employees',
+  //                   style: AppStyle.textWhiteColor(),
+  //                 ),
+  //               ),
+  //               const SizedBox(width: 20),
+  //               ElevatedButton(
+  //                 style: AppStyle.dashbordButton(),
+  //                 onPressed: () => _setScreen(1),
+  //                 child: Text(
+  //                   'Add Employee',
+  //                   style: AppStyle.textWhiteColor(),
+  //                 ),
+  //               ),
+  //               const SizedBox(height: 20),
+  //             ],
+  //           ),
+  //         ),
+  //         const SizedBox(
+  //           height: 10,
+  //         ),
+  //         Expanded(
+  //           child: _buildContent(),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   Widget _buildMobileLayout() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header Section
           Card(
-            elevation: 5, // Elevation for shadow
+            elevation: 5,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10), // Rounded corners
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Container(
+              height: 90,
               decoration: BoxDecoration(
-                // Background color
-                borderRadius: BorderRadius.circular(10), // Same as Card shape
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
               ),
-              height: 90, // Fixed height
-              width: double.infinity, // Takes the full width
               child: const Padding(
-                padding:
-                    EdgeInsets.all(16.0), // Uniform padding inside the card
+                padding: EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    // Text column
+                    // Text Column
                     Expanded(
-                      // Takes available space but doesn't affect the icon
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment:
-                            MainAxisAlignment.start, // Aligns text to the start
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Total Employees: 100', // Example data
+                            'Total Employees: 100',
                             style: TextStyle(
-                              fontSize: 20, // Header-like font size
-                              color: Colors.black, // White text for contrast
-                              fontWeight: FontWeight.bold, // Bold text
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                           Text(
-                            'Full-Time: 70, Part-Time: 20, Contract: 10', // Example data
+                            'Full-Time: 70, Part-Time: 20, Contract: 10',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black,
@@ -200,22 +292,24 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                         ],
                       ),
                     ),
-                    // Icon
+                    // Icon Section
                     Icon(
                       Icons.people,
-                      size: 40, // Larger icon
-                      color: Colors.black, // Consistent with text color
+                      size: 40,
+                      color: Colors.teal,
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8, left: 8),
-            child: Row(
-              children: [
-                ElevatedButton(
+          const SizedBox(height: 16),
+
+          // Navigation Buttons Section
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
                   style: AppStyle.dashbordButton(),
                   onPressed: () => _setScreen(0),
                   child: Text(
@@ -223,8 +317,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                     style: AppStyle.textWhiteColor(),
                   ),
                 ),
-                const SizedBox(width: 20),
-                ElevatedButton(
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: ElevatedButton(
                   style: AppStyle.dashbordButton(),
                   onPressed: () => _setScreen(1),
                   child: Text(
@@ -232,13 +328,12 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                     style: AppStyle.textWhiteColor(),
                   ),
                 ),
-                const SizedBox(height: 20),
-              ],
-            ),
+              ),
+            ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 16),
+
+          // Content Section
           Expanded(
             child: _buildContent(),
           ),

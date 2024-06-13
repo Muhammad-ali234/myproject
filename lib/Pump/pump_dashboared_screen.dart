@@ -18,7 +18,7 @@ class PumpDashboardScreen extends StatelessWidget {
           color: Colors.white,
         ),
         title: const Text(
-          'Welcome To petrol station 1',
+          'Dashboared Screen',
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
@@ -142,6 +142,7 @@ class PumpDashboardScreen extends StatelessWidget {
       child: Column(
         children: <Widget>[
           const Expanded(flex: 2, child: HeaderContainer()),
+          const SizedBox(height: 10),
           Expanded(
             flex: 2,
             child: Row(
@@ -198,10 +199,27 @@ class PumpDashboardScreen extends StatelessWidget {
           const SizedBox(height: 10),
           Expanded(
             flex: 2,
-            child: InfoContainer(
-              icon: Icons.group, // Changed icon
-              label: 'Total Customer',
-              onTap: () => Navigator.pushNamed(context, '/customerScreen'),
+            child: Row(
+              children: [
+                Expanded(
+                  child: InfoContainer(
+                    icon: Icons.group, // Changed icon
+                    label: 'Total Customer',
+                    onTap: () =>
+                        Navigator.pushNamed(context, '/customerScreen'),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: InfoContainer(
+                    icon: Icons.work,
+                    label: 'Employee Duties',
+                    onTap: () {
+                      Navigator.pushNamed(context, '/employeeDuty');
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 20),

@@ -83,47 +83,98 @@ class _DashboardOwnerScreenState extends State<DashboardOwnerScreen> {
       return const Center(child: Text('No pumps registered'));
     }
 
-    List<Widget> pumpCards = [];
-    for (var pump in registeredPumps) {
-      var pumpData = pump.data() as Map<String, dynamic>;
-      String pumpName = pumpData['name'] ?? 'Pump Name';
-
-      pumpCards.add(
-        PumpCard(
-          pumpName: pumpName,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PetrolPumpStatus(
-                  pumpId: '',
-                ),
-              ),
-            );
-          },
-        ),
-      );
-    }
-
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 10,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: 350, width: double.infinity, child: GraphScreen()),
-            const SizedBox(height: 20),
-            Center(
-              child: Wrap(
-                spacing: 10.0,
-                runSpacing: 10.0,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          SizedBox(
+            height: 350,
+            width: double.infinity,
+            child: GraphScreen(),
+          ),
+          const SizedBox(height: 20),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: (registeredPumps.length / 2).ceil(),
+            itemBuilder: (context, index) {
+              int startIndex = index * 2;
+              int endIndex = startIndex + 2;
+              if (endIndex > registeredPumps.length) {
+                endIndex = registeredPumps.length;
+              }
+
+              List<Widget> pumpCards = [];
+              for (int i = startIndex; i < endIndex; i++) {
+                var pumpData =
+                    registeredPumps[i].data() as Map<String, dynamic>;
+                String pumpName = pumpData['name'] ?? 'Pump Name';
+
+                pumpCards.add(
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        // Assuming pumpID is fetched properly from the document
+                        String pumpID = registeredPumps[i].id;
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                PetrolPumpStatus(pumpId: pumpID),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.local_gas_station,
+                              size: 40,
+                              color: Colors.teal,
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              pumpName,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: pumpCards,
-              ),
-            ),
-          ],
-        ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

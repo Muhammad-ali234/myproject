@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myproject/Pump/Stocks/Screens/Widget/image_picker.dart';
+import 'package:myproject/Pump/Stocks/Widget/image_picker.dart';
 import 'package:myproject/Pump/Stocks/Screens/meter_reading_histry.dart';
 import 'package:myproject/Pump/Stocks/Screens/service.dart';
 import 'package:myproject/Pump/Stocks/Screens/stock_histry_screen.dart';
@@ -14,7 +14,8 @@ import '../Models/stock_histry_Item.dart';
 import 'dart:io';
 
 class StocksScreen extends StatefulWidget {
-  const StocksScreen({super.key});
+  String? imageText;
+  StocksScreen({super.key, this.imageText});
 
   @override
   _StocksScreenState createState() => _StocksScreenState();
@@ -33,8 +34,6 @@ class _StocksScreenState extends State<StocksScreen> {
   final _authService = FirebaseAuthService();
 
   String selectedFuelType = 'Petrol';
-  late File _imageFile;
-  final String _extractedText = '';
 
   @override
   void initState() {
@@ -42,8 +41,14 @@ class _StocksScreenState extends State<StocksScreen> {
     fetchStockData();
     fetchStockHistory();
     fetchMeterReadingHistory();
+    setImageText(); // Call the method to set the text
   }
 
+  void setImageText() {
+    if (widget.imageText != null) {
+      pumpReadingController.text = widget.imageText!;
+    }
+  }
   // void addToStock() async {
   //   String? uid = await _authService.getCurrentUserUID();
   //   double litres = double.parse(

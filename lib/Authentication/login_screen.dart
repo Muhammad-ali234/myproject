@@ -16,9 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // final DailyOverviewService _dailyOverView = DailyOverviewService();
   String? _selectedPetrolPump;
-  bool isDropdownOpen = false;
   bool _loginClicked = false;
   bool _isLoading = false;
 
@@ -33,12 +31,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Responsive UI logic
         if (constraints.maxWidth < 600) {
-          // Mobile layout
           return _buildMobileLayout();
         } else {
-          // Web layout
           return _buildWebLayout();
         }
       },
@@ -76,7 +71,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
                   _buildLoginButton(),
                   const SizedBox(height: 20),
-                  // Add space between buttons
                   _buildRegisterButton(),
                 ],
               ),
@@ -141,7 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
             }
-            // Check if the email format is valid
             if (!isValidEmail(value)) {
               return 'Please enter a valid email address';
             }
@@ -158,21 +151,19 @@ class _LoginScreenState extends State<LoginScreen> {
             if (value == null || value.isEmpty) {
               return 'Please enter your password';
             }
-            // Check if the password meets minimum length requirement
             if (value.length < 6) {
               return 'Password must be at least 6 characters long';
             }
             return null;
           },
         ),
-        _buildPetrolPumpDropdown(),
+        const SizedBox(height: 10),
+        _buildPetrolPumpSelection(),
       ],
     );
   }
 
-// Function to validate email format
   bool isValidEmail(String email) {
-    // Use a regular expression to validate email format
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     return emailRegex.hasMatch(email);
   }
@@ -234,44 +225,43 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPetrolPumpDropdown() {
-    return DropdownButtonFormField<String>(
-      value: _selectedPetrolPump,
-      onChanged: (newValue) {
-        setState(() {
-          _selectedPetrolPump = newValue!;
-        });
-      },
-      onTap: () {
-        setState(() {
-          isDropdownOpen = !isDropdownOpen;
-        });
-      },
-      items: petrolPumps.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Center(
-            child: Text(
-              value,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.normal,
+  Widget _buildPetrolPumpSelection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Select Role',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+          ),
+        ),
+        Row(
+          children: petrolPumps.map((role) {
+            return Expanded(
+              child: RadioListTile<String>(
+                title: Text(role),
+                value: role,
+                groupValue: _selectedPetrolPump,
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedPetrolPump = newValue;
+                  });
+                },
               ),
+            );
+          }).toList(),
+        ),
+        if (_loginClicked && _selectedPetrolPump == null)
+          const Text(
+            'Please select your role',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.red,
             ),
           ),
-        );
-      }).toList(),
-      decoration: const InputDecoration(
-        labelText: 'Select a petrol pump',
-        hintStyle: TextStyle(color: Colors.amber),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please select a petrol pump';
-        }
-        return null;
-      },
+      ],
     );
   }
 
@@ -361,7 +351,6 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
 
-      // Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
       if ((_selectedPetrolPump != "Owner") && (_selectedPetrolPump != "Pump")) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -398,7 +387,7 @@ class _LoginScreenState extends State<LoginScreen> {
     obscureText = false,
     hintText,
     contoller,
-    FormFieldValidator<String>? validator, // Add validator argument
+    FormFieldValidator<String>? validator,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,7 +424,7 @@ class _LoginScreenState extends State<LoginScreen> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           ),
-          validator: validator, // Set the validator function
+          validator: validator,
         ),
         const SizedBox(height: 10)
       ],

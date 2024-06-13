@@ -168,9 +168,10 @@ class _CreditDebitState extends State<CreditDebit> {
                         contentPadding: const EdgeInsets.all(16),
                         title: Text(
                           customers[index].name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
+                            color: AppColor.dashbordBlueColor,
                           ),
                         ),
                         subtitle: Text(
